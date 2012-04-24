@@ -38,10 +38,21 @@ if (isset($_GET['action'])) {
 
 $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 
-if (strpos($userAgent, 'ipad') !== false) {
+if ((strpos($userAgent, 'ipad') !== false) || (strpos($userAgent, 'playbook') !== false)  || ((strpos($userAgent, 'android') !== false ) && (strpos($userAgent, 'mobile') === false ))){
     $userAgent = 'iPad';
-} else if (strpos($userAgent, 'iphone') !== false ) {
+} else if ((strpos($userAgent, 'iphone') !== false ) || (strpos($userAgent, 'android') !== false ) || (strpos($userAgent, 'ipod') !== false ) || (strpos($userAgent, 'mobile') !== false ) || (strpos($userAgent, 'blackberry') !== false )){
 	$userAgent = 'iPhone';
+} else if (strpos($userAgent, 'chrome') !== false) {
+	$userAgent = 'chrome';
+} else if (strpos($userAgent, 'safari') !== false) {
+	$userAgent = 'safari';
+}
+
+$os = strtolower($_SERVER['HTTP_USER_AGENT']);
+if (strpos($os, 'windows')) {
+	$os = 'windows';
+} else if (strpos($os, 'macintosh')) {
+	$os = 'mac';
 }
 
 // Non-Authenticated pages

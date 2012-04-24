@@ -6,6 +6,10 @@
 	background: none;
 }
 
+.sv_videoPoster {
+	
+}
+
 .sv_display {
 	position: absolute;
 	height:100%;
@@ -22,6 +26,23 @@
 
 .sv_video {
 	background: #000000;
+}
+
+.sv_noVideo {
+	 background: url("/images/7d7d7d_50.png") repeat scroll 0 0 transparent;
+    height: 100%;
+    width: 100%;
+}
+.sv_flashContainer {
+	height: 100%;
+    width: 100%;
+}
+.noFlash {
+	background: url("ffffff_50.png") repeat scroll 0 0 transparent;
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+    width: 400px;
 }
 
 .sv_controls {  
@@ -65,7 +86,9 @@ margin:0;
 .sv_prev.inactive,
 .sv_next.inactive,
 .sv_mute.inactive,
-.sv_unmute.inactive {
+.sv_videoPoster.inactive,
+.sv_unmute.inactive,
+.sv_audioOnly.inactive {
 display: none;
 }
 
@@ -163,6 +186,7 @@ width: 100%;
 background-color: #C0BDBD; 
 margin: auto;
 padding: 0;
+cursor:pointer;
 }
 
 .sv_playhead, .sv_loaded {
@@ -259,7 +283,8 @@ height: 6px;
     position: absolute;
     top: 18px;
     width: 60px;
-background: #c0bdbd;        
+background: #c0bdbd;
+cursor:pointer;   
 }
 
 .sv_vmarker {
@@ -337,12 +362,10 @@ padding: 0px;
 background: url("buffering-bg.png") no-repeat center center;
 height: 50px; 
 width: 50px;     
-display: none;
 }
 .sv_bufferingImg {
-	width:100%;
-	height:100%;
-	background: url("buffering.gif") no-repeat center center;
+
+	padding:2px;
 }
 
 .sv_start {
@@ -358,4 +381,16 @@ display: block;
 z-index:8000;
 padding: 0px;
 background: no-repeat center center transparent;
+}
+
+.sv_audioOnly {
+	position:absolute;
+	left:0;
+	top:0;
+	height:100%;
+	width:100%;
+}
+.sv_audioOnly img {
+	height:100%;
+	width:100%;
 }

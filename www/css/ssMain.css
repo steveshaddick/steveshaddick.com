@@ -1,6 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
+
 @font-face {
     font-family: 'PerspectiveSansRegular';
     src: url('fonts/persans-webfont.eot');
@@ -22,12 +23,16 @@ body {
 	background: #fafafa;
 	font-family: 'PerspectiveSansRegular', Arial, Helvetica, sans-serif;
 	color: #7d7d7d;
-	
 }
+.ie7 body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
 * {
 	outline: 0;
 
 }
+
 
 .transition {
 	-moz-transition-timing-function: cubic-bezier(0.32, 0.12, 0.68, 0.94);
@@ -44,6 +49,7 @@ body {
 	-o-transition-duration: 0.35s; 
 	-ms-transition-duration: 0.35s;
 }
+
 
 
 .displayNone {
@@ -176,6 +182,11 @@ a:hover {
 	-o-transition-property: top,left;
 	-ms-transition-property: top,left;
 }
+#siteWrapper.fullscreen {
+	min-width: 0;
+	min-height: 0;
+	max-width: 0;
+}
 
 
 .pageWrapper {
@@ -265,6 +276,12 @@ a:hover {
 	vertical-align: middle;
 }
 
+.newWorkDetails {
+	position:absolute;
+	top:60px;
+	left: 125px;
+}
+
 .quote {
 	
 }
@@ -292,13 +309,20 @@ a:hover {
     margin: 20px 0 0;
 }
 .noWorkLink .linkDescription {
-	
+	width: 500px;
+	margin-top:5px;
+}
+.noWorkLink .image {
+	max-width: 500px;
+	max-width: 400px;
+	margin-top: 5px;
 }
 
 #workContainer {
 	height:100%;
 }
 
+#lightboxContainer,
 #imageLink {
 	position:absolute;
 	left:25px;
@@ -306,10 +330,12 @@ a:hover {
 	height:360px;
 	overflow:hidden;
 }
+#lightboxContainer.reset,
 #imageLink.reset {
 	top: -360px;
 	
 }
+#lightboxContainer.dropIn,
 #imageLink.dropIn {
 	top: 25px;
 }

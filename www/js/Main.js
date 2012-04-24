@@ -424,7 +424,7 @@ var WorkThumbsContainer = (function(){
 	var $workThumbsWrapper;
 	
 	var $thumbsScroller;
-	var $thumbScrollerThumb;
+	var $thumbsScrollThumb;
 	
 	var thumbsWrapperWidth;
 	var thumbsWrapperHeight;

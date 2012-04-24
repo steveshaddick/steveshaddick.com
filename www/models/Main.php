@@ -27,16 +27,43 @@ class Main {
 	
 	public function getNoWork() {
 		
+		function getMetaData($url){
+			// get meta tags
+			$meta=get_meta_tags($url);
+			// store page
+			$page=file_get_contents($url);
+			// find where the title CONTENT begins
+			$titleStart=stripos($page,'<title>')+7;
+			// find how long the title is
+			$titleLength=stripos($page,'</title>')-$titleStart;
+			// extract title from $page
+			$meta['title']=substr($page,$titleStart,$titleLength);
+			// return array of data
+			return $meta;
+		}
+		
+		if (isset($_GET['nowork'])) {
+			$id = intval($_GET['nowork']);
+			$noWork =  $this->mySQL->getSingleRow("SELECT * FROM NoWork WHERE _id=$id");
+			return $noWork;
+		}
+		
 		$today = date('Y-m-d');
 		
 		$noWork =  $this->mySQL->getSingleRow("SELECT * FROM NoWork ORDER BY dateShown DESC");
-		if ($noWork['dateShown'] == $today) {
-			//return $noWork;
+		switch (ENVIRONMENT) {
+			case 'local':
+				break;
+				
+			default:
+				if ($noWork['dateShown'] == $today) {
+					return $noWork;
+				}
+				break;
 		}
 		
 		//maybe show new work
-		//if (rand(0,2) == 0) {
-		if (0) {
+		if (rand(0,2) == 0) {
 			
 			$this->mySQL->sendQuery("DELETE FROM NoWork WHERE type = 'newwork'");
 			
@@ -47,8 +74,9 @@ class Main {
 				'image' => '/images/workThumbs/' . $work['thumb'],
 				'title' => $work['title'],
 				'url' => ($work['link'] != '') ? 'http://' . $work['link'] : '#/' . $work['workId'],
-				'description' => $work['info'],
-				'dateShown'=> $today
+				'description' => $work['specs'],
+				'dateShown'=> $today,
+				'active'=>1
 			);
 			
 			$this->mySQL->insertRows($noWork, 'NoWork', true);
@@ -57,10 +85,35 @@ class Main {
 		}
 		
 		//otherwise pick something else
-		$noWorks = $this->mySQL->sendQuery("SELECT * FROM NoWork WHERE type <> 'newwork' ORDER BY dateShown DESC LIMIT 18446744073709551610 OFFSET 3");
+		$noWorks = $this->mySQL->sendQuery("SELECT * FROM NoWork WHERE type <> 'newwork' AND active=1 ORDER BY dateShown DESC LIMIT 18446744073709551610 OFFSET 3");
 		
-		$noWork = $noWorks[rand(0, count($noWorks) - 1)];
-		$noWork['url'] = 'http://'.$noWork['url'];
+		$noWork = null;
+		while ($noWork == null) {
+			$noWork = $noWorks[rand(0, count($noWorks) - 1)];
+			
+			if ($noWork['type'] == 'link') {
+				if ((time() - strtotime($noWork['dateChecked'])) > 31556926) {
+					
+					try {
+					    $tags = getMetaData($noWork['url']);
+						if ($tags['title'] != '') {
+							$noWork['title'] = $tags['title'];
+							$noWork['description'] = (isset($tags['description'])) ? htmlspecialchars($tags['description']) :'';
+							$this->mySQL->sendQuery("UPDATE NoWork SET title='" . $this->mySQL->cleanString(htmlspecialchars($noWork['title'])) . "', description='" . $this->mySQL->cleanString(htmlspecialchars($noWork['description'])) . "', dateChecked='".date('Y-m-d')."' WHERE _id = " . $noWork['_id']);
+						} else {
+							$this->mySQL->sendQuery("UPDATE NoWork SET active = 0 WHERE _id = {$noWork['_id']}");
+							$noWork = null;
+						}
+					} catch (Exception $e) {
+					    $this->mySQL->sendQuery("UPDATE NoWork SET active = 0 WHERE _id = {$noWork['_id']}");
+						$noWork = null;
+					}
+				}
+			}
+		}
+				
+		$noWork['url'] = $noWork['url'];
+			
 		
 		$this->mySQL->sendQuery("UPDATE NoWork SET dateShown = '$today' WHERE _id = {$noWork['_id']}");
 		
@@ -94,7 +147,7 @@ class Main {
 	public function getWork($workId)
 	{
 		$workId = intval($workId);
-		return $this->mySQL->getSingleRow("SELECT video, title, medium, specs, previewType, image, link, videoRepeat, info FROM Work WHERE workId = $workId");
+		return $this->mySQL->getSingleRow("SELECT identifier, title, medium, specs, previewType, image, link, videoRepeat, lightboxCount, info FROM Work WHERE workId = $workId");
 	}
 
 }
