@@ -1,18 +1,5 @@
 <?php
 
-
-/**
- * PageController
- *
- * @package Controllers
- * @subpackage PostController
- * @author Crispin Porter + Bogusky
- * @author Ken Goldfarb
- * @author Robert Christ
- * @version 2.0
- */
-
-
 // Start the session.  Required in order to use $_SESSION
 @session_start();
 $basePath = realpath(dirname(__FILE__) . "/..") . "/";

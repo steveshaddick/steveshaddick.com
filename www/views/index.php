@@ -45,7 +45,7 @@
 	
 	<script src="js/lightbox/lightbox.min.js"></script>
 	
-	<script src="js/simplevideo/SimpleVideo.js"></script>
+	<script src="js/simplevideo/SimpleVideo.min.js"></script>
 	
 	<?php
 	switch($userAgent) {
@@ -53,7 +53,7 @@
 		case 'iPhone':
 			?>
 			
-			<script src="js/iscroll/iscroll.js"></script>
+			<script src="js/iscroll/iscroll.min.js"></script>
 			
 			<?php
 			break;
@@ -62,7 +62,7 @@
 			?>
 			
 			<script src="js/jquery/jquery.mousewheel.min.js"></script>
-			<script src="js/jquery/jquery.fullscreen.js"></script>
+			<script src="js/jquery/jquery.fullscreen.min.js"></script>
 			
 			<?php
 			break;
@@ -70,7 +70,7 @@
 	?>
 	
 	<script src="js/Modernizr.js"></script>
-	<script src="js/Main.js"></script>
+	<script src="js/Main.min.js"></script>
 	
 </head>
 <body class="regular <?php echo $userAgent; ?>">
@@ -91,7 +91,6 @@
 		<div id="footer">
 			<a id="signature" href="#" title="Steve Shaddick"><img src="/images/signature.gif" alt="Steve Shaddick" /></a>
 			<div id="who" class="transition displayNone"><a class="who" href="#who" title="Who is this guy?">Who?</a></div>
-			<!--<div class="fb-like" data-href="http://www.steveshaddick.com" data-send="false" data-width="450" data-show-faces="false"></div>-->
 		</div>
 		
 		<div id="workWrapper" class="pageWrapper displayNone">
@@ -284,16 +283,6 @@
 		</noscript>
 		
 	</div>
-
-	<div id="fb-root"></div>
-	<script>/*(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=102116393167402";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));*/
-	</script>
 	
 	<script type="text/javascript">
 	

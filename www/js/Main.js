@@ -1,3 +1,9 @@
+if (typeof console == "undefined") {
+	console = {
+		log: function() {}
+	}
+}
+
 var GLOBAL = {
 	windowHeight: 0,
 	windowWidth: 0,
@@ -1271,6 +1277,8 @@ var Main = (function() {
 		setTimeout(resizeHandler, 200);
 		if (!needResize) return;
 		
+		if ($siteWrapper.hasClass('fullscreen')) return;
+		
 		determineMode();
 		
 		WorkThumbsContainer.resize();
@@ -1295,6 +1303,7 @@ var Main = (function() {
 	
 	function normalscreenHandler() {
 		$siteWrapper.removeClass('fullscreen');
+		//needResize = true;
 	}
 	
 	return {

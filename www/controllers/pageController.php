@@ -1,18 +1,5 @@
 <?php
 
-
-/**
- * PageController
- *
- * @package Controllers
- * @subpackage PostController
- * @author Crispin Porter + Bogusky
- * @author Ken Goldfarb
- * @author Robert Christ
- * @version 2.0
- */
-
-
 // Start the session.  Required in order to use $_SESSION
 @session_start();
 $basePath = realpath(dirname(__FILE__) . "/..") . "/";
@@ -46,6 +33,8 @@ if ((strpos($userAgent, 'ipad') !== false) || (strpos($userAgent, 'playbook') !=
 	$userAgent = 'chrome';
 } else if (strpos($userAgent, 'safari') !== false) {
 	$userAgent = 'safari';
+} else {
+	$userAgent = '';
 }
 
 $os = strtolower($_SERVER['HTTP_USER_AGENT']);
@@ -53,6 +42,8 @@ if (strpos($os, 'windows')) {
 	$os = 'windows';
 } else if (strpos($os, 'macintosh')) {
 	$os = 'mac';
+} else {
+	$os = '';
 }
 
 // Non-Authenticated pages
@@ -66,6 +57,11 @@ switch ($view) {
 		
 		include('../views/index.php');
 		exit();
+		
+	default:
+		include('../views/404.php');
+		exit();
+	
 }
 
 ?>
