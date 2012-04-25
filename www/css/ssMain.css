@@ -217,6 +217,7 @@ a:hover {
 	z-index: 50;
 }
 
+
 #noWork {
 	position: absolute;
 	left:25px;
@@ -310,11 +311,10 @@ a:hover {
 }
 .noWorkLink .linkDescription {
 	width: 500px;
-	margin-top:5px;
 }
 .noWorkLink .image {
-	max-width: 500px;
-	max-width: 400px;
+	max-width: 540px;
+	max-height: 460px;
 	margin-top: 5px;
 }
 

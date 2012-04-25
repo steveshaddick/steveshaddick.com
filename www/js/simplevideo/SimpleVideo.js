@@ -499,6 +499,9 @@ HTMLController.prototype.htmlEvent = function(event) {
 		case 'ended':
 			if (this.loop) {
 				this.play();
+			} else {
+				this.seek(0);
+				this.pause();
 			}
 			break;
 			

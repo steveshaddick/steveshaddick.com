@@ -187,8 +187,7 @@
 								?>
 								
 								<div class="noWorkLink">
-									<div class="checkIt">Random photo:</div>
-									<img class="image" src="images/rando/<?php echo $noWork['image']; ?>" alf="Photo" />
+									<img class="image" src="images/rando/<?php echo $noWork['image']; ?>" alt="Photo" title="<?php echo $noWork['title']; ?>"/>
 								</div>
 								
 								<?php

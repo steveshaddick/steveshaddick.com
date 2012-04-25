@@ -9,7 +9,9 @@ var GLOBAL = {
 	siteReady: false,
 	webkit: false,
 	userAgent: '',
-	myScroll: null
+	myScroll: null,
+	scrollAmount: 30,
+	os: ''
 }
 
 var TransitionController = (function() {
@@ -95,42 +97,48 @@ var Video = (function() {
 	var isInit = false;
 	var playTimeout;
 	var playhead;
+
+	var videoFolder = '/video/';
 	
 	function init() {
 
 		player = new SimpleVideo("simpleVideo", {
-			onReady: function() {
-				isInit = true;
-			}
+			nativeControls: ((GLOBAL.userAgent == 'iPhone') || (GLOBAL.userAgent == 'iPad')),
+			allowFullscreen: !($('html').is('.ie7, .ie8')),
+			trueFullscreen: (GLOBAL.userAgent != 'safari'),
+			onFullscreen: Main.fullscreenHandler,
+			onNormalscreen: Main.normalscreenHandler
 		});
-		
+
+		if (GLOBAL.userAgent == 'iPhone') {
+			videoFolder = '/video/iphone/';
+		}
 	}
 	
-	function playerOver() {
-		$gui.addClass('mouseOver');
-	}
 	
-	function playerOut() {
-		$gui.removeClass('mouseOver');
-	}
-	
-	function playVideo(video, repeat) {
+	function playVideo(workData) {
 		
 		if ((!isInit) || (!GLOBAL.siteReady)){
-			clearTimeout(playTimeout);
+			player.init(function() {
+				isInit = true;
+			});
 			
+			clearTimeout(playTimeout);
 			setTimeout(function(){
-				playVideo(video, repeat);
+				playVideo(workData);
 			}, 100);
 			return;
 		}
 		
 		player.setFile([
 		     // one content, multiple formats
-		     {src:"/video/" + video + ".mp4", type: 'video/mp4'},
-		     {src:"/video/" + video + ".ogv", type: 'video/ogg'}
-		 ]);
-		player.setRepeat(repeat);
+		     {src:videoFolder + workData.identifier + ".mp4", type: 'video/mp4'},
+		     {src:videoFolder + workData.identifier + ".ogv", type: 'video/ogg'}
+		 ], (workData.medium == 'audio'));
+		 
+		player.setScrub((workData.identifier != '10-sunsets-5-minutes'));
+		 
+		player.setRepeat((workData.videoRepeat == 1));
 		player.play();
 	}
 	
@@ -147,7 +155,7 @@ var Video = (function() {
 	}
 	
 	function clearVideo() {
-		player.setStop();
+		player.clear();
 	}
 	
 	return {
@@ -180,6 +188,8 @@ var WorkContainer = (function() {
 	
 	var $videoContainer;
 	
+	var $lightboxContainer;
+	
 	var $imageLink;
 	var $imageLinkImage;
 	var $imageLinkLink;
@@ -204,6 +214,8 @@ var WorkContainer = (function() {
 		$imageLink = $("#imageLink");
 		$imageLinkImage = $("#imageLinkImage");
 		$imageLinkLink = $("#imageLinkLink");
+		
+		$lightboxContainer = $("#lightboxContainer");
 		
 	}
 	
@@ -287,6 +299,10 @@ var WorkContainer = (function() {
 					dropImageLink();
 					break;
 					
+				case 'lightbox':
+					dropLightbox();
+					break;
+					
 				case 'noWork':
 					dropNoWork();
 					break;
@@ -297,6 +313,7 @@ var WorkContainer = (function() {
 			
 			case 'video':
 			case 'imagelink':
+			case 'lightbox':
 				
 				switch (data.previewType) {
 					case 'video':
@@ -304,6 +321,9 @@ var WorkContainer = (function() {
 						break;
 					case 'imagelink':
 						showImageLink();
+						break;
+					case 'lightbox':
+						showLightbox();
 						break;
 				}
 
@@ -349,7 +369,7 @@ var WorkContainer = (function() {
 	}
 	function showVideoComplete() {
 		
-		Video.playVideo(workData.video, workData.videoRepeat);
+		Video.playVideo(workData);
 	}
 	
 	function dropVideo() {
@@ -403,8 +423,46 @@ var WorkContainer = (function() {
 	}
 	
 	function dropImageLinkComplete() {
-		console.log("drop image complete");
 		$imageLink.removeClass('dropOut').addClass('reset').css({top: ''});
+	}
+	
+	function showLightbox() {
+		
+		$lightboxContainer.html('');
+		
+		var $lightboxItem;
+		for (var i = 0; i < workData.lightboxCount; i++) {
+			$lightboxItem = $("#clsLightboxItem").clone();
+			$lightboxItem.attr('id', '').attr('href', 'images/workImages/' + workData.identifier + '/' + workData.identifier + '-' + (i + 1) + '.jpg').attr('rel', $lightboxItem.attr('rel').replace("$IDENTIFIER", workData.identifier)).attr('title', '');
+			
+			if (i == 0) {
+				$(".lightboxItemImage", $lightboxItem).attr('src', 'images/workImages/' + workData.identifier + '/' + workData.identifier + '-1.jpg');
+			} else {
+				$(".lightboxItemImage", $lightboxItem).remove();
+				$lightboxItem.addClass('displayNone');
+			}
+			
+			$lightboxContainer.append($lightboxItem);
+		}
+		$lightboxItem = null;
+		
+		//$workLink.attr('href', 'http://' + workData.link).attr('title', workData.title).html(workData.link);
+		
+		if (previewType == 'lightbox') return;
+		
+		previewType = 'lightbox';
+		
+		$lightboxContainer.unbind(GLOBAL.transitionEnd);
+		$lightboxContainer.removeClass('reset dropOut').addClass('dropIn').css({top: ''});
+	}
+	function dropLightbox() {
+		$lightboxContainer.removeClass('dropIn').addClass('dropOut').css({top: GLOBAL.windowHeight + 25});
+		
+		TransitionController.transitionEnd($lightboxContainer, dropLightboxComplete);
+	}
+	
+	function dropLightboxComplete() {
+		$lightboxContainer.removeClass('dropOut').addClass('reset').css({top: ''});
 	}
 	
 	return {
@@ -424,7 +482,7 @@ var WorkThumbsContainer = (function(){
 	var $workThumbsWrapper;
 	
 	var $thumbsScroller;
-	var $thumbsScrollThumb;
+	var $thumbScrollerThumb;
 	
 	var thumbsWrapperWidth;
 	var thumbsWrapperHeight;
@@ -762,9 +820,9 @@ var WorkThumbsContainer = (function(){
 	function mouseWheelHandler(e, delta) {
 		
 		if (delta < 0) {
-			scrollThumbs(30, e);
+			scrollThumbs(GLOBAL.scrollAmount, e);
 		} else {
-			scrollThumbs(-30, e);
+			scrollThumbs(-GLOBAL.scrollAmount, e);
 		}
 	}
 	
@@ -775,7 +833,6 @@ var WorkThumbsContainer = (function(){
 		
 		SWFAddress.setValue(workId);
 		
-		Video.playVideo('two-walking');
 	}
 	
 	function thumbOverHandler() {
@@ -818,7 +875,6 @@ var WorkThumbsContainer = (function(){
 				} else {
 					cssDropIn = { top: $obj.position().top + THUMB_SIZE + 10 };
 				}
-				console.log(top);
 				$thumbInfo.addClass("dropIn").css(cssDropIn);
 			},
 			200);
@@ -1036,6 +1092,10 @@ var Main = (function() {
 				
 				break;
 		}
+		GLOBAL.os = $obj.os;
+		if (GLOBAL.os == 'mac') {
+			GLOBAL.scrollAmount *= 0.25;
+		}
 		
 		
 		Video.init();
@@ -1043,12 +1103,8 @@ var Main = (function() {
 		WorkThumbsContainer.init();
 		Footer.init();
 		
-		
-		
 		$window.resize(function() {needResize = true;});
 		setTimeout(resizeHandler, 200);
-		
-		
 		
 		if ($.browser.webkit) {
 			GLOBAL.webkit = true;
@@ -1232,9 +1288,20 @@ var Main = (function() {
 		
 	}
 	
+	function fullscreenHandler() {
+		
+		$siteWrapper.addClass('fullscreen');
+	}
+	
+	function normalscreenHandler() {
+		$siteWrapper.removeClass('fullscreen');
+	}
+	
 	return {
 		init : init,
-		warningClick: warningClick
+		warningClick: warningClick,
+		fullscreenHandler: fullscreenHandler,
+		normalscreenHandler: normalscreenHandler
 	};
 	
 }());
