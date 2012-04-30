@@ -266,7 +266,7 @@
 		<div id="msieWarning" class="fullscreenWarning displayNone">
 			<div class="warningBox">
 				<p class="title">You are using Internet Explorer</p>
-				<p>Internet Explorer was great around 2003. It probably continues to be great for cubicles and corporations. If you have no choice in the matter, or are just stubborn, no problem. This site will work fine.</p>
+				<p>Internet Explorer was great around 2003. It probably continues to be great for certain specific uses. If you have no choice in the matter, or are just stubborn, no problem. This site will work fine.</p>
 				<p>For the full experience (of this and many, many other sites), I highly recommend you try another browser, such as <a href="https://www.google.com/chrome" target="_blank" title="Download Chrome">Chrome</a>.</p>
 				<p><a href="javascript:void(0)" onclick="Main.warningClick();" class="okayLink">Okay</a></p>
 			</div>
