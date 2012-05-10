@@ -7,7 +7,6 @@ var SimpleVideoEventHandler = (function() {
 	}
 	
 	function flashEvent(id, event, obj) {
-		//console.log("flash event", event);
 		players[id].flashEvent(event, obj);
 	}
 	
@@ -625,7 +624,7 @@ FlashController.prototype.init = function(callback) {
 		return;
 	}
 	
-	var swf = $('script[src*=SimpleVideo]').attr('src').replace('SimpleVideo.js', '') + "SimpleVideo.swf";
+	var swf = "/js/simplevideo/SimpleVideo.swf";
 	
 	var flashvars = {
 		playerId: this.sv.$element[0].id
