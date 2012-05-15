@@ -25,6 +25,25 @@ class Main {
 		return $this->mySQL->sendQuery("SELECT workId, title, previewType, medium, thumb FROM Work WHERE section LIKE '%main%' ORDER BY dateReleased DESC");
 	}
 	
+	public function getPortfolioThumbs() {
+		
+		return $this->mySQL->sendQuery("SELECT workId, title, previewType, medium, thumb FROM Work WHERE section LIKE '%portfolio%' ORDER BY dateReleased DESC");
+	}
+	
+	public function getPortfolioNoWork() {
+			
+		$noWork = array(
+				'type' => 'quote',
+				'description' => "Web developer working in the advertising industry; primarily using HTML(5), CSS(3), javascript, AS3, and PHP.<br /><br />
+				I enjoy the craft of developing clean, well-built, dependable digital solutions. Most of the time this means a website, but I also build back-end tools and scripts for design. My job is to enable and enhance ideas as projects move from conception into code.<br /><br />
+				This site is my online portfolio of professional projects. For personal / art projects, see <a href=\"http://steveshaddick.com\" title=\"steveshaddick.com\">here</a>."
+				);
+				
+			$this->mySQL->insertRows($noWork, 'NoWork', true);
+
+			return $noWork;
+	}
+	
 	public function getNoWork() {
 		
 		function getMetaData($url){

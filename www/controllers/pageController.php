@@ -57,10 +57,22 @@ switch ($view) {
 		
 		include('../views/index.php');
 		exit();
+		break;
+		
+	case 'portfolio':
+		
+		$workThumbs = $main->getPortfolioThumbs();
+		$noWork = $main->getPortfolioNoWork();
+		$selfPic = $main->getSelfPic('../images/self');
+		
+		include('../views/portfolio.php');
+		exit();
+		break;
 		
 	default:
 		include('../views/404.php');
 		exit();
+		break;
 	
 }
 
