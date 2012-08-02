@@ -2,9 +2,11 @@ Options +FollowSymlinks
 RewriteEngine on
 RewriteBase /
 
+
 <FilesMatch ".(ico|css|js|flv|f4v|gif|jpg|jpeg|png|ico|swf)$">
 Header set Cache-Control "max-age=2592000"
 </FilesMatch>
+
 
 # Mobile redirection
 #RewriteCond %{REQUEST_FILENAME} !-f

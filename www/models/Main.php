@@ -25,21 +25,12 @@ class Main {
 		return $this->mySQL->sendQuery("SELECT workId, title, previewType, medium, thumb FROM Work WHERE section LIKE '%main%' ORDER BY dateReleased DESC");
 	}
 	
-	public function getNoWork() {
+	public function getNoWork($returnRecent = false) {
 		
-		function getMetaData($url){
-			// get meta tags
-			$meta=get_meta_tags($url);
-			// store page
-			$page=file_get_contents($url);
-			// find where the title CONTENT begins
-			$titleStart=stripos($page,'<title>')+7;
-			// find how long the title is
-			$titleLength=stripos($page,'</title>')-$titleStart;
-			// extract title from $page
-			$meta['title']=substr($page,$titleStart,$titleLength);
-			// return array of data
-			return $meta;
+		if ($returnRecent === true) {
+			//assume today, request is coming from the ajax call
+			$noWork = $this->mySQL->getSingleRow("SELECT * FROM NoWork ORDER BY dateShown DESC");
+			return $noWork;
 		}
 		
 		if (isset($_GET['nowork'])) {
@@ -57,6 +48,9 @@ class Main {
 				
 			default:
 				if ($noWork['dateShown'] == $today) {
+					if ((time() - strtotime($noWork['dateChecked'])) > 31556926) {
+						$noWork['needMeta'] = true;
+					}
 					return $noWork;
 				}
 				break;
@@ -92,22 +86,11 @@ class Main {
 			$noWork = $noWorks[rand(0, count($noWorks) - 1)];
 			
 			if ($noWork['type'] == 'link') {
+
+				$noWork['needMeta'] = false;
+
 				if ((time() - strtotime($noWork['dateChecked'])) > 31556926) {
-					
-					try {
-					    $tags = getMetaData($noWork['url']);
-						if ($tags['title'] != '') {
-							$noWork['title'] = $tags['title'];
-							$noWork['description'] = (isset($tags['description'])) ? htmlspecialchars($tags['description']) :'';
-							$this->mySQL->sendQuery("UPDATE NoWork SET title='" . $this->mySQL->cleanString(htmlspecialchars($noWork['title'])) . "', description='" . $this->mySQL->cleanString(htmlspecialchars($noWork['description'])) . "', dateChecked='".date('Y-m-d')."' WHERE _id = " . $noWork['_id']);
-						} else {
-							$this->mySQL->sendQuery("UPDATE NoWork SET active = 0 WHERE _id = {$noWork['_id']}");
-							$noWork = null;
-						}
-					} catch (Exception $e) {
-					    $this->mySQL->sendQuery("UPDATE NoWork SET active = 0 WHERE _id = {$noWork['_id']}");
-						$noWork = null;
-					}
+					$noWork['needMeta'] = true;
 				}
 			}
 		}
@@ -119,6 +102,16 @@ class Main {
 		
 		return $noWork;
 		
+	}
+
+	public function updateLink($success, $noWork) {
+		if ($success === false) {
+			$this->mySQL->sendQuery("UPDATE NoWork SET active = 0 WHERE _id = {$noWork['_id']}");
+			return;
+		}
+
+		$this->mySQL->sendQuery("UPDATE NoWork SET title='" . $this->mySQL->cleanString($noWork['title']) . "', description='" . $this->mySQL->cleanString($noWork['description']) . "', dateChecked='".date('Y-m-d')."' WHERE _id = " . $noWork['_id']);
+			
 	}
 	
 	public function getSelfPic($dir) {

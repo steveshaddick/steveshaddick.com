@@ -310,9 +310,12 @@ a:hover {
     font-size: 20px;
     font-weight: bold;
     margin: 20px 0 0;
+    word-wrap: break-word;
 }
 .noWorkLink .linkDescription {
 	width: 500px;
+	font-size: 14px;
+	margin-top:5px;
 }
 .noWorkLink .image {
 	max-width: 540px;

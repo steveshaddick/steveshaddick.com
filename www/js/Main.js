@@ -1064,7 +1064,7 @@ var Main = (function() {
 	var didThumbs = false;
 	var isInit = false;
 	
-	function init($obj) {
+	function init(obj) {
 		
 		$window = $(window);
 		$document = $(document);
@@ -1086,8 +1086,8 @@ var Main = (function() {
 		$backLink =$("#backLink");
 		$siteWrapper = $("#siteWrapper");
 		
-		GLOBAL.userAgent = $obj.userAgent;
-		switch ($obj.userAgent) {
+		GLOBAL.userAgent = obj.userAgent;
+		switch (obj.userAgent) {
 			case 'iPad':
 			case 'iPhone':
 				$("#thumbsScroller").remove();
@@ -1098,7 +1098,7 @@ var Main = (function() {
 				
 				break;
 		}
-		GLOBAL.os = $obj.os;
+		GLOBAL.os = obj.os;
 		if (GLOBAL.os == 'mac') {
 			GLOBAL.scrollAmount *= 0.25;
 		}
@@ -1129,6 +1129,27 @@ var Main = (function() {
 		} else {
 			$("#msieWarning").remove();
 			SWFAddress.onChange = hashChange;
+		}
+
+		if (obj.needMeta) {
+			$.ajax( '/ajax/getMeta/', {
+				cache: false,
+				success: updateLinkInfo,
+				error: function() { $(".linkDescription", $("#noWorkLink")).html(''); }
+			});
+		}
+	}
+
+	function updateLinkInfo(data) {
+
+		var $noWorkLink = $("#noWorkLink");
+
+		if ((data != null)  && (data.success === "true")) {
+
+			$(".linkTitle", $noWorkLink).html(data.meta.title);
+			$(".linkDescription", $noWorkLink).html(data.meta.description);
+		} else {
+			$noWorkLink.html('<img src="/images/rando/DSC_0055.jpg" alt="" />');
 		}
 	}
 	
