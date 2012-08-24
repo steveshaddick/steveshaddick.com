@@ -34,7 +34,7 @@
 	<link href="css/html5reset.css" rel="stylesheet" type="text/css" />
 	<link href="js/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
 	<link href="css/lightbox.css" rel="stylesheet" type="text/css" />
-	<link href="css/ssMain.css" rel="stylesheet" type="text/css" />
+	<link href="css/ssMain.min.css" rel="stylesheet" type="text/css" />
 	
 	
 	<script src="js/jquery/jquery-1.7.2.min.js"></script>
@@ -172,9 +172,17 @@
 							case 'link':
 								?>
 								
-								<div class="noWorkLink">
+								<div id="noWorkLink" class="noWorkLink">
 									<div class="checkIt">Link for right now:</div>
-									<a href="<?php echo $noWork['url']; ?>" target="_blank" title="<?php echo $noWork['title']; ?>"><?php echo $noWork['title']; ?></a>
+									<?php
+										if ($noWork['title'] == '') {
+											$noWork['title'] = $noWork['url'];
+										}
+										if ($noWork['needMeta'] === true) {
+											$noWork['description'] = 'Fetching link info...';
+										}
+									?>
+									<a class="linkTitle" href="<?php echo $noWork['url']; ?>" target="_blank" title="<?php echo $noWork['title']; ?>"><?php echo $noWork['title']; ?></a>
 									<div class="linkDescription"><?php echo $noWork['description']; ?></div>
 									
 								</div>
@@ -290,7 +298,8 @@
 		function() {
 			Main.init({
 				userAgent: '<?php echo $userAgent; ?>',
-				os: '<?php echo $os; ?>'
+				os: '<?php echo $os; ?>',
+				needMeta: <?php if ($noWork['needMeta'] === true) { echo 'true'; } else { echo 'false'; } ?>
 			});
 		}
 	)
