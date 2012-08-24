@@ -31,7 +31,8 @@ class Main {
 			//assume today, request is coming from the ajax call
 			$noWork = $this->mySQL->getSingleRow("SELECT * FROM NoWork ORDER BY dateShown DESC");
 			return $noWork;
-
+		}
+	}
 	public function getPortfolioThumbs() {
 		
 		return $this->mySQL->sendQuery("SELECT workId, title, previewType, medium, thumb FROM Work WHERE section LIKE '%portfolio%' ORDER BY dateReleased DESC");

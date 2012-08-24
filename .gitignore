@@ -1,8 +1,6 @@
 env/
 www/video/
 www/images/
-*.sublime-project
-*.sublime-workspace
 *.htaccess
 *.project
 *.sublime-project
