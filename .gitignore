@@ -5,3 +5,5 @@ www/images/
 *.sublime-workspace
 *.htaccess
 *.project
+*.sublime-project
+*.sublime-workspace
