@@ -31,46 +31,12 @@
 	<meta name="keywords" content="steve shaddick, web, new media, art, video, music, whatever" />
 	
 
-	<link href="css/html5reset.css" rel="stylesheet" type="text/css" />
+	<link href="css/min.css" rel="stylesheet" type="text/css" />
 	<link href="js/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
-	<link href="css/lightbox.css" rel="stylesheet" type="text/css" />
-	<link href="css/ssMain.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/ssMain.css" rel="stylesheet" type="text/css" />
 	
-	
-	<script src="js/jquery/jquery-1.7.2.min.js"></script>
-	<script src="js/jquery/jquerycookie.min.js"></script>
-	
-	<script src="js/swfaddress/swfaddress.js"></script>
-	<script src="js/swfobject/swfobject.js"></script>
-	
-	<script src="js/lightbox/lightbox.min.js"></script>
-	
-	<script src="js/simplevideo/SimpleVideo.min.js"></script>
-	
-	<?php
-	switch($userAgent) {
-		case 'iPad':
-		case 'iPhone':
-			?>
-			
-			<script src="js/iscroll/iscroll.min.js"></script>
-			
-			<?php
-			break;
-			
-		default:
-			?>
-			
-			<script src="js/jquery/jquery.mousewheel.min.js"></script>
-			<script src="js/jquery/jquery.fullscreen.min.js"></script>
-			
-			<?php
-			break;
-	}
-	?>
 	
 	<script src="js/Modernizr.js"></script>
-	<script src="js/Main.min.js"></script>
 	
 </head>
 <body class="regular <?php echo $userAgent; ?>">
@@ -91,6 +57,16 @@
 		<div id="footer">
 			<a id="signature" href="#" title="Steve Shaddick"><img src="/images/signature.gif" alt="Steve Shaddick" /></a>
 			<div id="who" class="transition displayNone"><a class="who" href="#who" title="Who is this guy?">Who?</a></div>
+			<div id="mailList" class="transition">
+				<label class="emailInput" for="txtEmail">Mailing List</label>
+
+				<span id="mailListContent">
+					<span id="emailError" class="emailError displayNone">Please enter a valid email.</span>
+					<input class="emailInput" name="txtEmail" id="txtEmail" type="text" placeholder="Email address" maxlength="255" />
+					<a href="javascript:void(0)" onClick="MailList.submitEmail();">&rsaquo; Add me to the list</a>&nbsp;&nbsp;&nbsp;
+					<a href="javascript:void(0)" onClick="MailList.removeEmail();">&rsaquo; Unsubscribe</a>
+				</span>
+			</div>
 		</div>
 		
 		<div id="workWrapper" class="pageWrapper displayNone">
@@ -258,6 +234,8 @@
 			</div>
 						
 		</div>
+
+		<div id="alertOverlay" class="displayNone"><div id="alertOverlayBox"></div></div>
 		
 		<div id="whoWrapper" class="pageWrapper displayNone">
 			<img class="whoPic" src="images/self/<?php echo $selfPic['pic']; ?>" alt="Self Portait" title="<?php echo $selfPic['words']; ?>" /> 
@@ -275,7 +253,7 @@
 			<div class="warningBox">
 				<p class="title">You are using Internet Explorer</p>
 				<p>Internet Explorer was great around 2003. It probably continues to be great for certain specific uses. If you have no choice in the matter, or are just stubborn, no problem. This site will work fine.</p>
-				<p>For the full experience (of this and many, many other sites), I highly recommend you try another browser, such as <a href="https://www.google.com/chrome" target="_blank" title="Download Chrome">Chrome</a>.</p>
+				<p>For the full experience (of this and many, many other sites), I highly recommend you try another browser, such as <a href="//www.google.com/chrome" target="_blank" title="Download Chrome">Chrome</a>.</p>
 				<p><a href="javascript:void(0)" onclick="Main.warningClick();" class="okayLink">Okay</a></p>
 			</div>
 		</div>
@@ -291,7 +269,39 @@
 		</noscript>
 		
 	</div>
-	
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/jquery/jquery-1.8.0.min.js"><\/script>')</script>
+    <script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script>window.swfobject || document.write('<script src="/js/swfobject/swfobject"><\/script>')</script>
+
+	<script src="/js/plugins.min.js"></script>
+
+	<?php
+	switch($userAgent) {
+		case 'iPad':
+		case 'iPhone':
+			?>
+			
+			<script src="js/iscroll/iscroll.min.js"></script>
+			
+			<?php
+			break;
+			
+		default:
+			?>
+			
+			<script src="js/jquery/jquery.mousewheel.min.js"></script>
+			<script src="js/jquery/jquery.fullscreen.min.js"></script>
+			
+			<?php
+			break;
+	}
+	?>
+
+	<script src="/js/Main.js"></script>
+
+
 	<script type="text/javascript">
 	
 	$(document).ready(

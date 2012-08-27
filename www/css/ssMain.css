@@ -41,10 +41,10 @@ body {
 	-webkit-transition-timing-function: cubic-bezier(0.32, 0.12, 0.68, 0.94); 
 	-o-transition-timing-function: cubic-bezier(0.32, 0.12, 0.68, 0.94);
 	
-	-moz-transition-property: width,height,top,left;
-	-webkit-transition-property: width,height,top,left;
-	-o-transition-property: width,height,top,left;
-	-ms-transition-property: width,height,top,left;
+	-moz-transition-property: width,height,top,left,right;
+	-webkit-transition-property: width,height,top,left,right;
+	-o-transition-property: width,height,top,left,right;
+	-ms-transition-property: width,height,top,left,right;
 	
 	-moz-transition-duration: 0.35s;
 	-webkit-transition-duration: 0.35s; 
@@ -474,6 +474,82 @@ a:hover {
 
 #footer.who {
 	
+}
+
+#mailList {
+	font-size: 14px;
+	width: 575px;
+	position:absolute;
+	right:-479px;
+	bottom:5px;
+	z-index: 100000;
+	height:30px;
+}
+
+#mailList.open {
+	right:0;
+	background: #FAFAFA;
+}
+
+#mailListContent {
+	position: relative;
+	left:100px;
+}
+#mailList.open #mailListContent {
+	left:0;
+}
+
+
+#mailList input{
+	line-height:28px;
+	width:260px;
+	background:#e6e6e6;
+	margin:0 5px;
+	border:none;
+	padding:5px;
+	
+}
+#mailList label{
+	color: #A0A0A0;
+}
+#mailList a{
+	font-size: 12px;
+}
+
+.emailError {
+	color:#6d1111;
+	position:absolute;
+	left:5px;
+	top:-20px;
+}
+
+#alertOverlay {
+	position:absolute;
+	z-index:1000000;
+	background:url('/images/fafafa_85.png');
+	height:100%;
+	width:100%;
+	top:0;
+	left:0;
+}
+
+#alertOverlayBox {
+	background: none repeat scroll 0 0 #FFFFFF;
+    margin: 200px auto;
+    padding: 25px;
+    width: 400px;
+
+    -moz-box-shadow:    0 2px 3px 1px #ddd;
+  	-webkit-box-shadow: 0 2px 3px 1px #ddd;
+  	box-shadow:         0 2px 3px 1px #ddd;
+
+}
+
+.emailAlertContent {
+}
+
+a.generalButton {
+
 }
 
 #who a {

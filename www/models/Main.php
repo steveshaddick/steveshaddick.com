@@ -143,6 +143,20 @@ class Main {
 		return $this->mySQL->getSingleRow("SELECT identifier, title, medium, specs, previewType, image, link, videoRepeat, lightboxCount, info FROM Work WHERE workId = $workId");
 	}
 
+	public function submitEmail($email) {
+
+		$email = $this->mySQL->cleanString($email);
+
+		if ($this->mySQL->getSingleRow("SELECT _id FROM Emails WHERE email = '$email'") !== false) {
+			$result = true;
+		} else {
+			$result = $this->mySQL->sendQuery("INSERT INTO Emails SET email = '$email', dateEntered = NOW()");
+		}
+
+		return $result;
+
+	}
+
 }
 
 ?>
