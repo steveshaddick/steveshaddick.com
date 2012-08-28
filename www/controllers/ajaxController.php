@@ -89,12 +89,13 @@ switch ($action) {
 
 	case 'submitEmail':
 
-		if ($main->submitEmail($_POST['txtEmail']) === true) {
-			echo json_encode(array('success'=>'true'));
-		} else {
-			echo json_encode(array('success'=>'false'));
-		}
+		echo $main->submitEmail($_POST['txtEmail']);
+		
+		break;
 
+	case 'removeEmail':
+
+		echo $main->removeEmail($_POST['txtEmail']);
 		break;
 }
 

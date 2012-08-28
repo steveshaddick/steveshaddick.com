@@ -546,11 +546,9 @@ a:hover {
 }
 
 .emailAlertContent {
+	word-wrap: break-word;
 }
 
-a.generalButton {
-
-}
 
 #who a {
 	color: #a0a0a0;

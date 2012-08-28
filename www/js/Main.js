@@ -1112,10 +1112,46 @@ var MailList = (function() {
 
 	}
 
+	function removeEmail() {
+		
+		var email = $txtEmail.val();
+
+		if ((email == '') || (!validateEmail(email))){
+			showEmailError();
+			return;
+		}
+
+		hideMailList();
+		$txtEmail.val('');
+
+		$.ajax( '/ajax/removeEmail', {
+				cache: false,
+				data: { txtEmail: email },
+				success: removeEmailReturn,
+				type: 'post',
+				error: function() { removeEmailReturn({success: 'false'}); }
+			});
+	}
+
 	function submitEmailReturn(data) {
 
-		if (data.success == 'true') {
+		if ((data) && (data.success === true)) {
 			Main.showAlert('/views/emailSuccess.html');
+		} else {
+			Main.showAlert('/views/emailError.html');
+		}
+
+	}
+
+	function removeEmailReturn(data) {
+
+		if ((data) && (data.success === true)) {
+			if (data.removed === true) {
+				Main.showAlert('/views/emailRemoved.html', function() { $('p', "#alertOverlay").html($('p', "#alertOverlay").html().replace("$EMAIL$", data.email)); });
+			} else {
+				Main.showAlert('/views/emailNotFound.html', function() { $('p', "#alertOverlay").html($('p', "#alertOverlay").html().replace("$EMAIL$", data.email)); });
+			}
+			
 		} else {
 			Main.showAlert('/views/emailError.html');
 		}
@@ -1159,7 +1195,8 @@ var MailList = (function() {
 
 	return {
 		init: init,
-		submitEmail: submitEmail
+		submitEmail: submitEmail,
+		removeEmail: removeEmail
 	}
 
 }());
@@ -1448,13 +1485,13 @@ var Main = (function() {
 		//needResize = true;
 	}
 
-	function showAlert(file) {
+	function showAlert(file, complete) {
 
 		closeAlert(true);
 		var $box = $("#alertOverlayBox");
 
 		$("#alertOverlay").removeClass('displayNone');
-		$box.load(file).addClass('transition').removeClass('reset');
+		$box.load(file, null, complete).addClass('transition').removeClass('reset');
 
 	}
 

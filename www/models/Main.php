@@ -147,13 +147,37 @@ class Main {
 
 		$email = $this->mySQL->cleanString($email);
 
+		$ret = array('success'=>false);
+
 		if ($this->mySQL->getSingleRow("SELECT _id FROM Emails WHERE email = '$email'") !== false) {
-			$result = true;
+			$ret['success'] = true;
 		} else {
-			$result = $this->mySQL->sendQuery("INSERT INTO Emails SET email = '$email', dateEntered = NOW()");
+			$ret['success'] = $this->mySQL->sendQuery("INSERT INTO Emails SET email = '$email', dateEntered = NOW()");
 		}
 
-		return $result;
+		return json_encode($ret);
+
+	}
+
+	public function removeEmail($email) {
+
+		$email = $this->mySQL->cleanString($email);
+
+		$ret = array('success'=>false, 'removed'=>false, 'email'=>$email);
+
+		if ($this->mySQL->getSingleRow("SELECT _id FROM Emails WHERE email = '$email'") === false) {
+			
+			$ret['success'] = true;
+			$ret['removed'] = false;
+
+		} else {
+			if ($this->mySQL->sendQuery("UPDATE Emails SET email = CONCAT(email,'_unsubscribed') WHERE email = '$email'") === true) {
+				$ret['success'] = true;
+				$ret['removed'] = true;
+			}
+		}
+
+		return json_encode($ret);
 
 	}
 
