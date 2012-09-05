@@ -30,11 +30,30 @@
 	<meta name="description" content="The online cornucopia of Steve Shaddick." />
 	<meta name="keywords" content="steve shaddick, web, new media, art, video, music, whatever" />
 	
+	<?php
+	switch (ENVIRONMENT) {
+		case 'production':
+			?>
+			
+			<link href="css/min.css" rel="stylesheet" type="text/css" />
+			<link href="js/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
+			
+			<?php
+			break;
 
-	<link href="css/min.css" rel="stylesheet" type="text/css" />
-	<link href="js/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
-	<link href="css/ssMain.min.css" rel="stylesheet" type="text/css" />
-	
+		default:
+			?>
+			
+			<link href="css/html5reset.css" rel="stylesheet" type="text/css" />
+			<link href="css/lightbox.css" rel="stylesheet" type="text/css" />
+			<link href="css/ssMain.css" rel="stylesheet" type="text/css" />
+			<link href="js/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
+			
+			<?php
+			break;
+
+	}
+	?>	
 	
 	<script src="js/Modernizr.js"></script>
 	
@@ -269,37 +288,70 @@
 		
 	</div>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/js/jquery/jquery-1.8.0.min.js"><\/script>')</script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/jquery/jquery-1.8.1.min.js"><\/script>')</script>
     <script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-	<script>window.swfobject || document.write('<script src="/js/swfobject/swfobject"><\/script>')</script>
-
-	<script src="/js/plugins.min.js"></script>
-
+	<script>window.swfobject || document.write('<script src="/js/swfobject/swfobject.js"><\/script>')</script>
+	
 	<?php
-	switch($userAgent) {
-		case 'iPad':
-		case 'iPhone':
+	switch (ENVIRONMENT) {
+		case 'production':
+			switch($userAgent) {
+				case 'iPad':
+				case 'iPhone':
+					?>
+
+					<script src="/js/plugins-phone.min.js"></script>
+
+					<?php
+					break;
+					
+				default:
+					?>
+
+					<script src="/js/plugins.min.js"></script>
+
+					<?php
+					break;
+			}
 			?>
-			
-			<script src="js/iscroll/iscroll.min.js"></script>
-			
+
+			<script src="/js/Main.min.js"></script>
+
 			<?php
 			break;
-			
+
 		default:
+			switch($userAgent) {
+				case 'iPad':
+				case 'iPhone':
+					?>
+
+					<script src="js/iscroll/iscroll.js"></script>
+
+					<?php
+					break;
+					
+				default:
+					?>
+
+					<script src="js/jquery/jquery.mousewheel.min.js"></script>
+					<script src="js/jquery/jquery.fullscreen.js"></script>
+
+					<?php
+					break;
+			}
 			?>
-			
-			<script src="js/jquery/jquery.mousewheel.min.js"></script>
-			<script src="js/jquery/jquery.fullscreen.min.js"></script>
-			
+
+			<script src="/js/swfaddress/swfaddress.js"></script>
+			<script src="/js/lightbox/lightbox.js"></script>
+			<script src="/js/simplevideo/SimpleVideo.js"></script>
+			<script src="/js/Main.js"></script>
+
 			<?php
 			break;
 	}
 	?>
-
-	<script src="/js/Main.min.js"></script>
-
 
 	<script type="text/javascript">
 	
