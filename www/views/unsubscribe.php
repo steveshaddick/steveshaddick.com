@@ -30,7 +30,7 @@
 	
 
 	<link href="/css/html5reset.css" rel="stylesheet" type="text/css" />
-	<link href="/css/ssMain.css" rel="stylesheet" type="text/css" />
+	<link href="/css/ssMain.min.css" rel="stylesheet" type="text/css" />
 	
 </head>
 <body class="smallPage">
@@ -51,7 +51,7 @@
 				<?php
 			} else {
 				?>
-				<span class="textContent"><?php echo $unsubscribeMessage; ?> has been removed from the newsletter - no worries.</span>
+				<span class="textContent"><?php echo $unsubscribeMessage; ?> has now been removed from the newsletter. No email for you!</span>
 				<?php
 			}
 			?>

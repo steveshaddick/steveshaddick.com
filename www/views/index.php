@@ -33,7 +33,7 @@
 
 	<link href="css/min.css" rel="stylesheet" type="text/css" />
 	<link href="js/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
-	<link href="css/ssMain.css" rel="stylesheet" type="text/css" />
+	<link href="css/ssMain.min.css" rel="stylesheet" type="text/css" />
 	
 	
 	<script src="js/Modernizr.js"></script>
@@ -298,7 +298,7 @@
 	}
 	?>
 
-	<script src="/js/Main.js"></script>
+	<script src="/js/Main.min.js"></script>
 
 
 	<script type="text/javascript">

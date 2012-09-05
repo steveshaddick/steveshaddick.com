@@ -30,7 +30,7 @@
 	
 
 	<link href="/css/html5reset.css" rel="stylesheet" type="text/css" />
-	<link href="/css/ssMain.css" rel="stylesheet" type="text/css" />
+	<link href="/css/ssMain.min.css" rel="stylesheet" type="text/css" />
 	
 </head>
 <body class="smallPage">
