@@ -44,7 +44,17 @@
 		<div class="container">
 			
 			<img id="meBlurry" class="transition" src="/images/me_blurry_70.gif" alt="Blurry Steve" />
-			<span class="textContent">You are looking for something that doesn't exist. For a discourse on existential philosophy, try Martin Heidegger's <a href="http://en.wikipedia.org/wiki/Being_and_Time" title="Being and Time">Being and Time</a>. Or, if you just wanted my website, try here instead: <a href="http://www.steveshaddick.com" title="steveshaddick.com">steveshaddick.com</a>.</span>
+			<?php
+			if ($unsubscribeMessage == '') {
+				?>
+				<span class="textContent">I'm sorry - something didn't work. <br /> Please let me know at <a href="mailto:steve@steveshaddick.com?subject=I%20Tried%20To%20Unsubscribe%20But%20It%20Didn%27t%20Work">steve@steveshaddick.com</a>.<br /><br />Or, if you just wanted my website, try here instead: <a href="http://www.steveshaddick.com" title="steveshaddick.com">steveshaddick.com</a>.</span>
+				<?php
+			} else {
+				?>
+				<span class="textContent"><?php echo $unsubscribeMessage; ?> has been removed from the newsletter - no worries.</span>
+				<?php
+			}
+			?>
 			
 		</div>
 		

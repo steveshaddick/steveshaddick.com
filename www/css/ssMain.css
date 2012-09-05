@@ -478,9 +478,9 @@ a:hover {
 
 #mailList {
 	font-size: 14px;
-	width: 575px;
+	width: 490px;
 	position:absolute;
-	right:-479px;
+	right:-390px;
 	bottom:5px;
 	z-index: 100000;
 	height:30px;
@@ -801,30 +801,30 @@ a#backLink {
 	overflow:hidden;
 }
 
-.page404 #siteWrapper {
+.smallPage #siteWrapper {
 	min-height:300px;
 	min-width:550px;
 }
-.page404 #footer {
+.smallPage #footer {
 	
 }
 
-.page404 #signature {
+.smallPage #signature {
 	bottom:0;
 	top:auto;
 }
 
-.page404 .container {
+.smallPage .container {
 	margin: 25px auto 0;
     width: 475px;
 }
 
-.page404 .textContent {
+.smallPage .textContent {
 	padding-left: 10px;
     position: absolute;
     width: 450px;
 }
 
-.page404 #meBlurry {
+.smallPage #meBlurry {
 	position:static;
 }

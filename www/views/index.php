@@ -64,7 +64,6 @@
 					<span id="emailError" class="emailError displayNone">Please enter a valid email.</span>
 					<input class="emailInput" name="txtEmail" id="txtEmail" type="text" placeholder="Email address" maxlength="255" />
 					<a href="javascript:void(0)" onClick="MailList.submitEmail();">&rsaquo; Add me to the list</a>&nbsp;&nbsp;&nbsp;
-					<a href="javascript:void(0)" onClick="MailList.removeEmail();">&rsaquo; Unsubscribe</a>
 				</span>
 			</div>
 		</div>
@@ -309,7 +308,8 @@
 			Main.init({
 				userAgent: '<?php echo $userAgent; ?>',
 				os: '<?php echo $os; ?>',
-				needMeta: <?php if ($noWork['needMeta'] === true) { echo 'true'; } else { echo 'false'; } ?>
+				needMeta: <?php if ($noWork['needMeta'] === true) { echo 'true'; } else { echo 'false'; } ?>,
+				a: '<?php echo $ajaxToken; ?>'
 			});
 		}
 	)

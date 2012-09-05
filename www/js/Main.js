@@ -17,7 +17,8 @@ var GLOBAL = {
 	userAgent: '',
 	myScroll: null,
 	scrollAmount: 30,
-	os: ''
+	os: '',
+	a: '555'
 }
 
 var TransitionController = (function() {
@@ -262,7 +263,7 @@ var WorkContainer = (function() {
 		$.ajax({
 			url: "/ajax/getWork",
 			type: "POST",
-			data: {workId: workId},
+			data: {workId: workId, a: GLOBAL.a},
 			success: getWorkReturnHandler
 		});
 		
@@ -1104,7 +1105,7 @@ var MailList = (function() {
 
 		$.ajax( '/ajax/submitEmail', {
 				cache: false,
-				data: { txtEmail: email },
+				data: { txtEmail: email, a: GLOBAL.a },
 				success: submitEmailReturn,
 				type: 'post',
 				error: function() { submitEmailReturn({success: 'false'}); }
@@ -1112,46 +1113,10 @@ var MailList = (function() {
 
 	}
 
-	function removeEmail() {
-		
-		var email = $txtEmail.val();
-
-		if ((email == '') || (!validateEmail(email))){
-			showEmailError();
-			return;
-		}
-
-		hideMailList();
-		$txtEmail.val('');
-
-		$.ajax( '/ajax/removeEmail', {
-				cache: false,
-				data: { txtEmail: email },
-				success: removeEmailReturn,
-				type: 'post',
-				error: function() { removeEmailReturn({success: 'false'}); }
-			});
-	}
-
 	function submitEmailReturn(data) {
 
 		if ((data) && (data.success === true)) {
 			Main.showAlert('/views/emailSuccess.html');
-		} else {
-			Main.showAlert('/views/emailError.html');
-		}
-
-	}
-
-	function removeEmailReturn(data) {
-
-		if ((data) && (data.success === true)) {
-			if (data.removed === true) {
-				Main.showAlert('/views/emailRemoved.html', function() { $('p', "#alertOverlay").html($('p', "#alertOverlay").html().replace("$EMAIL$", data.email)); });
-			} else {
-				Main.showAlert('/views/emailNotFound.html', function() { $('p', "#alertOverlay").html($('p', "#alertOverlay").html().replace("$EMAIL$", data.email)); });
-			}
-			
 		} else {
 			Main.showAlert('/views/emailError.html');
 		}
@@ -1195,8 +1160,7 @@ var MailList = (function() {
 
 	return {
 		init: init,
-		submitEmail: submitEmail,
-		removeEmail: removeEmail
+		submitEmail: submitEmail
 	}
 
 }());
@@ -1259,6 +1223,7 @@ var Main = (function() {
 		if (GLOBAL.os == 'mac') {
 			GLOBAL.scrollAmount *= 0.25;
 		}
+		GLOBAL.a = obj.a;
 		
 		
 		Video.init();
@@ -1292,6 +1257,7 @@ var Main = (function() {
 		if (obj.needMeta) {
 			$.ajax( '/ajax/getMeta/', {
 				cache: false,
+				data: {a: GLOBAL.a},
 				success: updateLinkInfo,
 				error: function() { $(".linkDescription", $("#noWorkLink")).html(''); }
 			});

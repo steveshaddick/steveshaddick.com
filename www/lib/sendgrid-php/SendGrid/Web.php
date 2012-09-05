@@ -109,7 +109,6 @@ class Web extends Api implements MailInterface
   public function send(Mail $mail)
   {
     $data = $this->_prepMessageData($mail);
-    print_r($data);
 
     //if we're not using headers, we need to send a url friendly post
     if(!$mail->useHeaders())
