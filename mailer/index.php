@@ -56,7 +56,7 @@ if ($_POST['mail'] === 'mail') {
 		$html = str_replace("<h1>", '<h1 style="font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:16px;color:#333">', $html);
 		$html = str_replace("<p>", '<p style="font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#7d7d7d; margin-top:10px;">', $html);
 
-		if ($_POST['test'] !== 0) {
+		if (intval($_POST['test']) === 0) {
 			$emails = $mySQL->sendQuery("SELECT * FROM Emails");
 		} else {
 			$emails = $mySQL->sendQuery("SELECT * FROM Emails WHERE email='banfangled@yahoo.ca'");
