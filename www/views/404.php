@@ -30,15 +30,15 @@
 	
 
 	<link href="/css/html5reset.css" rel="stylesheet" type="text/css" />
-	<link href="/css/ssMain.css" rel="stylesheet" type="text/css" />
+	<link href="/css/ssMain.min.css" rel="stylesheet" type="text/css" />
 	
 </head>
-<body class="page404">
+<body class="smallPage">
 	
 	<div id="siteWrapper" class="transition">
 		
 		<div id="footer">
-			<a id="signature" href="http://www.steveshaddick.com" title="Steve Shaddick"><img src="/images/signature.gif" alt="Steve Shaddick" /></a>
+			<a id="signature" href="/" title="Steve Shaddick"><img src="/images/signature.gif" alt="Steve Shaddick" /></a>
 		</div>
 		
 		<div class="container">

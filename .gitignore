@@ -5,3 +5,4 @@ www/images/
 *.project
 *.sublime-project
 *.sublime-workspace
+*.htpasswd

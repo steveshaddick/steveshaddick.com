@@ -13,9 +13,11 @@ class Main {
 
 	
 	private $mySQL;
+	private $basePath;
 	
-	public function __construct() {
+	public function __construct($basePath = '') {
 		
+		$this->basePath = $basePath;
 		$this->mySQL = new MySQLUtility(DB_USERNAME, DB_PASSWORD, MAIN_DB_HOST, MAIN_DB_NAME);
 		
 	}
@@ -143,6 +145,7 @@ class Main {
 		return $this->mySQL->getSingleRow("SELECT identifier, title, medium, specs, previewType, image, link, videoRepeat, lightboxCount, info FROM Work WHERE workId = $workId");
 	}
 
+
 	public function getPortfolioThumbs() {
 		
 		return $this->mySQL->sendQuery("SELECT workId, title, previewType, medium, thumb FROM Work WHERE section LIKE '%portfolio%' ORDER BY dateReleased DESC");
@@ -157,9 +160,82 @@ class Main {
 				This site is my online portfolio of professional projects. For personal / art projects, see <a href=\"http://steveshaddick.com\" title=\"steveshaddick.com\">here</a>."
 				);
 				
-			$this->mySQL->insertRows($noWork, 'NoWork', true);
+		//$this->mySQL->insertRows($noWork, 'NoWork', true);
 
-			return $noWork;
+		return $noWork;
+	}
+
+	public function submitEmail($email) {
+
+		$email = $this->mySQL->cleanString($email);
+
+		$ret = array('success'=>false);
+
+		if (check_email_address($email)) {
+			if ($this->mySQL->getSingleRow("SELECT _id FROM Emails WHERE email = '$email'") !== false) {
+				$ret['success'] = true;
+			} else {
+				$rando = randomString(16);
+				$ret['success'] = $this->mySQL->sendQuery("INSERT INTO Emails SET rando='$rando', email = '$email', dateEntered = NOW()");
+
+				if ($ret['success']) {
+					$insertId = $this->mySQL->getInsertID();
+					try {
+
+						require_once $this->basePath . 'lib/html2text.php';
+						require_once $this->basePath . 'lib/sendgrid-php/SendGrid_loader.php';
+						
+						$sendgrid = new SendGrid(SENDGRID_USER, SENDGRID_PASS);
+						$mail = new SendGrid\Mail();
+
+						$mail->addTo($email);
+						$mail->setFrom('steve@steveshaddick.com');
+
+						$html = '<!doctype html><head></head><body>';
+						$html .= '<div style="background:#FAFAFA; padding:10px;">';
+						$html .= '<div style="max-width:600px">';
+						$html .= '<h1 style="font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:16px;color:#333">Welcome to my newsletter</h1>';
+						$html .= '<p style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#7d7d7d">Thank you for signing up to my newsletter, it really does mean a lot that you want to keep in touch. What can you expect? Maybe something every few months, who knows - it certainly won\'t clog up your inbox. We all hate that.</p>';
+						$html .= '<p style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#7d7d7d; margin-top:10px;">If you ever want out, just go to this link to unsubscribe: <a href="http://www.steveshaddick.com/unsubscribe/' . $rando .'_' . $insertId .'">http://www.steveshaddick.com/unsubscribe/' . $rando .'_' . $insertId .'</a></p>';
+						$html .= '<img style="padding-top:25px;" src="http://www.steveshaddick.com/images/signature_small.gif" width="175" height="29" alt="Steve Shaddick" />';
+						$html .= '</div>';
+						$html .= '</div>';
+						$html .= '</body></html>';
+
+						$mail->setSubject("Steve Shaddick's email newsletter");
+
+						$mail->setHtml($html);
+						$mail->setText(html2text($html));
+
+						$response = $sendgrid->web->send($mail);
+						//$ret['response'] = $response;
+					}catch(Exception $e) {
+						//echo 'Caught exception: ',  $e->getMessage(), "\n";
+					}
+				}
+			}
+		}
+
+		return json_encode($ret);
+
+	}
+
+	public function removeEmail($id) {
+
+		$id = $this->mySQL->cleanString($id);
+		$id = explode("_", $id);
+
+		$ret = '';
+
+		$emailCheck = $this->mySQL->getSingleRow("SELECT email FROM Emails WHERE rando = '{$id[0]}' AND _id = '{$id[1]}'");
+
+		if ($emailCheck !== false) {
+			if ($this->mySQL->sendQuery("DELETE FROM Emails WHERE rando = '{$id[0]}' AND _id = '{$id[1]}'") === true) {
+				$ret = $emailCheck['email'];
+			}
+		}
+
+		return $ret;
 	}
 
 }

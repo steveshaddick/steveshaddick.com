@@ -9,11 +9,12 @@ Config::init();
 
 require_once($basePath . 'lib/MySQLUtility.php');
 require_once($basePath . 'lib/json.php');
+require_once $basePath . 'lib/StringUtils.php';
 // End required files
 
 // Project specific includes
 require_once($basePath . 'models/Main.php');
-$main = new Main();
+$main = new Main($basePath);
 
 date_default_timezone_set(TIMEZONE); 
 
@@ -21,6 +22,10 @@ if (isset($_GET['action'])) {
 	$action = $_GET['action'];
 } else {
 	$action = '';
+}
+
+if (!((isset($_POST['a'])) && ($_POST['a'] == $_SESSION['ajaxToken'])))  {
+	exit();
 }
 
 header('Cache-Control: no-cache, must-revalidate');
@@ -86,6 +91,13 @@ switch ($action) {
 
 		exit();
 		break;
+
+	case 'submitEmail':
+
+		echo $main->submitEmail($_POST['txtEmail']);
+		
+		break;
+
 }
 
 ?>
