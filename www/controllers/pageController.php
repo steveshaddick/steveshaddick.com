@@ -53,6 +53,10 @@ if (strpos($os, 'windows')) {
 	$os = '';
 }
 
+if ((ENVIRONMENT == 'production') && ($view == 'portfolio')) {
+	$view = '';
+}
+
 // Non-Authenticated pages
 switch ($view) {
 	case 'index':

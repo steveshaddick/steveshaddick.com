@@ -150,18 +150,22 @@ var Video = (function() {
 	}
 	
 	function pauseVideo() {
+		if (!isInit) return;
 		player.pause();
 	}
 	
 	function resumeVideo() {
+		if (!isInit) return;
 		player.play();
 	}
 	
 	function restartVideo() {
+		if (!isInit) return;
 		player.seek(0);
 	}
 	
 	function clearVideo() {
+		if (!isInit) return;
 		player.clear();
 	}
 	

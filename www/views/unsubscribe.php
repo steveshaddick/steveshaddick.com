@@ -28,29 +28,7 @@
 	<title>Steve Shaddick</title>
 	<meta name="title" content="Steve Shaddick" />
 	
-
-	<?php
-	switch (ENVIRONMENT) {
-		case 'production':
-			?>
-			
-			<link href="css/min.css" rel="stylesheet" type="text/css" />
-			
-			<?php
-			break;
-
-		default:
-			?>
-			
-			<link href="css/html5reset.css" rel="stylesheet" type="text/css" />
-			<link href="css/lightbox.css" rel="stylesheet" type="text/css" />
-			<link href="css/ssMain.css" rel="stylesheet" type="text/css" />
-			
-			<?php
-			break;
-
-	}
-	?>
+	<link href="css/min.css" rel="stylesheet" type="text/css" />
 	
 </head>
 <body class="smallPage">

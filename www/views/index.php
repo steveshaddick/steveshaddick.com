@@ -30,30 +30,8 @@
 	<meta name="description" content="The online cornucopia of Steve Shaddick." />
 	<meta name="keywords" content="steve shaddick, web, new media, art, video, music, whatever" />
 	
-	<?php
-	switch (ENVIRONMENT) {
-		case 'production':
-			?>
-			
-			<link href="css/min.css" rel="stylesheet" type="text/css" />
-			<link href="js/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
-			
-			<?php
-			break;
-
-		default:
-			?>
-			
-			<link href="css/html5reset.css" rel="stylesheet" type="text/css" />
-			<link href="css/lightbox.css" rel="stylesheet" type="text/css" />
-			<link href="css/ssMain.css" rel="stylesheet" type="text/css" />
-			<link href="js/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
-			
-			<?php
-			break;
-
-	}
-	?>	
+	<link href="css/min.css" rel="stylesheet" type="text/css" />
+	<link href="js/simplevideo/theme/sv-style.min.css" rel="stylesheet" type="text/css" />
 	
 	<script src="js/Modernizr.js"></script>
 	
@@ -294,64 +272,27 @@
 	<script>window.swfobject || document.write('<script src="/js/swfobject/swfobject.js"><\/script>')</script>
 	
 	<?php
-	switch (ENVIRONMENT) {
-		case 'production':
-			switch($userAgent) {
-				case 'iPad':
-				case 'iPhone':
-					?>
-
-					<script src="/js/plugins-phone.min.js"></script>
-
-					<?php
-					break;
-					
-				default:
-					?>
-
-					<script src="/js/plugins.min.js"></script>
-
-					<?php
-					break;
-			}
+	switch($userAgent) {
+		case 'iPad':
+		case 'iPhone':
 			?>
 
-			<script src="/js/Main.min.js"></script>
+			<script src="/js/plugins-phone.min.js"></script>
 
 			<?php
 			break;
-
+			
 		default:
-			switch($userAgent) {
-				case 'iPad':
-				case 'iPhone':
-					?>
-
-					<script src="js/iscroll/iscroll.js"></script>
-
-					<?php
-					break;
-					
-				default:
-					?>
-
-					<script src="js/jquery/jquery.mousewheel.min.js"></script>
-					<script src="js/jquery/jquery.fullscreen.js"></script>
-
-					<?php
-					break;
-			}
 			?>
 
-			<script src="/js/swfaddress/swfaddress.js"></script>
-			<script src="/js/lightbox/lightbox.js"></script>
-			<script src="/js/simplevideo/SimpleVideo.js"></script>
-			<script src="/js/Main.js"></script>
+			<script src="/js/plugins.min.js"></script>
 
 			<?php
 			break;
 	}
 	?>
+
+	<script src="/js/Main.min.js"></script>
 
 	<script type="text/javascript">
 	
