@@ -6,3 +6,4 @@ www/images/
 *.sublime-project
 *.sublime-workspace
 *.htpasswd
+error_log
