@@ -41,7 +41,7 @@ if ($_POST['mail'] === 'mail') {
 		require_once('../www/lib/MySQLUtility.php');
 		$mySQL = new MySQLUtility(DB_USERNAME, DB_PASSWORD, MAIN_DB_HOST, MAIN_DB_NAME);
 
-		$subject = $_POST['txtSubject'];
+		$subject = stripslashes($_POST['txtSubject']);
 
 		$html = '<!doctype html><head></head><body>';
 		$html .= '<div style="background:#FAFAFA; padding:10px;">';
