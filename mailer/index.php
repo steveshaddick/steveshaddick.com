@@ -80,7 +80,8 @@ if ($_POST['mail'] === 'mail') {
 		$response = $sendgrid->web->send($mail);
 		
 		echo json_encode(array(
-			'response'=>$response
+			'response'=>$response,
+			'emails'=>$emails
 		));
 
 		unlink('lock/lock.txt');
@@ -201,7 +202,7 @@ fclose($handle);
 			}
 
 			function sendReturn(data) {
-				$("#response").html(data.response);
+				$("#response").html(data);
 			}
 
 			function sendTestMail() {
