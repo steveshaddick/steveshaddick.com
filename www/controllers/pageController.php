@@ -86,6 +86,11 @@ switch ($view) {
 		include('../views/unsubscribe.php');
 		exit();
 		break;
+
+	case 'resume':
+		include('../views/resume.php');
+		exit();
+		break;
 		
 	default:
 		include('../views/404.php');

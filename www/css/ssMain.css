@@ -828,3 +828,49 @@ a#backLink {
 .smallPage #meBlurry {
 	position:static;
 }
+
+.resumePage {
+	padding:20px;
+}
+
+.resumePage .signature {
+	
+}
+
+.resumePage .contact {
+	margin-top:0;
+}
+
+.resumePage p {
+	max-width:600px;
+	line-height:1.2em;
+}
+
+.resumePage h2 {
+	font-size:40px;
+	margin-bottom: 0;
+}
+
+.resumePage .work-name {
+	display:inline-block;
+	width:300px;
+	font-weight: bold;
+}
+.resumePage .work-time {
+	display:inline-block;
+}
+
+.resumePage .work-jobtitle {
+	display:block;
+	font-size:14px;
+}
+
+.resumePage .work-block {
+	margin-top:40px;
+}
+.resumePage .work-block p{
+	margin-top:10px;
+}
+.resumePage .smaller{
+	font-size: 0.75em;
+}
