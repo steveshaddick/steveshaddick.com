@@ -831,6 +831,7 @@ a#backLink {
 
 .resumePage {
 	padding:20px;
+	margin:8px;
 }
 
 .resumePage .signature {
@@ -842,13 +843,15 @@ a#backLink {
 }
 
 .resumePage p {
+	margin:16px 0;
 	max-width:600px;
 	line-height:1.2em;
 }
 
 .resumePage h2 {
 	font-size:40px;
-	margin-bottom: 0;
+	margin-bottom: 20px;
+	margin-top:33px;
 }
 
 .resumePage .work-name {
@@ -866,7 +869,7 @@ a#backLink {
 }
 
 .resumePage .work-block {
-	margin-top:40px;
+	margin-bottom:40px;
 }
 .resumePage .work-block p{
 	margin-top:10px;

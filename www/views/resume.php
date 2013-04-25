@@ -10,7 +10,7 @@
 		case 'iPhone':
 			?>
 			
-			<meta name="viewport" content="initial-scale = 0.4, width = device-width" />
+			<meta name="viewport" content="width = device-width" />
 			
 			<?php
 			break;
@@ -25,10 +25,10 @@
 	}
 	?>
 	
-	<title>Steve Shaddick</title>
-	<meta name="title" content="Steve Shaddick" />
+	<title>Steve Shaddick Resume</title>
+	<meta name="title" content="Steve Shaddick Resume" />
 	
-	<link href="css/ssMain.css" rel="stylesheet" type="text/css" />
+	<link href="css/min.css" rel="stylesheet" type="text/css" />
 	
 </head>
 <body class="resumePage">
@@ -48,11 +48,11 @@
 	<span class="smaller">Some:</span> .NET / C#, MAX/MSP, Python, C++, Java, PureData, Processing, Shell<br>
 	<span class="smaller">Old school:</span> AS2, VBA, Visual BASIC, COBOL, Turbo Pascal, BASIC</p>
 
-	<h3>Frameworks (etc.)</h3>
-	<p>WordPress, jQuery, SASS, grunt.js, Compass, Webistrano, Kentico, Cinder, Raspberry PI</p>
+	<h3>Frameworks, Helpers, etc.</h3>
+	<p>WordPress, jQuery, SASS, grunt, Compass, Git, SVN, Webistrano, Kentico, Cinder, Raspberry PI</p>
 
 	<h3>Other</h3>
-	<p>Piano, guitar, video editing / compositing / installation, music writing / recording, foosball, Rock Band, philosophical analysis</p>
+	<p>Piano, guitar, video editing / compositing / installation, music writing / recording, foosball, Rock Band</p>
 
 
 	<h2>Work</h2>
@@ -70,9 +70,9 @@
 	</div>
 	<div class="work-block">
 		<span class="work-name">ZIG (Toronto, ON)</span>
-		<span class="work-time">Nov 2009 - Jul 2012</span>
+		<span class="work-time">Nov 2009 - Jul 2010</span>
 		<span class="work-jobtitle">Developer</span>
-		<p class="work-description">Develop websites, FB apps, banners, etc. From concept to deployment, front-end and back-end. Flash AS3, HTML/CSS/JS, PHP and MySQL most common.</p>
+		<p class="work-description">Develop websites, FB apps, banners, etc., from concept to deployment, front-end and back-end. Flash AS3, HTML/CSS/JS, PHP and MySQL most common.</p>
 	</div>
 
 	<h2>Clients / Brands</h2>
@@ -83,7 +83,7 @@
 		<span class="work-name">OCAD (Toronto, ON)</span>
 		<span class="work-time">Sept 2005 - May 2009</span>
 		<span class="work-jobtitle">BFA Integrated Media</span>
-		<p class="work-description">Creative programming, animation, video, music. Electives in painting and sculpture. Awarded the Integrated Media Medal for my program upon graduation.</p>
+		<p class="work-description">Creative programming, animation, video, music. Electives in painting and sculpture. Awarded the Integrated Media Medal upon graduation.</p>
 	</div>
 	<div class="work-block">
 		<span class="work-name">OIART (London, ON)</span>
@@ -91,19 +91,25 @@
 		<span class="work-jobtitle">Certificate Audio Recording Engineering</span>
 		<p class="work-description">Studio recording, editing, production. Audio theory, microphone placement, console signal flow, mixing techniques, outboard and digital effects, ProTools, tape splicing.</p>
 	</div>
+	<div class="work-block">
+		<span class="work-name">Fanshawe College (London, ON)</span>
+		<span class="work-time">Sept 1999 - Apr 2000</span>
+		<span class="work-jobtitle">Computer Sciences</span>
+		<p class="work-description">I attended one year of computer sciences, but then switched to OIART the following year.</p>
+	</div>
 
 	<h2>Favourite Projects</h2>
 	<div class="work-block">
 		<span class="work-name"><a href="http://www.unioncreative.com" target="_blank">UNION</a></span>
 		<span class="work-time">2013</span>
 		<span class="work-jobtitle"><a href="http://www.unioncreative.com/" target="_blank">http://www.unioncreative.com/</a></span>
-		<p>My most recent project is always my favourite, this is the website for UNION where I currently work. WordPress backend, responsive, employing a social media feed with intuitive double-scroll, pjax page transitions.</p>
+		<p>My most recent project is always my favourite. This is the website for UNION. WordPress backend, responsive, employing a social media feed with intuitive double-scroll, pjax page transitions.</p>
 	</div>
 	<div class="work-block">
 		<span class="work-name"><a href="http://www.gogoyu.ca/" target="_blank">GOGOYU</a></span>
 		<span class="work-time">2012</span>
 		<span class="work-jobtitle"><a href="http://www.gogoyu.ca/" target="_blank">http://www.gogoyu.ca/</a></span>
-		<p>Fitting that my last Flash project was by far the most intense. A browser-based game that connects to a FitBit pedometer. The more one is physically active, the more they can advance in the game. I led a team of 4 other developers, wrote my own rendering engine, did all the music, and worked 16 hour days for 2 months.</p>
+		<p>Fitting that my last Flash project was by far the most intense: a browser-based game that connects to a FitBit pedometer. The more one is physically active, the more they can advance in the game. I led a team of 4 other developers, wrote my own rendering engine, did all the music, and worked 16 hour days for 2 months.</p>
 	</div>
 	<div class="work-block">
 		<span class="work-name"><a href="http://palltd.com" target="_blank">Pal Insurance</a></span>
@@ -115,7 +121,7 @@
 		<span class="work-name"><a href="http://counterofbabel.steveshaddick.com/" target="_blank">Counter of Babel</a></span>
 		<span class="work-time">circa 2008</span>
 		<span class="work-jobtitle"><a href="http://counterofbabel.steveshaddick.com/" target="_blank">http://counterofbabel.steveshaddick.com/</a></span>
-		<p class="work-description">A project from school, very simple premise of a counter continually increasing while someone is on the page. The catch was how to handle extremely large numbers beyond the bit restraints of MySQL, PHP and Javascript. It's not there yet (nowhere near, actually), but the code will be able to handle more digits than there are atoms in the universe.</p>
+		<p class="work-description">A project from school, very simple premise of a counter continually increasing while someone is on the page. The catch is how to handle extremely large numbers beyond the bit restraints of MySQL, PHP and Javascript. It's not there yet (nowhere near, actually), but the code is able to handle more digits than there are atoms in the universe.</p>
 	</div>
 	
 	<script type="text/javascript">
