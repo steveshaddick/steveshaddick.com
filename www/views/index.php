@@ -26,9 +26,9 @@
 	?>
 	
 	<title>Steve Shaddick</title>
-	<meta name="title" content="Steve Shaddick" />
 	<meta name="description" content="The online cornucopia of Steve Shaddick." />
 	<meta name="keywords" content="steve shaddick, web, new media, art, video, music, whatever" />
+	<link rel="shortcut icon" href="/favicon.ico" />
 	
 	<link href="css/min.css" rel="stylesheet" type="text/css" />
 	<link href="js/simplevideo/theme/sv-style.min.css" rel="stylesheet" type="text/css" />
@@ -191,7 +191,7 @@
 				<div id="videoPlayerContainer" class="reset">
 					
 					<div id="simpleVideo">
-						<video class="sv_video" class="inactive" title="SimpleVideo" width="640" height="360" controls="false">
+						<video class="sv_video inactive" title="SimpleVideo" width="640" height="360" controls="false">
 							Something has gone wrong with the video.
 						</video>
 						<div class="sv_flashContainer"><div class="sv_noVideo"><span class="noFlash">Hmm, it looks like your browser can't handle this stuff. In order to see video and hear audio, you'll either need a modern browser like <a href="https://www.google.com/chrome" target="_blank" title="Download Chrome">Chrome</a> or you need to <a href="http://get.adobe.com/flashplayer/" target="_blank" title="Install Flash">install Flash</a>.</span></div></div>

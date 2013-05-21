@@ -26,7 +26,6 @@
 	?>
 	
 	<title>Steve Shaddick Resume</title>
-	<meta name="title" content="Steve Shaddick Resume" />
 	
 	<link href="css/min.css" rel="stylesheet" type="text/css" />
 	
@@ -65,7 +64,7 @@
 	<div class="work-block">
 		<span class="work-name">CPB Canada (Toronto, ON)</span>
 		<span class="work-time">Jul 2010 - Oct 2012</span>
-		<span class="work-jobtitle">Associate Technical Director / Developer</span>
+		<span class="work-jobtitle">Developer / Associate Technical Director</span>
 		<p class="work-description">Developer from July 2010, became ATD in March 2012.</p>
 	</div>
 	<div class="work-block">

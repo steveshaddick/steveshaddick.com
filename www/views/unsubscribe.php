@@ -18,7 +18,7 @@
 		default:
 			?>
 			
-			<meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width" />
+			<meta name="viewport" content="width = device-width" />
 			
 			<?php
 			break;
@@ -28,7 +28,7 @@
 	<title>Steve Shaddick</title>
 	<meta name="title" content="Steve Shaddick" />
 	
-	<link href="css/min.css" rel="stylesheet" type="text/css" />
+	<link href="/css/min.css" rel="stylesheet" type="text/css" />
 	
 </head>
 <body class="smallPage">
