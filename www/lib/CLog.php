@@ -5,14 +5,11 @@
  * Additionally, any php object can be logged in the same format as
  * print_r just by passing the object to the logging function
  * 
- * @package CPBUTILITIES
+ * @package CTILITIES
  * @subpackage Log
  * 
- * @author Ken Goldfarb <kgoldfarb@cpbgroup.com>
- * 
- * @version 2.0
  */
-class CPBLog {
+class CLog {
 
 	public static function debug($obj, $location=NULL, $function=NULL) {
 		self::logIt(DEBUG, $obj, $location, $function);

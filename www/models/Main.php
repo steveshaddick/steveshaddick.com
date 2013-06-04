@@ -5,9 +5,6 @@
  * a 'users' table in a MySQL database and keep track of logged
  * in state via php session
  * 
- * @author Ken Goldfarb <kgoldfarb@cpbgroup.com>
- * 
- * @version 2.0
  */
 class Main {
 
