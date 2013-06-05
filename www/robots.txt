@@ -1,7 +1,0 @@
-User-agent: *
-Disallow: /archive/
-Disallow: /controllers/
-Disallow: /js/
-Disallow: /lib/
-Disallow: /models/
-Disallow: /stuff/
