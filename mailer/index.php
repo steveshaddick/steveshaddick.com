@@ -30,7 +30,7 @@ if ($_POST['mail'] === 'mail') {
 		$basePath = realpath(dirname(__FILE__)) . "/";
 
 		require_once('../www/lib/html2text.php');
-		require_once('../env/Config.php');
+		require_once('../../env/env.php');
 		Config::init();
 
 		include '../www/lib/sendgrid-php/SendGrid_loader.php';
