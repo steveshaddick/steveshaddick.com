@@ -22,6 +22,7 @@ namespace :deploy do
 	task :cold do
 		update
 		env:set_all
+		data:set_all
 	end
 
 	task :restart do
@@ -31,6 +32,7 @@ namespace :deploy do
 	end
 
 end
+
 
 namespace :env do
 	
@@ -68,5 +70,55 @@ namespace :env do
 
 	task :set_robots do
 		upload("#{local_env_dir}/robots.txt", "#{env_dir}/robots.txt")
+	end
+end
+
+
+namespace :data do
+
+	task :set_all do
+		backup
+		set_schema
+		set_data
+	end
+
+	task :update do
+		backup
+		upload("#{local_data_dir}/update.sql", "#{data_dir}/update.sql")
+		#set site on maintenance
+		run "mysql -u #{db_user} -p #{db_name} < #{data_dir}/update.sql" do |channel,stream,data|
+			channel.send_data "#{db_password}\n"
+		end
+		run "rm #{data_dir}/update.sql"
+	end
+
+	task :set_schema do
+		run "mkdir -p #{data_dir}"
+		upload("#{local_data_dir}/schema.sql", "#{data_dir}/schema.sql")
+		#set site on maintenance
+		run "mysql -u #{db_user} -p #{db_name} < #{data_dir}/schema.sql" do |channel,stream,data|
+			channel.send_data "#{db_password}\n"
+		end
+		run "rm #{data_dir}/schema.sql"
+	end
+
+	task :set_data do
+		upload("#{local_data_dir}/data.sql", "#{data_dir}/data.sql")
+		#set site on maintenance
+		run "mysql -u #{db_user} -p #{db_name} < #{data_dir}/data.sql" do |channel,stream,data|
+			channel.send_data "#{db_password}\n"
+		end
+		run "rm #{data_dir}/data.sql"
+	end
+
+	task :backup do
+		t = Time.new
+		run "mkdir -p #{data_dir}/bu"
+		run "mysqldump -u #{db_user} -p#{db_password} #{db_name} > #{data_dir}/bu/"+ t.strftime("%Y%m%d_%H%M%S") + "_#{db_name}.sql"
+	end
+
+
+	task :clean_backups do
+		run "find #{data_dir}/bu/ -type f -mtime +3 -exec rm {} \\;"
 	end
 end
