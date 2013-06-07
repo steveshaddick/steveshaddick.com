@@ -5,7 +5,6 @@
 $basePath = realpath(dirname(__FILE__) . "/..") . "/";
 
 require_once($basePath . '../../env/env.php');
-Config::init();
 
 require_once($basePath . 'lib/MySQLUtility.php');
 require_once($basePath . 'lib/json.php');

@@ -31,7 +31,6 @@ if ($_POST['mail'] === 'mail') {
 
 		require_once('../www/lib/html2text.php');
 		require_once('../../env/env.php');
-		Config::init();
 
 		include '../www/lib/sendgrid-php/SendGrid_loader.php';
 		$sendgrid = new SendGrid(SENDGRID_USER, SENDGRID_PASS);
