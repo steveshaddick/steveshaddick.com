@@ -2,7 +2,7 @@
 
 // Start the session.  Required in order to use $_SESSION
 @session_start();
-$basePath = realpath(dirname(__FILE__) . "/..") . "/";
+$basePath = dirname(__FILE__) . "/.." . "/";
 
 require_once($basePath . '../../env/env.php');
 
