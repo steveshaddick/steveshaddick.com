@@ -30,7 +30,7 @@ if ($_POST['mail'] === 'mail') {
 		$basePath = dirname($_SERVER["SCRIPT_FILENAME"]) . "/";
 
 		require_once('../www/lib/html2text.php');
-		require_once('../../env/env.php');
+		require_once($basePath . '../../../../env/env.php');
 
 		include '../www/lib/sendgrid-php/SendGrid_loader.php';
 		$sendgrid = new SendGrid(SENDGRID_USER, SENDGRID_PASS);

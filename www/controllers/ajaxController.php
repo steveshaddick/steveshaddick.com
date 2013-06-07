@@ -4,7 +4,7 @@
 @session_start();
 $basePath = dirname($_SERVER["SCRIPT_FILENAME"]) . "/.." . "/";
 
-require_once($basePath . '../../env/env.php');
+require_once($basePath . '../../../env/env.php');
 
 require_once($basePath . 'lib/MySQLUtility.php');
 require_once($basePath . 'lib/json.php');
