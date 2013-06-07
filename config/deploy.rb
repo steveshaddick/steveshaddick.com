@@ -11,10 +11,12 @@ set :repository,  "https://github.com/steveshaddick/steveshaddick.com.git"
 
 set :deploy_via, :remote_cache
 set :use_sudo, false
+set :keep_releases, 2
 
 ssh_options[:paranoid] = false
 default_run_options[:pty] = true
 
+after "deploy:update", "deploy:cleanup"
 after "deploy:restart", "env:update"
 
 
@@ -82,14 +84,21 @@ namespace :data do
 		set_data
 	end
 
-	task :update do
-		backup
-		upload("#{local_data_dir}/update.sql", "#{data_dir}/update.sql")
-		#set site on maintenance
-		run "mysql -u #{db_user} -p #{db_name} < #{data_dir}/update.sql" do |channel,stream,data|
+	task :reset do
+		run "mysql -u #{db_user} -p #{db_name} < #{data_dir}/schema.sql" do |channel,stream,data|
 			channel.send_data "#{db_password}\n"
 		end
-		run "rm #{data_dir}/update.sql"
+	end
+
+	task :update do
+		backup
+		upload("#{local_data_dir}/data.sql", "#{data_dir}/data.sql")
+		#set site on maintenance
+		run "mysql -u #{db_user} -p #{db_name} < #{data_dir}/data.sql" do |channel,stream,data|
+			channel.send_data "#{db_password}\n"
+		end
+		run "rm #{data_dir}/data.sql"
+		clean_backups
 	end
 
 	task :set_schema do
@@ -99,7 +108,6 @@ namespace :data do
 		run "mysql -u #{db_user} -p #{db_name} < #{data_dir}/schema.sql" do |channel,stream,data|
 			channel.send_data "#{db_password}\n"
 		end
-		run "rm #{data_dir}/schema.sql"
 	end
 
 	task :set_data do
@@ -115,6 +123,7 @@ namespace :data do
 		t = Time.new
 		run "mkdir -p #{data_dir}/bu"
 		run "mysqldump -u #{db_user} -p#{db_password} #{db_name} > #{data_dir}/bu/"+ t.strftime("%Y%m%d_%H%M%S") + "_#{db_name}.sql"
+		download("#{data_dir}/bu/"+ t.strftime("%Y%m%d_%H%M%S") + "_#{db_name}.sql", "#{local_data_dir}/"+ t.strftime("%Y%m%d_%H%M%S") + "_#{db_name}.sql")
 	end
 
 
