@@ -27,7 +27,7 @@ if ($_POST['mail'] === 'mail') {
 	} else {
 		$handle = fopen("lock/lock.txt", "a+");
 
-		$basePath = dirname(__FILE__) . "/";
+		$basePath = dirname($_SERVER["SCRIPT_FILENAME"]) . "/";
 
 		require_once('../www/lib/html2text.php');
 		require_once('../../env/env.php');
