@@ -10,5 +10,3 @@ www/video/
 *.htpasswd
 .sass-cache/
 error_log
-
-mailer/lock/
