@@ -2,6 +2,8 @@
 
 session_start();
 
+$basePath = dirname($_SERVER["SCRIPT_FILENAME"]) . '/';
+
 require_once('../www/lib/StringUtils.php');
 
 
@@ -11,33 +13,32 @@ if ($_POST['mail'] === 'mail') {
 	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 	header('Content-type: application/json');
 
-	$rando = @file_get_contents('../../../shared/mailerlock/file.txt');
+	$rando = @file_get_contents($basePath . '../../../shared/mailerlock/file.txt');
 	if ($_SESSION['rando'] !== $rando) {
 		
 		echo json_encode(array(
 			'response'=>"Error: Not allowed."
 		));
 
-	} else if (file_exists("../../../shared/mailerlock/lock.txt")) {
+	} else if (file_exists($basePath . "../../../shared/mailerlock/lock.txt")) {
 		
 		echo json_encode(array(
 			'response'=>"Error: sending in progress."
 		));
 
 	} else {
-		$handle = fopen("../../../shared/mailerlock/lock.txt", "a+");
+		$handle = fopen($basePath . "../../../shared/mailerlock/lock.txt", "a+");
 
-		$basePath = dirname($_SERVER["SCRIPT_FILENAME"]) . "/";
 
-		require_once('../www/lib/html2text.php');
-		require_once($basePath . '../../../../env/env.php');
+		require_once($basePath . '../www/lib/html2text.php');
+		require_once($basePath . '../../env/env.php');
 
-		include '../www/lib/sendgrid-php/SendGrid_loader.php';
+		include $basePath . '../www/lib/sendgrid-php/SendGrid_loader.php';
 		$sendgrid = new SendGrid(SENDGRID_USER, SENDGRID_PASS);
 
 		$mail = new SendGrid\Mail();
 
-		require_once('../www/lib/MySQLUtility.php');
+		require_once($basePath . '../www/lib/MySQLUtility.php');
 		$mySQL = new MySQLUtility(DB_USERNAME, DB_PASSWORD, MAIN_DB_HOST, MAIN_DB_NAME);
 
 		$subject = stripslashes($_POST['txtSubject']);
@@ -83,7 +84,7 @@ if ($_POST['mail'] === 'mail') {
 			'emails'=>$emails
 		));
 
-		unlink('../../../shared/mailerlock/lock.txt');
+		unlink($basePath . '../../../shared/mailerlock/lock.txt');
 	}
 
 	exit();
@@ -92,7 +93,7 @@ if ($_POST['mail'] === 'mail') {
 $rando = randomString(16);
 $_SESSION['rando'] = $rando;
 
-$handle = fopen("../../../shared/mailerlock/file.txt", "w+");
+$handle = fopen($basePath . "../../../shared/mailerlock/file.txt", "w+");
 fwrite($handle, $rando);
 fclose($handle);
 

@@ -12,6 +12,7 @@ set :repository,  "https://github.com/steveshaddick/steveshaddick.com.git"
 set :deploy_via, :remote_cache
 set :use_sudo, false
 set :keep_releases, 2
+set :normalize_asset_timestamps, false
 
 ssh_options[:paranoid] = false
 default_run_options[:pty] = true
