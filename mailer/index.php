@@ -7,31 +7,31 @@ $basePath = dirname($_SERVER["SCRIPT_FILENAME"]) . '/';
 require_once('../www/lib/StringUtils.php');
 
 
-if ($_POST['mail'] === 'mail') {
+if ((isset($_POST['mail'])) && ($_POST['mail'] === 'mail')) {
 	
 	header('Cache-Control: no-cache, must-revalidate');
 	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 	header('Content-type: application/json');
 
-	$rando = @file_get_contents($basePath . '../../../shared/mailerlock/file.txt');
+	$rando = @file_get_contents(HOME_PATH . '/shared/mailerlock/file.txt');
 	if ($_SESSION['rando'] !== $rando) {
 		
 		echo json_encode(array(
 			'response'=>"Error: Not allowed."
 		));
 
-	} else if (file_exists($basePath . "../../../shared/mailerlock/lock.txt")) {
+	} else if (file_exists(HOME_PATH . "/shared/mailerlock/lock.txt")) {
 		
 		echo json_encode(array(
 			'response'=>"Error: sending in progress."
 		));
 
 	} else {
-		$handle = fopen($basePath . "../../../shared/mailerlock/lock.txt", "a+");
+		$handle = fopen(HOME_PATH . "/shared/mailerlock/lock.txt", "a+");
 
 
 		require_once($basePath . '../www/lib/html2text.php');
-		require_once($basePath . '../../env/env.php');
+		require_once($basePath . '../../../env/env.php');
 
 		include $basePath . '../www/lib/sendgrid-php/SendGrid_loader.php';
 		$sendgrid = new SendGrid(SENDGRID_USER, SENDGRID_PASS);
@@ -84,7 +84,7 @@ if ($_POST['mail'] === 'mail') {
 			'emails'=>$emails
 		));
 
-		unlink($basePath . '../../../shared/mailerlock/lock.txt');
+		unlink(HOME_PATH . '/shared/mailerlock/lock.txt');
 	}
 
 	exit();
@@ -92,8 +92,14 @@ if ($_POST['mail'] === 'mail') {
 
 $rando = randomString(16);
 $_SESSION['rando'] = $rando;
-
-$handle = fopen($basePath . "../../../shared/mailerlock/file.txt", "w+");
+echo $basePath . "<br>";
+print_r($basePath . "../");
+if (is_dir(HOME_PATH . "/shared/mailerlock")) {
+	echo "YPU";
+} else {
+	echo "NOPE";
+}
+$handle = fopen(HOME_PATH . "/shared/mailerlock/file.txt", "w+");
 fwrite($handle, $rando);
 fclose($handle);
 

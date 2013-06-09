@@ -1,7 +1,7 @@
 set :stages, ['production', 'dev']
 set :default_stage, "dev"
 require 'capistrano/ext/multistage'
-# require 'capistrano_colors'
+require 'capistrano_colors'
 
 set :application, "steveshaddick.com"
 
@@ -55,6 +55,7 @@ namespace :env do
 		run "mkdir -p #{env_dir}"
 		run "echo \"<?php\" > #{env_file}"
 		run "echo \"define('ENVIRONMENT', '#{stage}');\" >> #{env_file}"
+		run "echo \"define('HOME_PATH', '#{home_path}');\" >> #{env_file}"
 		run "echo \"define('MAIN_DB_HOST', '#{db_host}');\" >> #{env_file}"
 		run "echo \"define('MAIN_DB_NAME', '#{db_name}');\" >> #{env_file}"
 		run "echo \"define('DB_USERNAME', '#{db_user}');\" >> #{env_file}"
