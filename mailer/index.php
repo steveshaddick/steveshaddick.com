@@ -5,6 +5,7 @@ session_start();
 $basePath = dirname($_SERVER["SCRIPT_FILENAME"]) . '/';
 
 require_once('../www/lib/StringUtils.php');
+require_once($basePath . '../../../env/env.php');
 
 
 if ((isset($_POST['mail'])) && ($_POST['mail'] === 'mail')) {
@@ -28,12 +29,10 @@ if ((isset($_POST['mail'])) && ($_POST['mail'] === 'mail')) {
 
 	} else {
 		$handle = fopen(HOME_PATH . "/shared/mailerlock/lock.txt", "a+");
-
-
+		
 		require_once($basePath . '../www/lib/html2text.php');
-		require_once($basePath . '../../../env/env.php');
 
-		include $basePath . '../www/lib/sendgrid-php/SendGrid_loader.php';
+		require_once($basePath . '../www/lib/sendgrid-php/SendGrid_loader.php');
 		$sendgrid = new SendGrid(SENDGRID_USER, SENDGRID_PASS);
 
 		$mail = new SendGrid\Mail();
@@ -92,13 +91,7 @@ if ((isset($_POST['mail'])) && ($_POST['mail'] === 'mail')) {
 
 $rando = randomString(16);
 $_SESSION['rando'] = $rando;
-echo $basePath . "<br>";
-print_r($basePath . "../");
-if (is_dir(HOME_PATH . "/shared/mailerlock")) {
-	echo "YPU";
-} else {
-	echo "NOPE";
-}
+
 $handle = fopen(HOME_PATH . "/shared/mailerlock/file.txt", "w+");
 fwrite($handle, $rando);
 fclose($handle);
@@ -192,6 +185,7 @@ fclose($handle);
 
 			function sendMail() {
 				if (!confirm("Send mail?")) return;
+				$("#response").html('Sending...');
 
 				$.ajax({
 					url: '/',
@@ -208,10 +202,13 @@ fclose($handle);
 			}
 
 			function sendReturn(data) {
-				$("#response").html(data);
+				var totalEmails = (data.emails) ? data.emails.length : 0;
+
+				$("#response").html(data.response + ": " + totalEmails + " emails.");
 			}
 
 			function sendTestMail() {
+				$("#response").html('Sending test...');
 				$.ajax({
 					url: '/',
 					data: {

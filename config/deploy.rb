@@ -41,7 +41,6 @@ namespace :env do
 	
 	task :set_all do
 		set_php
-		set_htaccess
 		set_robots
 		update
 	end
@@ -64,13 +63,6 @@ namespace :env do
 		run "echo \"define('SENDGRID_PASS', '#{sendgrid_password}');\" >> #{env_file}"
 		run "echo \"define('GOOGLE_ANALYTICS_UA', '#{google_ua}');\" >> #{env_file}"
 		run "echo \"?>\" >> #{env_file}"
-	end
-
-	task :set_htaccess do
-		upload("#{local_env_dir}/.htaccess", "#{env_dir}/.htaccess")
-		if stage == 'dev'
-			upload("#{local_env_dir}/.htpasswd", "#{env_dir}/.htpasswd")
-		end
 	end
 
 	task :set_robots do
