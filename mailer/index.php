@@ -4,6 +4,7 @@ session_start();
 
 $basePath = dirname($_SERVER["SCRIPT_FILENAME"]) . '/';
 
+
 require_once('../www/lib/StringUtils.php');
 require_once($basePath . '../../../env/env.php');
 
@@ -204,7 +205,7 @@ fclose($handle);
 			function sendReturn(data) {
 				var totalEmails = (data.emails) ? data.emails.length : 0;
 
-				$("#response").html(data.response + ": " + totalEmails + " emails.");
+				$("#response").html(data.response + ": " + totalEmails + " emails sent.");
 			}
 
 			function sendTestMail() {
