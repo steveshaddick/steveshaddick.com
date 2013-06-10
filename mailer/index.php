@@ -152,7 +152,7 @@ fclose($handle);
 
 <body>
 	<div id="loadingOverlay"></div>
-	<h1>Mailer</h1>
+	<h1>Mailer Tool</h1>
 
 	<div>
 		<label for="txtSubject">Subject</label>

@@ -46,7 +46,6 @@ namespace :env do
 	end
 
 	task :update do
-		run "ln -sfn #{env_dir}/.htaccess #{current_path}/www/.htaccess"
 		run "ln -sfn #{env_dir}/robots.txt #{current_path}/www/robots.txt"
 	end
 
