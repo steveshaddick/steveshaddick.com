@@ -54,6 +54,7 @@ namespace :env do
 		run "echo \"<?php\" > #{env_file}"
 		run "echo \"define('ENVIRONMENT', '#{stage}');\" >> #{env_file}"
 		run "echo \"define('HOME_PATH', '#{home_path}');\" >> #{env_file}"
+		run "echo \"define('VIDEO_PATH', '#{video_path}');\" >> #{env_file}"
 		run "echo \"define('MAIN_DB_HOST', '#{db_host}');\" >> #{env_file}"
 		run "echo \"define('MAIN_DB_NAME', '#{db_name}');\" >> #{env_file}"
 		run "echo \"define('DB_USERNAME', '#{db_user}');\" >> #{env_file}"

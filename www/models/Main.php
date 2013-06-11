@@ -43,6 +43,7 @@ class Main {
 		$noWork =  $this->mySQL->getSingleRow("SELECT * FROM NoWork ORDER BY dateShown DESC");
 		switch (ENVIRONMENT) {
 			case 'local':
+				$noWork['needMeta'] = false;
 				break;
 				
 			default:

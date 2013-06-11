@@ -291,7 +291,7 @@
 			break;
 	}
 	?>
-
+	
 	<script src="/js/Main.min.js"></script>
 
 	<script type="text/javascript">
@@ -302,7 +302,8 @@
 				userAgent: '<?php echo $userAgent; ?>',
 				os: '<?php echo $os; ?>',
 				needMeta: <?php if ($noWork['needMeta'] === true) { echo 'true'; } else { echo 'false'; } ?>,
-				a: '<?php echo $ajaxToken; ?>'
+				a: '<?php echo $ajaxToken; ?>',
+				videoPath: '<?php echo VIDEO_PATH; ?>'
 			});
 		}
 	)

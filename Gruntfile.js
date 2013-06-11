@@ -28,7 +28,6 @@ module.exports = function(grunt) {
         dev: {
           options: {
             preserveComments: 'some',
-            compress: false,
             beautify: true
           },
           files: {
@@ -48,7 +47,7 @@ module.exports = function(grunt) {
               "src/js/simplevideo/SimpleVideo.js"
             ],
             'www/js/Main.min.js': [
-              'src/js/Main.js'
+              'src/js/ss.com/*.js'
             ]
           }
         },
@@ -73,7 +72,7 @@ module.exports = function(grunt) {
               "src/js/simplevideo/SimpleVideo.js"
             ],
             'www/js/Main.min.js': [
-              'src/js/Main.js'
+              'src/js/ss.com/*.js'
             ]
           }
         }
