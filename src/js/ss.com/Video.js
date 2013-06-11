@@ -10,7 +10,7 @@ var Video = (function() {
 	var playTimeout;
 	var playhead;
 
-	var videoFolder = GLOBAL.videoPath + '/';
+	var videoFolder = '/';
 	
 	function init() {
 
@@ -22,6 +22,7 @@ var Video = (function() {
 			onNormalscreen: Main.normalscreenHandler
 		});
 
+		videoFolder = GLOBAL.videoPath + '/';
 		if (GLOBAL.userAgent == 'iPhone') {
 			videoFolder = GLOBAL.videoPath + 'iphone/';
 		}
