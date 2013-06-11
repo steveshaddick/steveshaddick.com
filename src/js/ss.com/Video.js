@@ -45,8 +45,8 @@ var Video = (function() {
 		
 		player.setFile([
 		     // one content, multiple formats
-		     {src:videoFolder + workData.identifier + ".mp4", type: 'video/mp4'},
-		     {src:videoFolder + workData.identifier + ".ogv", type: 'video/ogg'}
+		     {src:videoFolder + encodeURIComponent(workData.identifier) + ".mp4", type: 'video/mp4'},
+		     {src:videoFolder + encodeURIComponent(workData.identifier) + ".ogv", type: 'video/ogg'}
 		 ], (workData.medium == 'audio'));
 		 
 		player.setScrub((workData.identifier != '10-sunsets-5-minutes'));
