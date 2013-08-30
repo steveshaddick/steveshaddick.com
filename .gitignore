@@ -1,5 +1,5 @@
 /node_modules/
-/config/deploy
+/config/
 
 env/
 www/video/
@@ -12,3 +12,10 @@ www/video/
 error_log
 
 mailer/lock/
+
+ss-env/
+ss_com/settings/*
+
+!ss_com/settings/template.py
+!ss_com/settings/defaults.py
+!ss_com/settings/__init__.py
