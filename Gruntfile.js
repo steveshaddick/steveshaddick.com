@@ -2,10 +2,18 @@
 
 module.exports = function(grunt) {
 
+  var ASSET_PATH = "static";
+  var SRC_PATH = 'src';
+
+  var jsFiles = [
+    //{src: [SRC_PATH + '/js/lib/**/*.js'], dest: ASSET_PATH + '/js/plugins.min.js'},
+    {src: [SRC_PATH + '/js/models/*.js', SRC_PATH + '/js/views/*.js', SRC_PATH + '/js/*.js'], dest: ASSET_PATH + '/js/main.min.js'}
+  ];
+
   // Project configuration.
   grunt.initConfig({
     // Metadata.
-    pkg: grunt.file.readJSON('steveshaddick.com.jquery.json'),
+    pkg: grunt.file.readJSON('package.json'),
     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
@@ -15,9 +23,9 @@ module.exports = function(grunt) {
     compass: {
       d: {
         options: {
-          sassDir: 'src/scss/',
-          cssDir: 'www/css',
-          imagesDir: 'www/images',
+          sassDir: SRC_PATH + '/scss/',
+          cssDir: ASSET_PATH + '/css',
+          imagesDir: ASSET_PATH + '/img',
           outputStyle: 'compressed',
           environment: 'production'
         }
@@ -25,74 +33,39 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-        dev: {
-          options: {
-            preserveComments: 'some',
-            beautify: true
-          },
-          files: {
-            'www/js/plugins.min.js' : [
-              "src/js/swfaddress/swfaddress.js",
-              "src/js/jquery/jquery.mousewheel.min.js",
-              "src/js/jquery/jquery.fullscreen.js",
-              "src/js/jquery/jquery.cookie.min.js",
-              "src/js/lightbox/lightbox.js",
-              "src/js/simplevideo/SimpleVideo.js"
-            ],
-            'www/js/plugins-phone.min.js' : [
-              "src/js/swfaddress/swfaddress.js",
-              "src/js/jquery/jquery.cookie.min.js",
-              "src/js/iscroll/iscroll.js",
-              "src/js/lightbox/lightbox.js",
-              "src/js/simplevideo/SimpleVideo.js"
-            ],
-            'www/js/Main.min.js': [
-              'src/js/ss.com/*.js'
-            ]
-          }
+      dev: {
+        options: {
+          preserveComments: 'some',
+          compress: false,
+          beautify: true
         },
-        prod: {
-          options: {
-            preserveComments: 'some'
-          },
-           files: {
-            'www/js/plugins.min.js' : [
-              "src/js/swfaddress/swfaddress.js",
-              "src/js/jquery/jquery.mousewheel.min.js",
-              "src/js/jquery/jquery.fullscreen.js",
-              "src/js/jquery/jquery.cookie.min.js",
-              "src/js/lightbox/lightbox.js",
-              "src/js/simplevideo/SimpleVideo.js"
-            ],
-            'www/js/plugins-phone.min.js' : [
-              "src/js/swfaddress/swfaddress.js",
-              "src/js/jquery/jquery.cookie.min.js",
-              "src/js/iscroll/iscroll.js",
-              "src/js/lightbox/lightbox.js",
-              "src/js/simplevideo/SimpleVideo.js"
-            ],
-            'www/js/Main.min.js': [
-              'src/js/ss.com/*.js'
-            ]
-          }
-        }
+        files: jsFiles
       },
+      prod: {
+        options: {
+          preserveComments: 'some'
+        },
+        files: jsFiles
+      }
+    },
+    
     watch: {
       styles: {
-        files: 'src/scss/*.scss',
+        files: SRC_PATH + '/scss/*.scss',
         tasks: ['compass'],
         options: {
           interrupt: true
         }
       },
       scripts: {
-        files: 'src/js/**/*.js',
+        files: SRC_PATH + '/js/**/*.js',
         tasks: ['uglify:dev'],
         options: {
           interrupt: true
         }
       }
     },
+
   });
 
   // These plugins provide necessary tasks.
@@ -101,7 +74,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
 
   // Default task.
-  grunt.registerTask('default', ['watch']);
-  grunt.registerTask('prod', ['compass', 'uglify:prod']);
+  grunt.registerTask('default', ['compass', 'uglify:prod', 'watch']);
+  grunt.registerTask('dev', ['compass', 'uglify:dev']);
 
 };
