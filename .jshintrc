@@ -17,6 +17,7 @@
     "$": true,
     "jQuery": true,
     "define": true,
-    "module": true
+    "module": true,
+    "Cookie": true
   }
 }

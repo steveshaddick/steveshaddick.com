@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
-        <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+        <!--<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>-->
 
         <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
 
@@ -23,9 +23,22 @@
 
         <div id="mainWrapper" class="main-wrapper">
             {%block content %}{% endblock %}
+
+            <div class="video-wrapper">
+
+            </div>
+            <div id="workWrapper" class="work-wrapper">
+                {%for work in all_work%}
+                    <a id="work_{{ work.id }}" href="{{ work.slug }}"><img src="{{ work.thumb.url }}"></a>
+                {%endfor%}
+            </div>
         </div>
 
         <table id="modalWrapper"><tr><td></td></tr></table>
+
+        <div id="cls">
+            
+        </div>
 
         <script>document.write('<script src="{{ STATIC_URL }}js/jquery-2.0.2.min.js"><\/script>')</script>
 

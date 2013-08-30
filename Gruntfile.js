@@ -6,8 +6,8 @@ module.exports = function(grunt) {
   var SRC_PATH = 'src';
 
   var jsFiles = [
-    //{src: [SRC_PATH + '/js/lib/**/*.js'], dest: ASSET_PATH + '/js/plugins.min.js'},
-    {src: [SRC_PATH + '/js/models/*.js', SRC_PATH + '/js/views/*.js', SRC_PATH + '/js/*.js'], dest: ASSET_PATH + '/js/main.min.js'}
+    {src: [SRC_PATH + '/js/lib/**/*.js'], dest: ASSET_PATH + '/js/lib.min.js'},
+    {src: [SRC_PATH + '/js/*.js'], dest: ASSET_PATH + '/js/main.min.js'}
   ];
 
   // Project configuration.
@@ -43,7 +43,8 @@ module.exports = function(grunt) {
       },
       prod: {
         options: {
-          preserveComments: 'some'
+          preserveComments: 'some',
+          report: 'min'
         },
         files: jsFiles
       }

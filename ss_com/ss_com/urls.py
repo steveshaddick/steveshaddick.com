@@ -1,10 +1,14 @@
 from django.conf.urls import patterns, include, url
 
+from ss_com import views
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+	url(r'^$', views.home, name='home'),
+	url(r'^work/getwork/$', views.get_work, name='get_work'),
     # Examples:
     # url(r'^$', 'ss_com.views.home', name='home'),
     # url(r'^ss_com/', include('ss_com.foo.urls')),
