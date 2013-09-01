@@ -8,6 +8,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	url(r'^$', views.home, name='home'),
+	url(r'^check-urls/$', views.check_urls, name='check_url'),
 	url(r'^work/getwork/$', views.get_work, name='get_work'),
     # Examples:
     # url(r'^$', 'ss_com.views.home', name='home'),

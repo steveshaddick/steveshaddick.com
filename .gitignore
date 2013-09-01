@@ -16,6 +16,7 @@ error_log
 mailer/lock/
 
 ss-env/
+media/
 ss_com/settings/*
 
 !ss_com/settings/template.py

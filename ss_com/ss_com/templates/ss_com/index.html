@@ -23,14 +23,37 @@
 
         <div id="mainWrapper" class="main-wrapper">
             {%block content %}{% endblock %}
-
-            <div class="video-wrapper">
-
+            <div class="work-wrapper clearfix">
+                <div id="noWork" class="no-work">
+                    <img src="{{ STATIC_URL }}img/me_blurry_70.gif" class="me-blurry out" alt="">
+                    <div class="no-work-content">
+                        {%if nowork.url != '' %}<a href="{{ nowork.url }}">{%endif%}
+                        <span class="title">{{ nowork.title }}</span>
+                        {%if nowork.url != '' %}</a>{%endif%}
+                        {% if nowork.image %}<img src="{{ nowork.image.url }}" alt="">{%endif%}
+                        {%if nowork.text != '' %}<span class="text">{{ nowork.text }}</span>{%endif%}
+                    </div>
+                </div>
             </div>
-            <div id="workWrapper" class="work-wrapper">
+
+            <div id="thumbsWrapper" class="thumbs-wrapper">
                 {%for work in all_work%}
                     <a id="work_{{ work.id }}" href="{{ work.slug }}"><img src="{{ work.thumb.url }}"></a>
                 {%endfor%}
+            </div>
+        </div>
+
+        <div id="footer" class="footer">
+            <a title="Steve Shaddick" href="#" id="signature" style="top: 650px;"><img alt="Steve Shaddick" src="{{ STATIC_URL }}img/signature.gif"></a>
+            <div class="transition" id="who" style="top: 671px;"><a title="Who is this guy?" href="#/who" class="who">Who?</a></div>
+            <div class="transition" id="mailList">
+                <label for="txtEmail" class="emailInput">Mailing List</label>
+
+                <span id="mailListContent">
+                    <span class="emailError displayNone" id="emailError">Please enter a valid email.</span>
+                    <input type="text" maxlength="255" placeholder="Email address" id="txtEmail" name="txtEmail" class="emailInput">
+                    <a onclick="MailList.submitEmail();" href="javascript:;)">› Add me to the list</a>&nbsp;&nbsp;&nbsp;
+                </span>
             </div>
         </div>
 
@@ -43,8 +66,15 @@
         <script>document.write('<script src="{{ STATIC_URL }}js/jquery-2.0.2.min.js"><\/script>')</script>
 
 
-        <!--<script src="{{ STATIC_URL }}js/plugins.min.js"></script>-->
+        <script src="{{ STATIC_URL }}js/lib.min.js"></script>
         <script src="{{ STATIC_URL }}js/main.min.js"></script>
+        <script>
+        $(function() {
+            Main.init({
+                needUrlCheck: {%if need_url_check %}true{% else %}false{% endif %}
+            });
+        });
+        </script>
         
         {%block scripts %}{% endblock %}
 

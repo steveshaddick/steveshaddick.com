@@ -1,7 +1,15 @@
+function csrfSafeMethod(method) {
+	// these HTTP methods do not require CSRF protection
+	return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
 var Work = (function() {
 
-	function init() {
+	var $noWork = false;
 
+	function init() {
+		$noWork = $("#noWork");
+		$('.me-blurry', $noWork).removeClass('out');
 	}
 
 	function getWork() {
@@ -19,7 +27,7 @@ var Work = (function() {
 
 var Main = (function() {
 
-	function init() {
+	function init(params) {
 
 		$.ajaxSetup({
 			crossDomain: false,
@@ -29,6 +37,11 @@ var Main = (function() {
 				}
 			}
 		});
+
+		Work.init();
+		if (params.needUrlCheck) {
+			$.post('/check-urls/', {});
+		}
 	}
 
 	return {
