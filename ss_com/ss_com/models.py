@@ -76,7 +76,7 @@ class NoWork(models.Model):
     text = models.TextField(blank=True)
     date_shown = models.DateField(blank=True, null=True)
     active = models.BooleanField(default=True)
-    date_checked = models.DateField(blank=True, null=True)
+    date_checked = models.DateField(default='1900-01-01')
 
     def __unicode__(self):
         return self.nowork_type + ': ' + self.title

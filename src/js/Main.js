@@ -28,7 +28,6 @@ var Work = (function() {
 var Main = (function() {
 
 	function init(params) {
-
 		$.ajaxSetup({
 			crossDomain: false,
 			beforeSend: function(xhr, settings) {
@@ -40,7 +39,7 @@ var Main = (function() {
 
 		Work.init();
 		if (params.needUrlCheck) {
-			$.post('/check-urls/', {});
+			$.get('/check-urls/');
 		}
 	}
 
