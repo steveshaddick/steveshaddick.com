@@ -5,7 +5,7 @@ from django.core.context_processors import csrf
 
 from bs4 import BeautifulSoup
 
-from models import Work, NoWork
+from models import Work, NoWork, Bio, BioPic
 import models
 import datetime, json, requests
 
@@ -24,14 +24,16 @@ def jsonResponse(success, response={}):
 
 def home(request):
     ago = datetime.date.today() - datetime.timedelta(days=182)
-    
+
     return render(
         request,
         'ss_com/index.html',
         {
             'all_work': Work.objects.all(),
             'nowork': NoWork.get_nowork(),
-            'need_url_check': (NoWork.objects.filter(nowork_type=models.NOWORK_TYPE_LINK,date_checked__lt=ago).count() > 0)
+            'need_url_check': (NoWork.objects.filter(nowork_type=models.NOWORK_TYPE_LINK,date_checked__lt=ago).count() > 0),
+            'bio': Bio.objects.get(pk=1),
+            'bio_pic': BioPic.get_random()
         }
     )
 

@@ -116,6 +116,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'south',
     'ss_com',
+    'sorl.thumbnail',
 )
 
 LOGIN_URL = 'login'

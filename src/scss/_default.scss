@@ -9,12 +9,13 @@ html { height: 100%; }
 body { 
 	height: 100%; 
 	background: #fafafa;
-	font-family: 'PerspectiveSansRegular', Arial, Helvetica, sans-serif;
+	font-family: 'Actor', sans-serif;
 	color: #7d7d7d;
 	font-weight: normal;
 	font-style: normal;
 	padding:0;
 	margin:0;
+	font-size:14px;
 }
 
 * {
@@ -47,12 +48,10 @@ body {
 		-ms-transform:translate3d(0,0,0); /* IE 9 */
 		-webkit-transform:translate3d(0,0,0); /* Safari and Chrome */
 		
-		transition: opacity 0.5s, left 0.5s;
-		-webkit-transition: opacity 0.5s, left 0.5s;
+		transition: opacity 0.5s, left 1.5s;
+		-webkit-transition: opacity 0.5s, left 1.5s;
 
 		&.out {
-			transition: opacity 0.5s, left 0.5s;
-			-webkit-transition: opacity 0.5s, left 0.5s;
 			left:-80px;
 			opacity: 0;
 		}
@@ -62,7 +61,66 @@ body {
 	padding-left:90px;
 }
 
+.footer {
+	position:fixed;
+	z-index: 1000;
+	bottom:0;
+	width:100%;
 
+	.who {
+		color: #A0A0A0;
+		font-size:14px;
+		position: absolute;
+		bottom:0;
+		display:inline-block;
+		background:#fafafa;
+		padding:7px 7px 0;
+	}
+}
+
+.who-wrapper {
+	position:absolute;
+	z-index:500;
+	height:0;
+	top:100%;
+	width:100%;
+	transition: top 0.5s, height 0.5s;
+	-webkit-transition: top 0.5s, height 0.5s;
+	background:#fafafa;
+	overflow:hidden;
+	.bio-wrapper {
+		height:100%;
+		width:100%;
+	}
+	.bio-pic {
+		padding-left:25px;
+		padding-top:25px;
+		vertical-align: top;
+	}
+
+	.bio-text {
+		width:40%;
+		min-width:200px;
+		max-width:500px;
+		display:inline-block;
+		padding-left:50px;
+		padding-top:25px;
+
+		p {
+			margin-top:0;
+		}
+	}
+}
+.page-who {
+	.who-wrapper {
+		top:0;
+		height:100%;
+	}
+
+	.footer .who {
+		display:none;
+	}
+}
 
 
 
@@ -434,49 +492,6 @@ a:hover {
 	width:auto;
 }
 
-#signature {
-	position:absolute;
-	padding-left: 20px;
-	top: -50px;
-	
-	-moz-transition-duration: 0.5s;
-	-webkit-transition-duration: 0.5s;
-	-o-transition-duration:  0.5s;
-	
-	-moz-transition-timing-function: cubic-bezier(0.50, 0, 1, 0.80);
-	-webkit-transition-timing-function: cubic-bezier(0.50, 0, 1, 0.80); 
-	-o-transition-timing-function: cubic-bezier(0.50, 0, 1, 0.80);
-}
-#footer.main #signature{
-	
-}
-
-#footer.who #signature{
-	top:100px;
-	
-	transition-timing-function: cubic-bezier(0.32, 0.12, 0.68, 0.94);
-	-moz-transition-timing-function: cubic-bezier(0.32, 0.12, 0.68, 0.94);
-	-webkit-transition-timing-function: cubic-bezier(0.32, 0.12, 0.68, 0.94); 
-	-o-transition-timing-function: cubic-bezier(0.32, 0.12, 0.68, 0.94);
-	
-	z-index:100;
-}
-
-#who {
-	top:-50px;
-	position:absolute;
-	left:275px;
-	font-size:14px;
-	
-	transition-delay: 0.5s;
-	-moz-transition-delay: 0.5s;
-	-webkit-transition-delay: 0.5s;
-	-o-transition-delay: 0.5s;
-}
-
-#footer.who {
-	
-}
 
 #mailList {
 	font-size: 14px;
@@ -552,9 +567,6 @@ a:hover {
 }
 
 
-#who a {
-	color: #a0a0a0;
-}
 
 .whoBody{
 	margin: 100px 0 0 300px;

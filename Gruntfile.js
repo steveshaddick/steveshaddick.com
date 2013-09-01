@@ -49,6 +49,16 @@ module.exports = function(grunt) {
         files: jsFiles
       }
     },
+
+    concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+      src: SRC_PATH + '/js/plugins/**/*.js',
+      dest: ASSET_PATH + '/js/plugins.min.js',
+      },
+    },
     
     watch: {
       styles: {
@@ -60,7 +70,7 @@ module.exports = function(grunt) {
       },
       scripts: {
         files: SRC_PATH + '/js/**/*.js',
-        tasks: ['uglify:dev'],
+        tasks: ['uglify:dev', 'concat'],
         options: {
           interrupt: true
         }
@@ -73,9 +83,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   // Default task.
-  grunt.registerTask('default', ['compass', 'uglify:prod', 'watch']);
-  grunt.registerTask('dev', ['compass', 'uglify:dev']);
+  grunt.registerTask('default', ['compass', 'uglify:prod', 'concat', 'watch']);
+  grunt.registerTask('dev', ['compass', 'uglify:dev', 'concat']);
 
 };

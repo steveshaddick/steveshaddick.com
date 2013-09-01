@@ -1,4 +1,5 @@
 from django.db import models
+import sorl
 
 import datetime, random
 
@@ -21,6 +22,21 @@ NOWORK_TYPES = (
     (NOWORK_TYPE_IMAGE, 'Image'),
     (NOWORK_TYPE_NEWWORK, 'New Work')
 )
+
+class Bio(models.Model):
+    text = models.TextField()
+    email = models.EmailField()
+
+
+class BioPic(models.Model):
+    title = models.CharField(max_length=100, blank=True)
+    image = sorl.thumbnail.ImageField(upload_to='images')
+
+    @staticmethod
+    def get_random():
+        rnd = random.randrange(0, BioPic.objects.all().count())
+        return BioPic.objects.all()[rnd]
+
 
 class Work(models.Model):
     title = models.CharField(max_length=255)
@@ -72,7 +88,7 @@ class NoWork(models.Model):
     title = models.CharField(max_length=255)
     nowork_type = models.CharField(max_length=20, choices=NOWORK_TYPES)
     url = models.URLField(blank=True)
-    image = models.ImageField(upload_to='images', blank=True)
+    image = sorl.thumbnail.ImageField(upload_to='images', blank=True)
     text = models.TextField(blank=True)
     date_shown = models.DateField(blank=True, null=True)
     active = models.BooleanField(default=True)
@@ -102,7 +118,7 @@ class NoWork(models.Model):
         except NoWork.DoesNotExist:
 
             #maybe show new work
-            if (random.randrange(0,2) == 0):
+            if (random.randrange(0,3) == 0):
                 work = Work.objects.order_by('date_added')[0]
                 NoWork.objects.filter(nowork_type=NOWORK_TYPE_NEWWORK).delete()
 
@@ -116,7 +132,7 @@ class NoWork(models.Model):
             else:
                 noworks = NoWork.objects.filter(active=True).exclude(nowork_type=NOWORK_TYPE_NEWWORK).order_by('date_shown')
                 for nowork in noworks:
-                    if (random.randrange(0,3) == 0):
+                    if (random.randrange(0,4) == 0):
                         break
 
             nowork.date_shown = datetime.date.today()

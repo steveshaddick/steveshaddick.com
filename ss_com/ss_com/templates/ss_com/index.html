@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% load thumbnail %}<!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
-        <!--<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>-->
+        <link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
 
         <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
 
@@ -26,10 +26,15 @@
                 <div id="noWork" class="no-work">
                     <img src="{{ STATIC_URL }}img/me_blurry_70.gif" class="me-blurry out" alt="">
                     <div class="no-work-content">
-                        {%if nowork.url != '' %}<a href="{{ nowork.url }}">{%endif%}
-                        <span class="title">{{ nowork.title }}</span>
-                        {%if nowork.url != '' %}</a>{%endif%}
-                        {% if nowork.image %}<img src="{{ nowork.image.url }}" alt="">{%endif%}
+                        {% if nowork.image %}
+                            {% thumbnail nowork.image "800x800" as im %}
+                                <img src="{{ im.url }}" width="{{ im.x }}" height="{{ im.y }}" alt="{{ nowork.title }}" title="{{ nowork.title }}">
+                            {% endthumbnail %}
+                        {%else%}
+                            {%if nowork.url != '' %}<a href="{{ nowork.url }}">{%endif%}
+                            <span class="title">{{ nowork.title }}</span>
+                            {%if nowork.url != '' %}</a>{%endif%}
+                        {%endif%}
                         {%if nowork.text != '' %}<span class="text">{{ nowork.text }}</span>{%endif%}
                     </div>
                 </div>
@@ -42,9 +47,21 @@
             </div>
         </div>
 
+        <div id="whoWrapper" class="who-wrapper">
+            <div class="bio-wrapper">
+                {% thumbnail bio_pic.image "235" as im %}
+                    <img class="bio-pic" src="{{ im.url }}" width="{{ im.x }}" height="{{ im.y }}" alt="" title="{{ bio_pic.title }}">
+                {% endthumbnail %}
+                <div class="bio-text">
+                    {{ bio.text | safe}}
+                    <a href="mailto:{{ bio.email }}">{{ bio.email }}</a>
+                </div>
+            </div>
+        </div>
+
         <div id="footer" class="footer">
-            <a title="Steve Shaddick" href="#" id="signature" style="top: 650px;"><img alt="Steve Shaddick" src="{{ STATIC_URL }}img/signature.gif"></a>
-            <div class="transition" id="who" style="top: 671px;"><a title="Who is this guy?" href="#/who" class="who">Who?</a></div>
+            <a title="Steve Shaddick" href="/#" id="signature" class="signature"><img alt="Steve Shaddick" src="{{ STATIC_URL }}img/signature.gif"></a>
+            <a title="Who is this guy?" href="/#/who" class="who">Who?</a>
             <div class="transition" id="mailList">
                 <label for="txtEmail" class="emailInput">Mailing List</label>
 
@@ -65,6 +82,7 @@
         <script>document.write('<script src="{{ STATIC_URL }}js/jquery-2.0.2.min.js"><\/script>')</script>
 
 
+        <script src="{{ STATIC_URL }}js/plugins.min.js"></script>
         <script src="{{ STATIC_URL }}js/lib.min.js"></script>
         <script src="{{ STATIC_URL }}js/main.min.js"></script>
         <script>
