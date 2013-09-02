@@ -31,7 +31,7 @@
                         <div class="no-work-content">
                             {% if nowork.image %}
                                 {% thumbnail nowork.image "800x800" as im %}
-                                    <img src="{{ im.url }}" width="{{ im.x }}" height="{{ im.y }}" alt="{{ nowork.title }}" title="{{ nowork.title }}">
+                                    <img src="{{ im.url }}" width="{{ im.x }}" height="{{ im.y }}" alt="{{ nowork.title }}" title="{{ nowork.type }}">
                                 {% endthumbnail %}
                             {%else%}
                                 {%if nowork.url != '' %}<a href="{{ nowork.url }}">{%endif%}
@@ -46,7 +46,7 @@
 
             <div id="thumbsWrapper" class="thumbs-wrapper">
                 {%for work in all_work%}
-                    <a id="work_{{ work.id }}" href="/#/{{ work.slug }}"><img src="{{ work.thumb.url }}"></a>
+                    <a id="work_{{ work.id }}" href="/#/{{ work.slug }}" class="work-thumb" data-title="{{ work.title }}" data-type="{{ work.work_type }}"><img src="{{ work.thumb.url }}"></a>
                 {%endfor%}
             </div>
         </div>
@@ -125,7 +125,9 @@
                     <span class="work-specs"></span><a class="work-link" target="_blank" href="javascript:;"></a>
                     <p class="work-info"></p> 
                 </div>
-            </div>          
+            </div> 
+
+            <div class="thumb-over-info"><span class="title"></span><br><span class="type"></span></div>         
         </div>
 
         <script>document.write('<script src="{{ STATIC_URL }}js/jquery-2.0.2.min.js"><\/script>')</script>

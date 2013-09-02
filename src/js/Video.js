@@ -62,7 +62,6 @@ var Video = (function() {
         if (typeof workData.hasAudio === "undefined") workData.hasAudio = true; 
         player.setHasAudio(workData.hasAudio);
 
-        console.log(workData.loop);
         player.setRepeat(workData.loop);
         player.play();
     }

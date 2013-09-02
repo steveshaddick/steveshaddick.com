@@ -6,6 +6,7 @@ function csrfSafeMethod(method) {
 var Work = (function() {
 
     var $workWrapper = false;
+    var $thumbs = false;
     var $noWork = false;
     var $currentWork = false;
     var $videoContainer = false;
@@ -14,12 +15,73 @@ var Work = (function() {
     function init() {
         $workWrapper = $("#workWrapper");
         $noWork = $("#noWork");
+        $thumbs = $("#thumbsWrapper");
         $videoContainer = $("#videoPlayerContainer");
         Video.init({
             videoPath: 'http://video.steveshaddick.com'
         });
         //$videoContainer.addClass('displayNone');
         $currentWork = $noWork.parent();
+
+        //$thumbs.on('mouseenter', '.work-thumb', thumbHover);
+       // $thumbs.on('mouseleave', '.thumb-over-img', thumbLeave);
+    }
+
+    function thumbHover() {
+        var $this = $(this);
+        var $thumbOverImg = $('<img class="thumb-over-img transition" src="' + $('img',$this).attr('src') + '" alt="">');
+
+        var pos = $this.position();
+        $thumbOverImg.css({
+            top: pos.top + 5,
+            left: pos.left + 5,
+            width: 50,
+            height:50
+        });
+
+        var $info = $("#cls .thumb-over-info").clone();
+        $('.title', $info).html($this.attr('data-title'));
+        $('.type', $info).html($this.attr('data-type'));
+        $info.css({
+            top: -500,
+            left: pos.left - 5
+        });
+
+        $thumbOverImg.data('info', $info);
+
+        $thumbs.append($thumbOverImg);
+        setTimeout(function() {
+            $thumbOverImg.css({
+                top: pos.top - 5,
+                left: pos.left - 5,
+                width: 70,
+                height: 70
+            });
+        },5);
+
+        $thumbs.append($info);
+        setTimeout(function() {
+            $info.css({
+                top: pos.top + 65,
+            });
+        },250);
+    }
+
+    function thumbLeave() {
+        var pos = $(this).position();
+        var $this = $(this);
+        $this.css({
+            top: pos.top + 10,
+            left: pos.left + 10,
+            width: 50,
+            height: 50
+        }).data('info').css({
+            top: '100%'
+        });
+        TransitionController.transitionEnd($this, function() {
+            $this.data('info').remove();
+            $this.remove();
+        });
     }
 
     function show404() {
@@ -34,8 +96,8 @@ var Work = (function() {
         $.post('/work/' + slug + '/', {}, function(data) {
             if (data && data.success) {
 
-                
                 if (currentWorkData) {
+                    $("#work_" + currentWorkData.id).removeClass('selected');
                     switch (currentWorkData.type) {
                         case 'video':
                             Video.clearVideo();
@@ -57,19 +119,21 @@ var Work = (function() {
                     $oldWork.remove();
                 });
 
-
                 currentWorkData = data;
                 $currentWork = $("#cls .work-content").clone();
 
-                 $('h1', $currentWork).html(data.title);
-                 if (data.specs != '') {
+                $('h1', $currentWork).html(data.title);
+                if (data.specs != '') {
                     $('.work-specs', $currentWork).html(data.specs);
-                 }
-                 if (data.info != '') {
+                }
+                if (data.info != '') {
                     $('.work-info', $currentWork).html(data.info);
-                 } else {
+                } else {
                     $('.work-info', $currentWork).remove();
-                 }
+                }
+                $("#work_" + data.id).addClass('selected');
+
+
 
                 var readyHandler = false;
                 switch (data.type) {

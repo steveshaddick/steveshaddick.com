@@ -71,6 +71,7 @@ def get_work(request, slug):
         return jsonResponse(False, {})
 
     response = {
+        'id': work.id,
         'type': work.work_type,
         'title': work.title,
         'image': work.image.url if work.image else '',
