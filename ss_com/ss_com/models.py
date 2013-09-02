@@ -44,7 +44,7 @@ class Work(models.Model):
     work_type = models.CharField(max_length=20, choices=WORK_TYPES)
     priority = models.SmallIntegerField(default=0)
     thumb = models.ImageField(upload_to='thumbs')
-    image = models.ImageField(upload_to='images')
+    image = models.ImageField(upload_to='images', blank=True)
     specs = models.CharField(max_length=255, blank=True)
     info = models.TextField(blank=True)
     date_added = models.DateField()
@@ -71,6 +71,8 @@ class VideoWork(models.Model):
     work = models.ForeignKey(Work)
     video_file = models.CharField(max_length=255)
     loop = models.BooleanField(default=False)
+    has_audio = models.BooleanField(default=False)
+    allow_scrub = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.work.title

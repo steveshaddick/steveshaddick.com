@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.http import HttpResponse
 from django.core.context_processors import csrf
 
@@ -22,6 +22,7 @@ def jsonResponse(success, response={}):
     return HttpResponse(json.dumps(response), mimetype='application/json')
 
 
+@ensure_csrf_cookie
 def home(request):
     ago = datetime.date.today() - datetime.timedelta(days=182)
 
@@ -63,5 +64,25 @@ def check_urls(request):
 
 
 @csrf_protect
-def get_work(request):
-    work = Work.objects.all();
+def get_work(request, slug):
+    try:
+        work = Work.objects.get(slug=slug)
+    except work.DoesNotExist:
+        return jsonResponse(False, {})
+
+    response = {
+        'type': work.work_type,
+        'title': work.title,
+        'image': work.image.url if work.image else '',
+        'specs': work.specs,
+        'info': work.info
+    }
+
+    full_work = work.get_extended()
+    if (work.work_type == models.WORK_TYPE_VIDEO):
+        response['loop'] = full_work.loop,
+        response['videoFile'] = full_work.video_file
+        response['allowScrub'] = full_work.allow_scrub
+        response['hasAudio'] = full_work.has_audio
+
+    return jsonResponse(True, response)

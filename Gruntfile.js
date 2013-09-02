@@ -29,6 +29,15 @@ module.exports = function(grunt) {
           outputStyle: 'compressed',
           environment: 'production'
         }
+      },
+      sv: {
+        options: {
+          sassDir: SRC_PATH + '/lib/simplevideo/theme/',
+          cssDir: ASSET_PATH + '/lib/simplevideo/theme/',
+          imagesDir: ASSET_PATH + '/lib/simplevideo/theme/',
+          outputStyle: 'compressed',
+          environment: 'production'
+        }
       }
     },
 
@@ -62,8 +71,15 @@ module.exports = function(grunt) {
     
     watch: {
       styles: {
-        files: SRC_PATH + '/scss/*.scss',
-        tasks: ['compass'],
+        files:SRC_PATH + '/scss/*.scss',
+        tasks: ['compass:d'],
+        options: {
+          interrupt: true
+        }
+      },
+      lib: {
+        files: SRC_PATH + '/lib/**/*.scss',
+        tasks: ['compass:sv'],
         options: {
           interrupt: true
         }

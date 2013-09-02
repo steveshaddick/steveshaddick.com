@@ -12,51 +12,55 @@
 
         <link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
 
+
+        <link href="{{ STATIC_URL }}lib/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
 
-        <!-- <script src="js/vendor/modernizr-2.6.1.min.js"></script>-->
+        <script src="{{ STATIC_URL }}js/modernizr.js"></script>
     </head>
-    <body class="{%block page_class %}{% endblock %}">
+    <body class="regular {%block page_class %}{% endblock %}">
         <!--[if lt IE 9]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
         <div id="mainWrapper" class="main-wrapper">
             {%block content %}{% endblock %}
-            <div class="work-wrapper clearfix">
-                <div id="noWork" class="no-work">
-                    <img src="{{ STATIC_URL }}img/me_blurry_70.gif" class="me-blurry out" alt="">
-                    <div class="no-work-content">
-                        {% if nowork.image %}
-                            {% thumbnail nowork.image "800x800" as im %}
-                                <img src="{{ im.url }}" width="{{ im.x }}" height="{{ im.y }}" alt="{{ nowork.title }}" title="{{ nowork.title }}">
-                            {% endthumbnail %}
-                        {%else%}
-                            {%if nowork.url != '' %}<a href="{{ nowork.url }}">{%endif%}
-                            <span class="title">{{ nowork.title }}</span>
-                            {%if nowork.url != '' %}</a>{%endif%}
-                        {%endif%}
-                        {%if nowork.text != '' %}<span class="text">{{ nowork.text }}</span>{%endif%}
+            <div id="workWrapper" class="work-wrapper clearfix">
+                <div class="work-content transition">
+                    <div id="noWork" class="no-work">
+                        <img src="{{ STATIC_URL }}img/me_blurry_70.gif" class="me-blurry out" alt="">
+                        <div class="no-work-content">
+                            {% if nowork.image %}
+                                {% thumbnail nowork.image "800x800" as im %}
+                                    <img src="{{ im.url }}" width="{{ im.x }}" height="{{ im.y }}" alt="{{ nowork.title }}" title="{{ nowork.title }}">
+                                {% endthumbnail %}
+                            {%else%}
+                                {%if nowork.url != '' %}<a href="{{ nowork.url }}">{%endif%}
+                                <span class="title">{{ nowork.title }}</span>
+                                {%if nowork.url != '' %}</a>{%endif%}
+                            {%endif%}
+                            {%if nowork.text != '' %}<span class="text">{{ nowork.text }}</span>{%endif%}
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div id="thumbsWrapper" class="thumbs-wrapper">
                 {%for work in all_work%}
-                    <a id="work_{{ work.id }}" href="{{ work.slug }}"><img src="{{ work.thumb.url }}"></a>
+                    <a id="work_{{ work.id }}" href="/#/{{ work.slug }}"><img src="{{ work.thumb.url }}"></a>
                 {%endfor%}
             </div>
         </div>
 
         <div id="whoWrapper" class="who-wrapper">
-            <div class="bio-wrapper">
-                {% thumbnail bio_pic.image "235" as im %}
-                    <img class="bio-pic" src="{{ im.url }}" width="{{ im.x }}" height="{{ im.y }}" alt="" title="{{ bio_pic.title }}">
-                {% endthumbnail %}
-                <div class="bio-text">
-                    {{ bio.text | safe}}
-                    <a href="mailto:{{ bio.email }}">{{ bio.email }}</a>
-                </div>
+            {% thumbnail bio_pic.image "235" as im %}
+                <img class="bio-pic" src="{{ im.url }}" width="{{ im.x }}" height="{{ im.y }}" alt="" title="{{ bio_pic.title }}">
+            {% endthumbnail %}
+            <div class="bio-text">
+                {{ bio.text | safe}}
+                <a href="mailto:{{ bio.email }}">{{ bio.email }}</a><br><br>
+                <a class="back-link" href="/#">Back to the work</a>
             </div>
+            
         </div>
 
         <div id="footer" class="footer">
@@ -76,7 +80,52 @@
         <table id="modalWrapper"><tr><td></td></tr></table>
 
         <div id="cls">
-            
+            <div id="videoPlayerContainer">
+                <div id="simpleVideo" class="simple-video">
+                    <video class="sv_video inactive" title="SimpleVideo" width="100%" controls="false">
+                        Something has gone wrong with the video.
+                    </video>
+                    <div class="sv_flashContainer"><div class="sv_noVideo"><span class="noFlash">Hmm, it looks like your browser can't handle this stuff. Annoying? <a href="http://xkcd.com/927/" target="_blank">Certainly</a>. In order to see video and hear audio, you'll either need a modern browser like <a href="https://www.google.com/chrome" target="_blank" title="Download Chrome">Chrome</a>.</span></div></div>
+                    <div class="sv_audioOnly inactive">
+                        <img src="{{ STATIC_URL }}lib/simplevideo/theme/audio-only.gif" alt="Audio Only" />
+                    </div>
+                    <div class="sv_display">
+                        
+                        <img class="sv_videoPoster" src="{{ STATIC_URL }}lib/simplevideo/theme/video-poster.gif" alt="" />
+                        <div class="sv_buffering inactive">
+                            <img class="sv_bufferingImg" src="{{ STATIC_URL }}lib/simplevideo/theme/buffering.gif" alt="buffering" />
+                        </div>
+                    </div>
+                    <div class="sv_controls inactive">
+                        <ul class="sv_controls_left">
+                            <li><a href="javascript:;" class="sv_restart"></a></li>
+                            <li><a href="javascript:;" class="sv_play"></a><a href="javascript:;" class="sv_pause inactive"></a></li>
+                            <li><a href="javascript:;" class="sv_unmute inactive"></a></li>
+                            <li><a href="javascript:;" class="sv_mute"></a></li>
+                            <li><div class="sv_vslider"><a href="javascript:;" class="sv_vmarker"></a></div></li>
+                            <li><a href="javascript:;" class="sv_vmax"></a></li>
+                              
+                        </ul>
+                        <ul class="sv_controls_right">
+                            <li><a href="javascript:;" class="sv_fullscreen"></a><a href="javascript:;" class="sv_normalscreen inactive"></a></li>
+                        </ul>
+                        <ul class="bottom">
+                            <li><div class="sv_scrubber"><div class="sv_loaded"></div><div class="sv_playhead"></div><div class="sv_scrubberdrag"></div></div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-swap"></div>
+
+            <div class="work-content transition hold-high">
+                <div class="video-container"></div>
+                <div class="work-text">
+                    <h1></h1>
+                    <span class="work-specs"></span><a class="work-link" target="_blank" href="javascript:;"></a>
+                    <p class="work-info"></p> 
+                </div>
+            </div>          
         </div>
 
         <script>document.write('<script src="{{ STATIC_URL }}js/jquery-2.0.2.min.js"><\/script>')</script>
