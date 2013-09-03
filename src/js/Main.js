@@ -23,65 +23,60 @@ var Work = (function() {
         //$videoContainer.addClass('displayNone');
         $currentWork = $noWork.parent();
 
-        //$thumbs.on('mouseenter', '.work-thumb', thumbHover);
-       // $thumbs.on('mouseleave', '.thumb-over-img', thumbLeave);
+        $thumbs.on('mouseenter', '.work-thumb', thumbHover);
+        $thumbs.on('mouseleave', '.thumb-over-img', thumbLeave);
     }
 
     function thumbHover() {
         var $this = $(this);
-        var $thumbOverImg = $('<img class="thumb-over-img transition" src="' + $('img',$this).attr('src') + '" alt="">');
+        if ($this.data('isOver') === true) return;
+        $this.data('isOver', true);
 
-        var pos = $this.position();
-        $thumbOverImg.css({
-            top: pos.top + 5,
-            left: pos.left + 5,
-            width: 50,
-            height:50
-        });
+        var $thumbOverImg = $('<img class="thumb-over-img transition small" src="' + $('img',$this).attr('src') + '" alt="">');
 
         var $info = $("#cls .thumb-over-info").clone();
         $('.title', $info).html($this.attr('data-title'));
         $('.type', $info).html($this.attr('data-type'));
-        $info.css({
-            top: -500,
-            left: pos.left - 5
-        });
 
         $thumbOverImg.data('info', $info);
 
-        $thumbs.append($thumbOverImg);
-        setTimeout(function() {
-            $thumbOverImg.css({
-                top: pos.top - 5,
-                left: pos.left - 5,
-                width: 70,
-                height: 70
-            });
-        },5);
+        $this.append($thumbOverImg);
+        $thumbOverImg.data('to1', setTimeout(function() {
+            $thumbOverImg.removeClass('small');
+        },5));
 
-        $thumbs.append($info);
-        setTimeout(function() {
-            $info.css({
-                top: pos.top + 65,
-            });
-        },250);
+        $this.append($info);
+        $thumbOverImg.data('to2', setTimeout(function() {
+            $info.removeClass('hold-high');
+        },250));
     }
 
     function thumbLeave() {
-        var pos = $(this).position();
         var $this = $(this);
-        $this.css({
-            top: pos.top + 10,
-            left: pos.left + 10,
-            width: 50,
-            height: 50
-        }).data('info').css({
-            top: '100%'
+        var pos = $this.data('info').offset();
+        var $info = $this.data('info');
+
+        $this.data('info').css({
+            top: pos.top - $(window).scrollTop(),
+            left: pos.left
         });
-        TransitionController.transitionEnd($this, function() {
-            $this.data('info').remove();
+        $("#dropOverlay").append($info);
+        
+        $this.addClass('small');
+        setTimeout(function() {
+            $info.css('top', '').addClass('drop');
+        }, 10);
+
+        clearTimeout($this.data('to1'));
+        clearTimeout($this.data('to2'));
+        
+        setTimeout(function() {
+            $this.parent().data('isOver', false);
             $this.remove();
-        });
+        }, 350);
+        setTimeout(function() {
+           $info.remove();
+        }, 500);
     }
 
     function show404() {
@@ -107,8 +102,8 @@ var Work = (function() {
                                 width: $videoContainer.width()
                             });
 
-                            $("cls").append($videoContainer);
-                            $('.video-container', $currentWork).append($swap);
+                            $("#cls").append($videoContainer);
+                            $currentWork.prepend($swap);
                             break;
                     }
                 }
@@ -133,18 +128,27 @@ var Work = (function() {
                 }
                 $("#work_" + data.id).addClass('selected');
 
-
-
                 var readyHandler = false;
                 switch (data.type) {
                     case 'video':
-                        $('.video-container', $currentWork).append($videoContainer);
+                        $currentWork.prepend($videoContainer);
                         readyHandler = function() {
                             //Video.playVideo(data);
                         };
                         break;
 
                     case 'website':
+                        var urlName = data.url.replace('http://', '');
+                        if (urlName.charAt(urlName.length-1) == '/') {
+                            urlName = urlName.slice(0, -1);
+                        }
+                        $('.work-link', $currentWork).attr('href', data.url).html(urlName);
+
+                        $webContainer = $("#cls .web-container").clone();
+                        $webContainer.attr('href', data.url);
+                        
+                        $('.big-image', $webContainer).attr('src', data.image);
+                        $currentWork.prepend($webContainer);
                         break;
                 }
 
@@ -174,6 +178,8 @@ var Work = (function() {
 
 var Main = (function() {
 
+    var page = '';
+
     function init(params) {
         $.ajaxSetup({
             crossDomain: false,
@@ -189,6 +195,14 @@ var Main = (function() {
         }
 
         Work.init();
+        $('.nav-link.work').on('click', function() {
+            if (page == 'who') {
+                window.location = "/#";
+            }
+            $('html, body').animate({
+                scrollTop: $("#thumbsWrapper").offset().top
+            }, 350);
+        });
 
         SWFAddress.onChange = hashChange;
 
@@ -200,8 +214,11 @@ var Main = (function() {
     function hashChange() {
         var path = SWFAddress.getPathNames();
 
+        page = path;
         if (path.length > 0) {
-            
+            $('html, body').animate({
+                scrollTop: 0
+            }, 350);
             switch (path[0]) {
                 case 'who':
                     $('body').addClass('page-who');
@@ -217,6 +234,7 @@ var Main = (function() {
             $('body').removeClass('page-who');
             Work.showNoWork();
         }
+        
     }
 
     return {
