@@ -86,7 +86,7 @@ module.exports = function(grunt) {
       },
       scripts: {
         files: SRC_PATH + '/js/**/*.js',
-        tasks: ['uglify:dev', 'concat'],
+        tasks: ['uglify:prod', 'concat'],
         options: {
           interrupt: true
         }

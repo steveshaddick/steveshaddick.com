@@ -31,7 +31,7 @@
                         <div class="no-work-content">
                             {% if nowork.image %}
                                 {% thumbnail nowork.image "800x500" as im %}
-                                    <img src="{{ im.url }}" width="{{ im.x }}" height="{{ im.y }}" alt="{{ nowork.title }}" title="{{ nowork.type }}">
+                                    <img class="no-work-image" src="{{ im.url }}" alt="{{ nowork.title }}" title="{{ nowork.title }}">
                                 {% endthumbnail %}
                             {%else%}
                                 {%if nowork.url != '' %}<a href="{{ nowork.url }}">{%endif%}
@@ -65,7 +65,7 @@
             
         </div>
 
-        <div id="footer" class="footer">
+        <div id="footer" class="footer transition">
             <a title="Steve Shaddick" href="/#" id="signature" class="signature"><img alt="Steve Shaddick" src="{{ STATIC_URL }}img/signature.png"></a>
             <a title="Who is this guy?" href="/#/who" class="nav-link">Who?</a>
             <a title="The work" href="javascript:;" class="nav-link work">Work</a>
@@ -82,6 +82,7 @@
 
         <div id="dropOverlay" class="drop-overlay"></div>
 
+        <div id="alertOverlay" class="displayNone"><div id="alertOverlayBox"></div></div>
         <table id="modalWrapper"><tr><td></td></tr></table>
 
         <div id="cls">

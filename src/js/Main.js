@@ -194,6 +194,7 @@ var Main = (function() {
             TransitionController.setAutoWait(350);
         }
 
+        MailList.init();
         Work.init();
         $('.nav-link.work').on('click', function() {
             if (page == 'who') {
@@ -237,8 +238,30 @@ var Main = (function() {
         
     }
 
+    function showAlert(file, complete) {
+
+        closeAlert(true);
+        var $box = $("#alertOverlayBox");
+
+        $("#alertOverlay").removeClass('displayNone');
+        $box.load(file, null, complete).addClass('transition').removeClass('reset');
+
+    }
+
+    function closeAlert(override) {
+        var $box = $("#alertOverlayBox");
+
+        $box.html('').removeClass('transition').addClass('reset');
+
+        if (override !== true) {
+            $("#alertOverlay").addClass('displayNone');
+        }
+    }
+
     return {
-        init: init
+        init: init,
+        showAlert: showAlert,
+        closeAlert: closeAlert
     };
 
 }());

@@ -117,6 +117,7 @@ INSTALLED_APPS = (
     'south',
     'ss_com',
     'sorl.thumbnail',
+    'newsletter',
 )
 
 LOGIN_URL = 'login'

@@ -1,5 +1,6 @@
 var MailList = (function() {
 
+	var $footer = false;
 	var $mailList;
 	var $txtEmail;
 	var isError = false;
@@ -10,6 +11,7 @@ var MailList = (function() {
 	function init() {
 
 		$mailList = $("#mailList");
+		$footer = $("#footer");
 		$mailList.on('mouseenter', showMailList).on('mouseleave', startHide);
 
 		$txtEmail = $("#txtEmail");
@@ -55,9 +57,9 @@ var MailList = (function() {
 		hideMailList();
 		$txtEmail.val('');
 
-		$.ajax( '/ajax/submitEmail', {
+		$.ajax( '/newsletter/signup/', {
 				cache: false,
-				data: { txtEmail: email, a: GLOBAL.a },
+				data: { email: email },
 				success: submitEmailReturn,
 				type: 'post',
 				error: function() { submitEmailReturn({success: 'false'}); }
@@ -68,11 +70,10 @@ var MailList = (function() {
 	function submitEmailReturn(data) {
 
 		if ((data) && (data.success === true)) {
-			Main.showAlert('/views/emailSuccess.html');
+			Main.showAlert('/static/html/emailSuccess.html');
 		} else {
-			Main.showAlert('/views/emailError.html');
+			Main.showAlert('/static/html/emailError.html');
 		}
-
 	}
 
 
@@ -85,19 +86,19 @@ var MailList = (function() {
 		if (isOpen) return;
 		isOpen = true;
 
-		$mailList.addClass('open');
-		$txtEmail.bind('keydown', emailKeyHandler);
+		$footer.addClass('show-maillist');
+		$txtEmail.on('keydown', emailKeyHandler);
 	}
 
 	function startHide() {
-		hideTimeout = setTimeout(hideMailList, 2000);
+		hideTimeout = setTimeout(hideMailList, 1700);
 	}
 
 	function hideMailList() {
 		isOpen = false;
 
-		$mailList.removeClass('open');
-		$txtEmail.unbind('keydown', emailKeyHandler).blur();
+		$footer.removeClass('show-maillist');
+		$txtEmail.off('keydown', emailKeyHandler).blur();
 	}
 
 	function showEmailError() {
