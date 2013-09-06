@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--[if IE 7 ]><html lang="en" class="ie7"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"><![endif]-->
+<!--[if gt IE 9]><!--><html lang="en"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Steve Shaddick</title>
+    <meta name="viewport" content="width=device-width">
+	<meta name="robots" content="nofollow" />
+	
+	<link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" type="text/css" />
+	
+</head>
+<body class="small-page">
+	
+	<div class="container">
+		
+		<form method="post" action="{% url 'login' %}">
+			{% csrf_token %}
+			<table class="login-table">
+			<tr>
+			    <td>{{ form.username.label_tag }}</td>
+			    <td>{{ form.username }}</td>
+			</tr>
+			<tr>
+			    <td>{{ form.password.label_tag }}</td>
+			    <td>{{ form.password }}</td>
+			</tr>
+			</table>
+
+			{% if form.errors %}
+			<p class="error">Your username and password didn't match. Please try again.</p>
+			{% endif %}
+
+			<p style="text-align:right"><input type="submit" value="login" /></p>
+			<input type="hidden" name="next" value="{{ next }}" />
+			</form>
+	</div>
+	
+</body>
+</html>

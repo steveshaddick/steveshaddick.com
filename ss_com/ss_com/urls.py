@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 	url(r'^check-urls/$', views.check_urls, name='check_url'),
     url(r'^work/(?P<slug>\w+)/$', views.get_work, name='get_work'),
 	url(r'^newsletter/', include('newsletter.urls', namespace='newsletter')),
+    url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
     # Examples:
     # url(r'^$', 'ss_com.views.home', name='home'),
     # url(r'^ss_com/', include('ss_com.foo.urls')),

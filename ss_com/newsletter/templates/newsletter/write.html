@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if IE 7 ]><html lang="en" class="ie7"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"><![endif]-->
+<!--[if gt IE 9]><!--><html lang="en"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Steve Shaddick</title>
+    <meta name="viewport" content="width=device-width">
+	<meta name="robots" content="nofollow" />
+	
+	<link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" type="text/css" />
+	
+</head>
+<body class="small-page">
+	
+
+	<div class="container">
+		<h2>Write the newsletter</h2>
+		<form id="writeForm" method="POST">
+			{% csrf_token %}
+			<label for="id_subject">Subject</label><br>
+			{{ form.subject }}<br><br>
+			<label for="id_text">Text:</label><br>
+			{{ form.text }}
+		</form>
+		<br>
+		<a href="javascript:;" id="testLink" style="padding-right:10px;">Send Test</a>
+		<a href="javascript:;" id="realLink" style="font-weight:bold;">Send For Real!</a>
+		<div id="status" style="margin-top:20px;"></div>
+	</div>
+
+	<script>document.write('<script src="{{ STATIC_URL }}js/jquery-2.0.2.min.js"><\/script>')</script>
+	<script src="{{ STATIC_URL }}js/lib.min.js"></script>
+	<script>
+	$(function() {
+		function csrfSafeMethod(method) {
+		    // these HTTP methods do not require CSRF protection
+		    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+            crossDomain: false,
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", Cookie.get('csrftoken'));
+                }
+            }
+        });
+		$("#testLink").on('click', function() {
+			$("#status").html('sending...');
+			data = $('#writeForm').serialize();
+			data['type'] = 'test';
+			$.post(window.location, data, function(data) {
+				$("#status").html(data.response);
+			});
+		});
+		$("#realLink").on('click', function() {
+			$("#status").html('sending...');
+			data = $('#writeForm').serialize();
+			data['type'] = 'real';
+			$.post(window.location, data, function(data) {
+				$("#status").html(data.response);
+			});
+		});
+
+	});
+	</script>
+	
+</body>
+</html>

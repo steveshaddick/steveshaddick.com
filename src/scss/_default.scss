@@ -456,7 +456,24 @@ img.thumb-over-img {
 }
 
 
+.small-page {
 
+	.container {
+		width:460px;
+		margin: 0 auto;
+		padding-top:20px;
+	}
+
+	.text-content {
+		display:inline-block;
+		width:370px;
+		margin-left:10px;
+	}
+
+	.blurry {
+		vertical-align: top;
+	}
+}
 
 
 
@@ -1024,33 +1041,7 @@ a#backLink {
 	color: #a0a0a0;
 }
 
-.smallPage #siteWrapper {
-	min-height:300px;
-	min-width:550px;
-}
-.smallPage #footer {
-	
-}
 
-.smallPage #signature {
-	bottom:0;
-	top:auto;
-}
-
-.smallPage .container {
-	margin: 25px auto 0;
-    width: 475px;
-}
-
-.smallPage .textContent {
-	padding-left: 10px;
-    position: absolute;
-    width: 450px;
-}
-
-.smallPage #meBlurry {
-	position:static;
-}
 
 .resumePage {
 	padding:20px;

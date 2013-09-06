@@ -54,3 +54,5 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_ROOT, '../static'),
 )
+
+GOOGLE_UA = '_GOOGLE_UA_'
