@@ -27,7 +27,7 @@ def jsonResponse(success, response={}):
 def home(request):
     ago = datetime.date.today() - datetime.timedelta(days=182)
 
-    all_work = Work.objects.filter(active=True)
+    all_work = Work.objects.filter(active=True).order_by('-date_added')
     return render(
         request,
         'ss_com/index.html',

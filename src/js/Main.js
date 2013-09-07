@@ -11,6 +11,7 @@ var Work = (function() {
     var $currentWork = false;
     var $videoContainer = false;
     var currentWorkData = false;
+    var firstNoWork = true;
 
     function init() {
         $workWrapper = $("#workWrapper");
@@ -93,7 +94,13 @@ var Work = (function() {
     }
 
     function showNoWork() {
-        $('.me-blurry', $noWork).removeClass('out');
+        
+        if (!$.contains(document.documentElement, $noWork[0])) {
+            showWork({type: 'nowork'});
+        }
+        setTimeout(function() {
+            $('.me-blurry', $noWork).removeClass('out');
+        },0);
     }
 
     function dropOldWork() {
@@ -113,6 +120,7 @@ var Work = (function() {
                     break;
             }
         }
+
         var $oldWork = $currentWork;
         $oldWork.addClass('drop');
         TransitionController.transitionEnd($oldWork, function() {
@@ -172,6 +180,10 @@ var Work = (function() {
                 
                 $currentWork.prepend($404container);
                 break;
+
+            case 'nowork':
+                $currentWork.prepend($noWork);
+                break; 
         }
 
         $workWrapper.append($currentWork);
@@ -209,6 +221,7 @@ var Work = (function() {
 var Main = (function() {
 
     var page = '';
+    var lastPage = '';
 
     function init(params) {
         $.ajaxSetup({
@@ -231,7 +244,7 @@ var Main = (function() {
 
         $('.nav-link.work').on('click', function() {
             if (page === 'who') {
-                window.location = "/#";
+                window.location = "/#/" + lastPage;
             }
             $('html, body').animate({
                 scrollTop: $("#thumbsWrapper").offset().top
@@ -248,19 +261,25 @@ var Main = (function() {
     function hashChange() {
         var path = SWFAddress.getPathNames();
 
-        page = path;
+        lastPage = page;
         if (path.length > 0) {
             $('html, body').animate({
                 scrollTop: 0
             }, 350);
             switch (path[0]) {
                 case 'who':
+                    Video.pauseVideo();
+                    if (typeof page !== "undefined") {
+                        $("#whoBackLink").attr('href', '/#/' + page);
+                    }
                     $('body').addClass('page-who');
                     break;
                     
                 default:
                     $('body').removeClass('page-who');
-                    Work.getWork(path[0]);
+                    if (lastPage !== 'who') {
+                        Work.getWork(path[0]);
+                    }
                     break;
             }
         
@@ -268,7 +287,7 @@ var Main = (function() {
             $('body').removeClass('page-who');
             Work.showNoWork();
         }
-        
+        page = path[0];
     }
 
     function showAlert(file, complete) {
@@ -296,17 +315,25 @@ var Main = (function() {
         var holdTop = 0,
             $lastItem = false,
             $this = false,
-            thisTop = 0;
+            thisTop = 0,
+            lineCount = 0,
+            totalCount = 0;
         $('.thumb-item-wrapper').removeClass('right-side').each(function() {
             $this = $(this);
             thisTop = $this.offset().top;
             if ($lastItem) {
                 if (thisTop != holdTop) {
                     $lastItem.addClass('right-side');
+                    totalCount = lineCount;
+                    lineCount = 0;
                 }
             }
+            lineCount ++;
             holdTop = thisTop;
             $lastItem = $this;
+            if (lineCount == totalCount) {
+                $this.addClass('right-side');
+            }
         });
     }
 
