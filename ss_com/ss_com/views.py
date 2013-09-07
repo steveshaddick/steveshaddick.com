@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.http import HttpResponse
 from django.core.context_processors import csrf
+from django.core.exceptions import ObjectDoesNotExist
 
 from bs4 import BeautifulSoup
 
-from models import Work, NoWork, Bio, BioPic
+from models import Work, NoWork, SiteText, BioPic
 import models
 import datetime, json, requests
 
@@ -26,14 +27,15 @@ def jsonResponse(success, response={}):
 def home(request):
     ago = datetime.date.today() - datetime.timedelta(days=182)
 
+    all_work = Work.objects.filter(active=True)
     return render(
         request,
         'ss_com/index.html',
         {
-            'all_work': Work.objects.all(),
+            'all_work': all_work,
             'nowork': NoWork.get_nowork(),
             'need_url_check': (NoWork.objects.filter(nowork_type=models.NOWORK_TYPE_LINK,date_checked__lt=ago).count() > 0),
-            'bio': Bio.objects.get(pk=1),
+            'bio': SiteText.objects.get(slug='bio'),
             'bio_pic': BioPic.get_random()
         }
     )
@@ -66,26 +68,40 @@ def check_urls(request):
 @csrf_protect
 def get_work(request, slug):
     try:
-        work = Work.objects.get(slug=slug)
-    except work.DoesNotExist:
-        return jsonResponse(False, {})
-
-    response = {
-        'id': work.id,
-        'type': work.work_type,
-        'title': work.title,
-        'image': work.image.url if work.image else '',
-        'specs': work.specs,
-        'info': work.info
-    }
+        work = Work.objects.get(slug=slug, active=True)
+    except ObjectDoesNotExist:
+        response = {
+            'id': '4O4',
+            'type': '404',
+            'text': SiteText.objects.get(slug='404').text,
+            'randomWork': Work.objects.filter(active=True).order_by('?')[0].slug
+        }
+        return jsonResponse(False, response)
 
     full_work = work.get_extended()
-    if (work.work_type == models.WORK_TYPE_VIDEO):
-        response['loop'] = full_work.loop,
-        response['videoFile'] = full_work.video_file
-        response['allowScrub'] = full_work.allow_scrub
-        response['hasAudio'] = full_work.has_audio
-    elif (work.work_type == models.WORK_TYPE_WEBSITE):
-        response['url'] = full_work.url
+    if (full_work is not None):
+        response = {
+            'id': work.id,
+            'type': work.work_type,
+            'title': work.title,
+            'image': work.image.url if work.image else '',
+            'specs': work.specs,
+            'info': work.info
+        }
+        if (work.work_type == models.WORK_TYPE_VIDEO):
+            response['loop'] = full_work.loop,
+            response['videoFile'] = full_work.video_file
+            response['allowScrub'] = full_work.allow_scrub
+            response['hasAudio'] = full_work.has_audio
+        elif (work.work_type == models.WORK_TYPE_WEBSITE):
+            response['url'] = full_work.url
 
-    return jsonResponse(True, response)
+        return jsonResponse(True, response)
+    else:
+        response = {
+            'id': '4O4',
+            'type': '404',
+            'text': SiteText.objects.get(slug='404').text,
+            'randomWork': Work.objects.filter(active=True).order_by('?')[0].slug
+        }
+        return jsonResponse(False, response)

@@ -9,7 +9,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
 	url(r'^$', views.home, name='home'),
 	url(r'^check-urls/$', views.check_urls, name='check_url'),
-    url(r'^work/(?P<slug>\w+)/$', views.get_work, name='get_work'),
+    url(r'^work/(?P<slug>[\w-]+)/$', views.get_work, name='get_work'),
 	url(r'^newsletter/', include('newsletter.urls', namespace='newsletter')),
     url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
     # Examples:

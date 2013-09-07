@@ -85,7 +85,7 @@ body {
 	width:100%;
 	overflow-y: hidden;
 	position: relative;
-	margin-top:20px;
+	padding-top:20px;
 }
 
 .work-content {
@@ -135,6 +135,13 @@ body {
 	width:100%;
 	min-width:440px;
 	background: url(../img/fafafa_90.png);
+	padding-top:5px;
+	border-top:1px solid #dedede;
+
+	.footer-wrapper {
+		position:relative;
+		left:0;
+	}
 
 	.nav-link {
 		color: #A0A0A0;
@@ -150,8 +157,13 @@ body {
 	}
 
 	&.show-maillist {
-		left: -380px;
-		background: #FAFAFA;
+		#mailList {
+			background: #FAFAFA; 
+		}
+		.footer-wrapper {
+			left: -400px;
+			background: #FAFAFA;
+		}
 	}
 }
 
@@ -198,8 +210,8 @@ body {
 
 	.main-wrapper {
 		overflow:hidden;
-		height:0;
-		margin:0;
+		height:100%;
+		margin:0 auto;
 	}
 
 	.who-wrapper {
@@ -226,8 +238,11 @@ body {
 		color: #a0a0a0;
 	}
 	a {
-		padding-left:10px;
 		color:#a0a0a0;
+		
+		&.work-link {
+			padding-left:10px;
+		}
 
 		&:hover {
 			text-decoration: none;
@@ -244,6 +259,7 @@ body {
 
 	.big-image {
 		width:100%;
+		max-width:640px;
 	}
 
 	.over {
@@ -329,12 +345,13 @@ img.thumb-over-img {
 }
 .thumb-over-info {
 	position:absolute;
-	padding:5px;
+	padding:10px 5px 5px;
 	background:#fff;
 	top:55px;
 	left:-10px;
 	opacity: 1;
 	display:block;
+	width:100px;
 
 	transform:translate3d(0,0,0);
 	-ms-transform:translate3d(0,0,0); /* IE 9 */
@@ -364,12 +381,21 @@ img.thumb-over-img {
 	.title {
 		font-weight: bold;
 		display:block;
+		line-height:0.9;
+		margin-bottom:4px;
 	}
 	.type {
 		color:#a0a0a0;
 		display:block;
 		margin-top:-3px;
 		font-size:0.75em;
+	}
+}
+
+.right-side {
+	.thumb-over-info {
+		left:auto;
+		right:-10px;
 	}
 }
 
@@ -387,12 +413,11 @@ img.thumb-over-img {
 
 #mailList {
 	font-size: 14px;
-	width: 490px;
 	position:absolute;
-	right:-410px;
+	right:-420px;
 	bottom:0;
 	z-index: 100000;
-	height:30px;
+	height:100%;
 
 	input{
 		line-height:28px;
@@ -406,6 +431,8 @@ img.thumb-over-img {
 
 	label{
 		color: #A0A0A0;
+		display:inline-block;
+		padding-top:15px;
 	}
 
 	a{
@@ -414,19 +441,19 @@ img.thumb-over-img {
 
 }
 
-#mailListContent {
-	position: relative;
-	left:100px;
+.maillist-content {
+	margin-left:20px;
+	padding-right:20px;
 }
-.show-maillist #mailListContent {
-	left:0;
+.show-maillist .maillist-content {
+	margin-left:0;
 }
 
-.emailError {
+.email-error {
 	color:#6d1111;
 	position:absolute;
-	left:5px;
-	top:-20px;
+	left:82px;
+	top:-5px;
 }
 
 #alertOverlay {
@@ -475,6 +502,12 @@ img.thumb-over-img {
 	}
 }
 
+.four-oh-four-container {
+	.title {
+		font-size:2em;
+		font-weight:bold;
+	}
+}
 
 
 

@@ -12,7 +12,6 @@
 
         <link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
 
-
         <link href="{{ STATIC_URL }}lib/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
 
@@ -47,7 +46,7 @@
             <div id="thumbsWrapper" class="thumbs-wrapper">
                 {%for work in all_work%}
                     <div class="thumb-item-wrapper">
-                        <a id="work_{{ work.id }}" href="/#/{{ work.slug }}" class="work-thumb" data-title="{{ work.title }}" data-type="{{ work.work_type }}"><img src="{{ work.thumb.url }}"></a>
+                        <a id="work_{{ work.id }}" href="/#/{{ work.slug }}" class="work-thumb" data-title="{{ work.title }}" data-type="{{ work.work_type }}"><img class='thumb-img' src="{{ work.thumb.url }}"></a>
                     </div>
                 {%endfor%}
             </div>
@@ -65,18 +64,20 @@
             
         </div>
 
-        <div id="footer" class="footer transition">
-            <a title="Steve Shaddick" href="/#" id="signature" class="signature"><img alt="Steve Shaddick" src="{{ STATIC_URL }}img/signature.png"></a>
-            <a title="Who is this guy?" href="/#/who" class="nav-link">Who?</a>
-            <a title="The work" href="javascript:;" class="nav-link work">Work</a>
-            <div class="transition" id="mailList">
-                <label for="txtEmail" class="emailInput">Mailing List</label>
+        <div id="footer" class="footer">
+            <div class="footer-wrapper transition">
+                <a title="Steve Shaddick" href="/#" id="signature" class="signature"><img alt="Steve Shaddick" src="{{ STATIC_URL }}img/signature.png"></a>
+                <a title="Who is this guy?" href="/#/who" class="nav-link">Who?</a>
+                <a title="The work" href="javascript:;" class="nav-link work">Work</a>
+                <div class="transition" id="mailList">
+                    <label for="txtEmail" class="email-input">Mailing List</label>
 
-                <span id="mailListContent">
-                    <span class="emailError displayNone" id="emailError">Please enter a valid email.</span>
-                    <input type="text" maxlength="255" placeholder="Email address" id="txtEmail" name="txtEmail" class="emailInput">
-                    <a onclick="MailList.submitEmail();" href="javascript:;)">› Add me to the list</a>&nbsp;&nbsp;&nbsp;
-                </span>
+                    <span class="maillist-content">
+                        <span class="email-error displayNone" id="emailError">Please enter a valid email.</span>
+                        <input type="text" maxlength="255" placeholder="Email address" id="txtEmail" name="txtEmail" class="email-input">
+                        <a onclick="MailList.submitEmail();" href="javascript:;)">› Add me to the list</a>&nbsp;&nbsp;&nbsp;
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -131,10 +132,13 @@
                     <p class="work-info"></p> 
                 </div>
             </div>
+
             <a class="web-container" href="javascript:;" target="_blank" title="Check it out">
                 <img class="big-image" src="{{ STATIC_URL }}img/blank.gif" alt="">
                 <img class="over transition" src="{{ STATIC_URL }}img/webwork-over.png" alt="Go">
-            </a> 
+            </a>
+
+            <div class="four-oh-four-container"><div class="title">404</div><div class="text">Nope, nothing here.</div><a class="redirect-link" href="/">Maybe look at this instead.</a></div>
 
             <span class="thumb-over-info transition hold-high"><span class="title"></span><span class="type"></span></span>         
         </div>
@@ -154,7 +158,7 @@
         </script>
         
         {%block scripts %}{% endblock %}
-        {% include "common/ga.html" %}
+        {% include "ss_com/common/ga.html" %}
 
     </body>
 </html>

@@ -23,9 +23,12 @@ NOWORK_TYPES = (
     (NOWORK_TYPE_NEWWORK, 'New Work')
 )
 
-class Bio(models.Model):
+class SiteText(models.Model):
+    slug = models.SlugField()
     text = models.TextField()
-    email = models.EmailField()
+
+    def __unicode__(self):
+        return self.slug
 
 
 class BioPic(models.Model):
@@ -47,6 +50,7 @@ class Work(models.Model):
     image = models.ImageField(upload_to='images', blank=True)
     specs = models.CharField(max_length=255, blank=True)
     info = models.TextField(blank=True)
+    active = models.BooleanField(default=True)
     date_added = models.DateField()
 
     def __unicode__(self):
@@ -54,9 +58,12 @@ class Work(models.Model):
 
     def get_extended(self):
         if (self.work_type == WORK_TYPE_VIDEO):
-            return self.videowork_set.all()[0]
+            extended_work = self.videowork_set.all()
         elif (self.work_type == WORK_TYPE_WEBSITE):
-            return self.webwork_set.all()[0]
+            extended_work = self.webwork_set.all()
+
+        if ((extended_work is not None) and (extended_work.count() > 0)):
+            return extended_work[0]
         else:
             return None
 
