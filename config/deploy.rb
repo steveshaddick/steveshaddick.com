@@ -74,7 +74,7 @@ namespace :env do
 	end
 
 	task :link do
-		run "ln -nfs #{shared_path}/settings/env.py #{release_path}/#{local_settings_dir}/env.py"
+		run "ln -nfs #{shared_path}/settings/env.py #{current_path}/#{local_settings_dir}/env.py"
 	end
 
 end

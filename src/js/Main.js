@@ -152,7 +152,7 @@ var Work = (function() {
             case 'video':
                 $currentWork.prepend($videoContainer);
                 readyHandler = function() {
-                    //Video.playVideo(data);
+                    Video.playVideo(data);
                 };
                 break;
 

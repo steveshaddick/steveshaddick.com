@@ -89,10 +89,11 @@ def get_work(request, slug):
             'info': work.info
         }
         if (work.work_type == models.WORK_TYPE_VIDEO):
-            response['loop'] = full_work.loop,
+            response['loop'] = full_work.loop
             response['videoFile'] = full_work.video_file
             response['allowScrub'] = full_work.allow_scrub
             response['hasAudio'] = full_work.has_audio
+
         elif (work.work_type == models.WORK_TYPE_WEBSITE):
             response['url'] = full_work.url
 
