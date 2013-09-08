@@ -42,6 +42,8 @@ var Work = (function() {
         $thumbOverImg.data('info', $info);
 
         $this.append($thumbOverImg);
+        $this.parent().addClass('hover');
+
         $thumbOverImg.data('to1', setTimeout(function() {
             $thumbOverImg.removeClass('small');
         },0));
@@ -84,6 +86,7 @@ var Work = (function() {
 
         clearTimeout($this.data('to1'));
         clearTimeout($this.data('to2'));
+        $this.parent().parent().removeClass('hover');
         
         setTimeout(function() {
             $this.parent().data('isOver', false);
@@ -280,17 +283,25 @@ var Main = (function() {
 
         lastPage = page;
         if (path.length > 0) {
-            $('html, body').animate({
+            $('body,html').animate({
                 scrollTop: 0
             }, 350);
             switch (path[0]) {
                 case 'who':
+                    $whoPage.animate({
+                        scrollTop: 0
+                    }, 350);
                     Video.pauseVideo();
                     $whoPage.removeClass('page-closed');
+                    $('body').addClass('page-who');
                     break;
                     
                 default:
+                    $mainPage.animate({
+                        scrollTop: 0
+                    }, 350);
                     $whoPage.addClass('page-closed');
+                    $('body').removeClass('page-who');
                     if (lastPage !== 'who') {
                         Work.getWork(path[0]);
                     }
@@ -298,6 +309,7 @@ var Main = (function() {
             }
         
         } else {
+            $('body').removeClass('page-who');
             $whoPage.addClass('page-closed');
             Work.showNoWork();
         }

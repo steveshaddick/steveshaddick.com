@@ -1,0 +1,28 @@
+
+@media screen and (max-width: 600px){
+  	body {
+  		overflow:auto;
+  	}
+  	.footer {
+  		position:static;
+  	}
+  	.page-wrapper {
+  		height:auto !important;
+  		overflow: visible;
+  		position:static;
+
+  		&.who {
+  			overflow: hidden;
+  		}
+  	}
+  	.page-who {
+  		.page-wrapper.main {
+  			height:0 !important;
+  			overflow: hidden;
+  		}
+  	}
+	/*.page-wrapper {
+		overflow-y: scroll; 
+		-webkit-overflow-scrolling: touch;
+	}*/
+}

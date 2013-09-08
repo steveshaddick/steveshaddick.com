@@ -29,6 +29,9 @@ namespace :deploy do
 		env:upload
 	end
 
+	task :static do
+	end
+
 	task :restart do
 		sudo "uwsgi --reload #{pidfile}"
 	end
