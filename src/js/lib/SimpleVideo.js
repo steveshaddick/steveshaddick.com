@@ -289,7 +289,6 @@ SimpleVideo.prototype.setState = function(state, obj) {
 }
 SimpleVideo.prototype.showControls = function() {
 	if ((!this.solution) ||  (this.state == 'nomedia')) return;
-	console.log("SHOGIN");
 	
 	this.isOver = true;
 

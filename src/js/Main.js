@@ -5,6 +5,7 @@ function csrfSafeMethod(method) {
 
 var Work = (function() {
 
+   
     var $workWrapper = false;
     var $thumbs = false;
     var $noWork = false;
@@ -18,9 +19,6 @@ var Work = (function() {
         $noWork = $("#noWork");
         $thumbs = $("#thumbsWrapper");
         $videoContainer = $("#videoPlayerContainer");
-        Video.init({
-            videoPath: 'http://video.steveshaddick.com'
-        });
         //$videoContainer.addClass('displayNone');
         $currentWork = $noWork.parent();
 
@@ -67,6 +65,9 @@ var Work = (function() {
 
     function thumbLeave() {
         var $this = $(this);
+        if ($this.data('leaving')) return;
+        $this.data('leaving', true);
+
         var pos = $this.data('info').offset();
         var $info = $this.data('info');
 
@@ -89,10 +90,11 @@ var Work = (function() {
             $this.remove();
         }, 350);
         setTimeout(function() {
-           $info.remove();
-           if ($("#dropOverlay").children().length == 0) {
+            
+            $info.remove();
+            if ($("#dropOverlay").children().length === 0) {
                 $("#dropOverlay").addClass('displayNone');
-           }
+            }
         }, 500);
     }
 
@@ -196,6 +198,8 @@ var Work = (function() {
                 TransitionController.transitionEnd($currentWork, readyHandler);
             }
         }, 10);
+
+        $('.thumb-over-img', $thumbs).mouseleave();
     }
 
     function getWork(slug) {
@@ -225,6 +229,9 @@ var Main = (function() {
 
     var page = '';
     var lastPage = '';
+    var $mainPage = false;
+    var $whoPage = false;
+    var $window = false;
 
     function init(params) {
         $.ajaxSetup({
@@ -240,14 +247,21 @@ var Main = (function() {
             TransitionController.setAutoWait(350);
         }
 
+        $mainPage = $("#mainPage");
+        $whoPage = $("#whoPage");
+        $window = $(window);
+
         MailList.init();
         Work.init();
+        Video.init({
+            videoPath: 'http://video.steveshaddick.com',
+            nativeControls: params.isMobile
+        });
         WindowResize.addHandler(resizeHandler);
-
 
         $('.nav-link.work').on('click', function() {
             if (page === 'who') {
-                window.location = "/#/" + lastPage;
+                window.location = (typeof lastPage !== "undefined") ? "/#/" + lastPage : "/#";
             }
             $('html, body').animate({
                 scrollTop: $("#thumbsWrapper").offset().top
@@ -272,14 +286,11 @@ var Main = (function() {
             switch (path[0]) {
                 case 'who':
                     Video.pauseVideo();
-                    if (typeof page !== "undefined") {
-                        $("#whoBackLink").attr('href', '/#/' + page);
-                    }
-                    $('body').addClass('page-who');
+                    $whoPage.removeClass('page-closed');
                     break;
                     
                 default:
-                    $('body').removeClass('page-who');
+                    $whoPage.addClass('page-closed');
                     if (lastPage !== 'who') {
                         Work.getWork(path[0]);
                     }
@@ -287,7 +298,7 @@ var Main = (function() {
             }
         
         } else {
-            $('body').removeClass('page-who');
+            $whoPage.addClass('page-closed');
             Work.showNoWork();
         }
         page = path[0];
@@ -338,6 +349,10 @@ var Main = (function() {
                 $this.addClass('right-side');
             }
         });
+
+        var pageHeight = $window.height() - 47;
+        $mainPage.css({height: pageHeight});
+        $whoPage.css({height: pageHeight});
     }
 
     return {

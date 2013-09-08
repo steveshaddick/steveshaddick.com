@@ -21,9 +21,8 @@ var Video = (function() {
         if (typeof params.videoPath === "undefined") params.videoPath = '';
 
         player = new SimpleVideo("simpleVideo", {
-            //nativeControls: ((GLOBAL.userAgent == 'iPhone') || (GLOBAL.userAgent == 'iPad')),
             nativeControls: params.nativeControls,
-            allowFullscreen: !($('html').is('.ie7, .ie8')),
+            allowFullscreen: Modernizr.fullscreen,
             //trueFullscreen: (GLOBAL.userAgent != 'safari'),
             trueFullscreen: params.trueFullscreen,
             onFullscreen: params.fullscreenHandler,
