@@ -30,11 +30,11 @@ namespace :deploy do
 	end
 
 	task :restart do
-		#sudo "uwsgi --reload #{pidfile}"
+		sudo "uwsgi --reload #{pidfile}"
 	end
 
 	task :start do
-		#sudo "uwsgi --reload #{pidfile}"
+		sudo "uwsgi --reload #{pidfile}"
 	end
 
 	task :save_build do
@@ -64,12 +64,13 @@ namespace :env do
 		output = output.gsub(/_DB_PASSWORD_/, "#{db_password}")
 		output = output.gsub(/_SENDGRID_USER_/, "#{sendgrid_user}")
 		output = output.gsub(/_SENDGRID_PASSWORD_/, "#{sendgrid_password}")
-		output = output.gsub(/_GOOGLE_UA_/, "#{sendgrid_password}")
+		output = output.gsub(/_GOOGLE_UA_/, "#{google_ua}")
+		output = output.gsub(/_SECRET_KEY_/, "#{django_secret_key}")
 		File.open("#{settings_file}", "w") {|file| file.puts output}
 	end
 
 	task :upload do
-		upload("#{local_settings_dir}/#{settings_file}", "#{shared_path}/settings/env.py")
+		top.upload("#{settings_file}", "#{shared_path}/settings/env.py")
 	end
 
 	task :link do
