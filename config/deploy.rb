@@ -18,74 +18,71 @@ ssh_options[:paranoid] = false
 default_run_options[:pty] = true
 
 after "deploy:update", "deploy:cleanup"
-after "deploy:restart", "env:update"
+after "deploy:restart", "deploy:save_build"
+before "deploy:restart", "env:link"
 
 
 namespace :deploy do
 	task :cold do
+		setup
 		update
-		env:set_all
-		data:set_all
+		env:upload
 	end
 
 	task :restart do
+		#sudo "uwsgi --reload #{pidfile}"
 	end
 
 	task :start do
+		#sudo "uwsgi --reload #{pidfile}"
+	end
+
+	task :save_build do
+		top.upload("config/", "#{project_dir}bu/build/config/", { :recursive=>true, :via=>:scp } )
+		top.upload("Capfile", "#{project_dir}bu/build/Capfile", { :via=>:scp } )
+		top.upload("Gruntfile.js", "#{project_dir}bu/build/Gruntfile.js", { :via=>:scp } )
+		top.upload("package.json", "#{project_dir}bu/build/package.json", { :via=>:scp } )
 	end
 
 end
-
 
 namespace :env do
-
-	task :set_all do
-		set_php
-		set_robots
-		update
+	
+	task :reset do
+		upload
+		link
 	end
 
-	task :update do
-		run "ln -sfn #{env_dir}/robots.txt #{current_path}/www/robots.txt"
+	task :write do
+		text = File.read("#{settings_template}")
+		output = text.gsub(/_ENVIRONMENT_/, "#{stage}")
+		output = output.gsub(/_DEBUG_/, "#{is_debug}")
+		output = output.gsub(/_ALLOWED_HOST_/, "#{host}")
+		output = output.gsub(/_DB_ENGINE_/, "#{db_engine}")
+		output = output.gsub(/_DB_NAME_/, "#{db_name}")
+		output = output.gsub(/_DB_USER_/, "#{db_user}")
+		output = output.gsub(/_DB_PASSWORD_/, "#{db_password}")
+		output = output.gsub(/_SENDGRID_USER_/, "#{sendgrid_user}")
+		output = output.gsub(/_SENDGRID_PASSWORD_/, "#{sendgrid_password}")
+		output = output.gsub(/_GOOGLE_UA_/, "#{sendgrid_password}")
+		File.open("#{settings_file}", "w") {|file| file.puts output}
 	end
 
-	task :set_php do
-		run "mkdir -p #{env_dir}"
-		run "echo \"<?php\" > #{env_file}"
-		run "echo \"define('ENVIRONMENT', '#{stage}');\" >> #{env_file}"
-		run "echo \"define('HOME_PATH', '#{home_path}');\" >> #{env_file}"
-		run "echo \"define('VIDEO_PATH', '#{video_path}');\" >> #{env_file}"
-		run "echo \"define('MAIN_DB_HOST', '#{db_host}');\" >> #{env_file}"
-		run "echo \"define('MAIN_DB_NAME', '#{db_name}');\" >> #{env_file}"
-		run "echo \"define('DB_USERNAME', '#{db_user}');\" >> #{env_file}"
-		run "echo \"define('DB_PASSWORD', '#{db_password}');\" >> #{env_file}"
-		run "echo \"define('SENDGRID_USER', '#{sendgrid_user}');\" >> #{env_file}"
-		run "echo \"define('SENDGRID_PASS', '#{sendgrid_password}');\" >> #{env_file}"
-		run "echo \"define('GOOGLE_ANALYTICS_UA', '#{google_ua}');\" >> #{env_file}"
-		run "echo \"?>\" >> #{env_file}"
+	task :upload do
+		upload("#{local_settings_dir}/#{settings_file}", "#{shared_path}/settings/env.py")
 	end
 
-	task :set_robots do
-		upload("#{local_env_dir}/robots.txt", "#{env_dir}/robots.txt")
+	task :link do
+		run "ln -nfs #{shared_path}/settings/env.py #{release_path}/#{local_settings_dir}/env.py"
 	end
+
 end
+
 
 
 namespace :data do
 
-	task :set_all do
-		backup
-		set_schema
-		set_data
-	end
-
 	task :reset do
-		run "mysql -u #{db_user} -p #{db_name} < #{data_dir}/schema.sql" do |channel,stream,data|
-			channel.send_data "#{db_password}\n"
-		end
-	end
-
-	task :update do
 		backup
 		upload("#{local_data_dir}/data.sql", "#{data_dir}/data.sql")
 		#set site on maintenance
@@ -94,24 +91,6 @@ namespace :data do
 		end
 		run "rm #{data_dir}/data.sql"
 		clean_backups
-	end
-
-	task :set_schema do
-		run "mkdir -p #{data_dir}"
-		upload("#{local_data_dir}/schema.sql", "#{data_dir}/schema.sql")
-		#set site on maintenance
-		run "mysql -u #{db_user} -p #{db_name} < #{data_dir}/schema.sql" do |channel,stream,data|
-			channel.send_data "#{db_password}\n"
-		end
-	end
-
-	task :set_data do
-		upload("#{local_data_dir}/data.sql", "#{data_dir}/data.sql")
-		#set site on maintenance
-		run "mysql -u #{db_user} -p #{db_name} < #{data_dir}/data.sql" do |channel,stream,data|
-			channel.send_data "#{db_password}\n"
-		end
-		run "rm #{data_dir}/data.sql"
 	end
 
 	task :backup do
