@@ -1,9 +1,31 @@
+set :stages, ['production', 'dev']
+set :default_stage, "dev"
+require 'capistrano/ext/multistage'
+require 'capistrano_colors'
+
+set :application, "steveshaddick.com"
+
+set :scm, :git
+set :repository,  "https://github.com/steveshaddick/steveshaddick.com.git"
+
+
+set :deploy_via, :remote_cache
+set :use_sudo, false
+set :keep_releases, 2
+set :normalize_asset_timestamps, false
+
+ssh_options[:paranoid] = false
+default_run_options[:pty] = true
+
+after "deploy:update", "deploy:cleanup"
+after "deploy:restart", "env:update"
+
 
 namespace :deploy do
 	task :cold do
-		#update
-		#env:set_all
-		#data:set_all
+		update
+		env:set_all
+		data:set_all
 	end
 
 	task :restart do
@@ -16,7 +38,7 @@ end
 
 
 namespace :env do
-	
+
 	task :set_all do
 		set_php
 		set_robots
@@ -104,8 +126,3 @@ namespace :data do
 		run "find #{data_dir}/bu/ -type f -mtime +3 -exec rm {} \\;"
 	end
 end
-
-after "deploy:updated", "deploy:cleanup"
-after "deploy:restart", "env:update"
-
-

@@ -1,7 +1,7 @@
 *.pyc
 
 /node_modules/
-/config/
+/config/deploy/
 
 env/
 www/video/
@@ -22,3 +22,5 @@ ss_com/settings/*
 !ss_com/settings/template.py
 !ss_com/settings/defaults.py
 !ss_com/settings/__init__.py
+
+
