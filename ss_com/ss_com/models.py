@@ -35,6 +35,9 @@ class BioPic(models.Model):
     title = models.CharField(max_length=100, blank=True)
     image = sorl.thumbnail.ImageField(upload_to='images')
 
+    def __unicode__(self):
+        return self.image.url
+
     @staticmethod
     def get_random():
         rnd = random.randrange(0, BioPic.objects.all().count())
@@ -52,6 +55,9 @@ class Work(models.Model):
     info = models.TextField(blank=True)
     active = models.BooleanField(default=True)
     date_added = models.DateField()
+
+    class Meta:
+        ordering = ['title']
 
     def __unicode__(self):
         return self.title
@@ -81,6 +87,9 @@ class VideoWork(models.Model):
     has_audio = models.BooleanField(default=False)
     allow_scrub = models.BooleanField(default=True)
 
+    class Meta:
+        ordering = ['work__title']
+
     def __unicode__(self):
         return self.work.title
 
@@ -88,6 +97,9 @@ class VideoWork(models.Model):
 class WebWork(models.Model):
     work = models.ForeignKey(Work)
     url = models.URLField()
+
+    class Meta:
+        ordering = ['work__title']
 
     def __unicode__(self):
         return self.work.title

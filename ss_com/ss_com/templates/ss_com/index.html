@@ -20,7 +20,7 @@
     </head>
     <body class="regular {%block page_class %}{% endblock %}">
         <!--[if lt IE 9]>
-            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+            <div class="chromeframe">Maybe it's time for a new browser. <a href="http://browsehappy.com/">Upgrade it today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> - unfortunately, this site won't work at all otherwise.</div>
         <![endif]-->
         <div id="mainWrapper" class="main-wrapper">
             {%block content %}{% endblock %}
@@ -29,16 +29,21 @@
                     <div id="noWork" class="no-work">
                         <img src="{{ STATIC_URL }}img/me_blurry_70.gif" class="me-blurry out" alt="">
                         <div class="no-work-content">
-                            {% if nowork.image %}
-                                {% thumbnail nowork.image "800x500" as im %}
-                                    <img class="no-work-image" src="{{ im.url }}" alt="{{ nowork.title }}" title="{{ nowork.title }}">
-                                {% endthumbnail %}
-                            {%else%}
-                                {%if nowork.url != '' %}<a href="{{ nowork.url }}">{%endif%}
-                                <span class="title">{{ nowork.title }}</span>
-                                {%if nowork.url != '' %}</a>{%endif%}
-                            {%endif%}
-                            {%if nowork.text != '' %}<span class="text">{{ nowork.text }}</span>{%endif%}
+                            {%if nowork.nowork_type == 'link' %}
+                                <div class="no-work-preamble">Here's a link for today:</div>
+                            {%elif nowork.nowork_type == 'newwork' %}
+                                <div class="no-work-preamble">Check this out:</div>
+                            {% endif %}
+                            {%if nowork.url != '' %}<a href="{{ nowork.url }}" {%if nowork.nowork_type != 'newwork' %}target="_blank"{%endif%}>{%endif%}
+                                {% if nowork.image %}
+                                    {% thumbnail nowork.image "800x500" as im %}
+                                        <img class="no-work-image" src="{{ im.url }}" alt="{{ nowork.title }}" title="{{ nowork.title }}">
+                                    {% endthumbnail %}
+                                {%else%}
+                                    <span class="title">{{ nowork.title }}</span>
+                                {%endif%}
+                            {%if nowork.url != '' %}</a>{%endif%}
+                            {%if nowork.text != '' %}<div class="text">{{ nowork.text }}</div>{%endif%}
                         </div>
                     </div>
                 </div>
@@ -47,7 +52,7 @@
             <div id="thumbsWrapper" class="thumbs-wrapper">
                 {%for work in all_work%}
                     <div class="thumb-item-wrapper">
-                        <a id="work_{{ work.id }}" href="/#/{{ work.slug }}" class="work-thumb" data-title="{{ work.title }}" data-type="{{ work.work_type }}"><img class='thumb-img' src="{{ work.thumb.url }}"></a>
+                        <a id="work_{{ work.id }}" href="/#/{{ work.slug }}" class="work-thumb" data-title="{{ work.title }}" data-type="{{ work.work_type }}"><img class='thumb-img' src="{{ work.thumb.url }}" alt="{{ work.title }}"></a>
                     </div>
                 {%endfor%}
             </div>
@@ -76,13 +81,13 @@
                     <span class="maillist-content">
                         <span class="email-error displayNone" id="emailError">Please enter a valid email.</span>
                         <input type="text" maxlength="255" placeholder="Email address" id="txtEmail" name="txtEmail" class="email-input">
-                        <a onclick="MailList.submitEmail();" href="javascript:;)">› Add me to the list</a>&nbsp;&nbsp;&nbsp;
+                        <a onclick="MailList.submitEmail();" href="javascript:;">› Add me to the list</a>&nbsp;&nbsp;&nbsp;
                     </span>
                 </div>
             </div>
         </div>
 
-        <div id="dropOverlay" class="drop-overlay"></div>
+        <div id="dropOverlay" class="drop-overlay displayNone"></div>
 
         <div id="alertOverlay" class="displayNone"><div id="alertOverlayBox"></div></div>
         <table id="modalWrapper"><tr><td></td></tr></table>
@@ -90,7 +95,7 @@
         <div id="cls">
             <div id="videoPlayerContainer">
                 <div id="simpleVideo" class="simple-video">
-                    <video class="sv_video inactive" title="SimpleVideo" width="100%" controls="false">
+                    <video class="sv_video inactive" title="SimpleVideo" controls="false">
                         Something has gone wrong with the video.
                     </video>
                     <div class="sv_flashContainer"><div class="sv_noVideo"><span class="noFlash">Hmm, it looks like your browser can't handle this stuff. Annoying? <a href="http://xkcd.com/927/" target="_blank">Certainly</a>. In order to see video and hear audio, you'll either need a modern browser like <a href="https://www.google.com/chrome" target="_blank" title="Download Chrome">Chrome</a>.</span></div></div>

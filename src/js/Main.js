@@ -74,7 +74,7 @@ var Work = (function() {
             top: pos.top - $(window).scrollTop(),
             left: pos.left
         });
-        $("#dropOverlay").append($info);
+        $("#dropOverlay").removeClass('displayNone').append($info);
         
         $this.addClass('small');
         setTimeout(function() {
@@ -90,6 +90,9 @@ var Work = (function() {
         }, 350);
         setTimeout(function() {
            $info.remove();
+           if ($("#dropOverlay").children().length == 0) {
+                $("#dropOverlay").addClass('displayNone');
+           }
         }, 500);
     }
 
