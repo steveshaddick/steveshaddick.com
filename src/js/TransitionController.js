@@ -14,11 +14,12 @@ var TransitionController = (function() {
 		}
 
 		if (autoWaitOverride < 0) {
-			$obj.unbind(transEndEventName);
-			
-			$obj.bind(transEndEventName, function() {
-				$obj.unbind(transEndEventName);
-				callback($obj);
+			$obj.off(transEndEventName);
+			$obj.on(transEndEventName, function(e) {
+				if ($(e.target).eq($obj)) {
+					$obj.off(transEndEventName);
+					callback($obj);
+				}
 			});
 		} else {
 			setTimeout(function() {

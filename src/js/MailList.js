@@ -96,6 +96,13 @@ var MailList = (function() {
 
 	function hideMailList() {
 		isOpen = false;
+		if (hideTimeout) {
+			clearTimeout(hideTimeout);
+		}
+		if (isError) {
+			isError = false;
+			$("#emailError").addClass('displayNone');
+		}
 
 		$footer.removeClass('show-maillist');
 		$txtEmail.off('keydown', emailKeyHandler).blur();
@@ -113,7 +120,8 @@ var MailList = (function() {
 
 	return {
 		init: init,
-		submitEmail: submitEmail
+		submitEmail: submitEmail,
+		hideMailList: hideMailList
 	};
 
 }());

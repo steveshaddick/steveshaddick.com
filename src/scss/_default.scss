@@ -27,7 +27,7 @@ body {
   }
 }
 
-a {
+a, a:active {
 	text-decoration: none;
 	color:#535353;
 }
@@ -90,12 +90,25 @@ a:hover {
 	-ms-transition-duration: 0.75s !important;
 }
 
+.in-fullscreen {
+	.footer {
+		display:none;
+	}
+	.who {
+		display:none;
+	}
+	.thumbs-wrapper{
+		display: none;
+	}
+}
+
 .page-wrapper {
 	top: 0;
 	width:100%;
 	height:100%;
 	overflow:auto;
 	position:absolute;
+	//-webkit-overflow-scrolling: touch;
 
 	transition: top 0.5s, height 0.5s;
 	-webkit-transition: top 0.5s, height 0.5s;
@@ -128,12 +141,15 @@ a:hover {
 	overflow-y: hidden;
 	overflow-x: hidden;
 	position: relative;
+	//-webkit-overflow-scrolling: hidden;
+	-webkit-backface-visibility: hidden;
 }
 
 .work-content {
 	position: relative;
 	top:0;
 	width:100%;
+	-webkit-backface-visibility: hidden;
 
 	&.hold-high {
 		top: -800px;
@@ -207,7 +223,7 @@ a:hover {
 			background: #FAFAFA; 
 		}
 		.footer-wrapper {
-			left: -400px;
+			left: -380px;
 			background: #FAFAFA;
 		}
 	}
@@ -244,8 +260,10 @@ a:hover {
 	}
 }
 
-.sv_video {
-	min-height:270px;
+.video-container {
+	video {
+		width:100%;
+	}
 }
 .video-swap {
 }
@@ -316,6 +334,10 @@ a:hover {
 	img {
 		width:50px;
 		height:50px;
+	}
+
+	span {
+		text-decoration: none;
 	}
 
 	&.selected {
@@ -437,7 +459,7 @@ img.thumb-over-img {
 #mailList {
 	font-size: 14px;
 	position:absolute;
-	right:-420px;
+	right:-390px;
 	bottom:0;
 	z-index: 100000;
 	height:100%;

@@ -14,8 +14,6 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ STATIC_URL }}/favicon.ico">
 
         <link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
-
-        <link href="{{ STATIC_URL }}lib/simplevideo/theme/sv-style.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
 
         <script src="{{ STATIC_URL }}js/modernizr.js"></script>
@@ -85,7 +83,7 @@
                     <span class="maillist-content">
                         <span class="email-error displayNone" id="emailError">Please enter a valid email.</span>
                         <input type="text" maxlength="255" placeholder="Email address" id="txtEmail" name="txtEmail" class="email-input">
-                        <a onclick="MailList.submitEmail();" href="javascript:;">› Add me to the list</a>&nbsp;&nbsp;&nbsp;
+                        <a onclick="MailList.submitEmail();" href="javascript:;">Add</a>&nbsp;&nbsp;&nbsp;<a onclick="MailList.hideMailList();" href="javascript:;">Cancel</a>&nbsp;&nbsp;
                     </span>
                 </div>
             </div>
@@ -97,44 +95,9 @@
         <table id="modalWrapper"><tr><td></td></tr></table>
 
         <div id="cls">
-            <div id="videoPlayerContainer">
-                <div id="simpleVideo" class="simple-video">
-                    <video class="sv_video inactive" title="SimpleVideo">
-                        Something has gone wrong with the video.
-                    </video>
-                    <div class="sv_flashContainer"><div class="sv_noVideo"><span class="noFlash">Hmm, it looks like your browser can't handle this stuff. Annoying? <a href="http://xkcd.com/927/" target="_blank">Certainly</a>. In order to see video and hear audio, you'll either need a modern browser like <a href="https://www.google.com/chrome" target="_blank" title="Download Chrome">Chrome</a>.</span></div></div>
-                    <div class="sv_audioOnly inactive">
-                        <img src="{{ STATIC_URL }}lib/simplevideo/theme/audio-only.gif" alt="Audio Only" />
-                    </div>
-                    <div class="sv_display">
-                        
-                        <img class="sv_videoPoster" src="{{ STATIC_URL }}lib/simplevideo/theme/video-poster.gif" alt="" />
-                        <div class="sv_buffering inactive">
-                            <img class="sv_bufferingImg" src="{{ STATIC_URL }}lib/simplevideo/theme/buffering.gif" alt="buffering" />
-                        </div>
-                    </div>
-                    <div class="sv_controls inactive">
-                        <ul class="sv_controls_left">
-                            <li><a href="javascript:;" class="sv_restart"></a></li>
-                            <li><a href="javascript:;" class="sv_play"></a><a href="javascript:;" class="sv_pause inactive"></a></li>
-                            <li><a href="javascript:;" class="sv_unmute inactive"></a></li>
-                            <li><a href="javascript:;" class="sv_mute"></a></li>
-                            <li><div class="sv_vslider"><a href="javascript:;" class="sv_vmarker"></a></div></li>
-                            <li><a href="javascript:;" class="sv_vmax"></a></li>
-                              
-                        </ul>
-                        <ul class="sv_controls_right">
-                            <li><a href="javascript:;" class="sv_fullscreen"></a><a href="javascript:;" class="sv_normalscreen inactive"></a></li>
-                        </ul>
-                        <ul class="bottom">
-                            <li><div class="sv_scrubber"><div class="sv_loaded"></div><div class="sv_playhead"></div><div class="sv_scrubberdrag"></div></div></li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="video-container">
+                <video id="video" class="video-player video-js vjs-default-skin">Something has gone wrong with the video.</video>
             </div>
-
-            <div class="video-swap"></div>
-
             <div class="work-content transition hold-high">
                 <div class="work-text">
                     <h1></h1>
@@ -154,6 +117,10 @@
         </div>
 
         <script>document.write('<script src="{{ STATIC_URL }}js/jquery-2.0.2.min.js"><\/script>')</script>
+        <script src="{{ STATIC_URL }}lib/videojs/video.js"></script>
+        <script>
+          videojs.options.flash.swf = "{{ STATIC_URL }}lib/videojs/video-js.swf"
+        </script>
 
 
         <script src="{{ STATIC_URL }}js/plugins.min.js"></script>

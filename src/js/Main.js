@@ -3,6 +3,79 @@ function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 
+var Video = (function() {
+
+    var instances = [];
+
+    function init() {
+
+    }
+
+    function create(videoId, data) {
+        var instance = videojs(videoId, {
+            "controls": true, 
+            "autoplay": true, 
+            "preload": "auto",
+            "loop": data.loop,
+            "width": "100%",
+            "height": "auto",
+            "poster": "/static/img/video-poster.gif"
+        }, function(){
+            this.src("http://video.steveshaddick.com/" + data.videoFile);
+        });
+
+        instance.on("fullscreenchange", fullscreenHandler);
+
+        instances.push(instance);
+
+        return instance;
+    }
+
+    function dispose(instance) {
+        for (var i=instances.length-1; i>=0; i--) {
+            if (instance == instances[i]){
+                instance.pause();
+                instance.off("fullscreenchange");
+                instance.dispose();
+                instances.splice(i,1);
+                break;
+            }
+        }
+    }
+
+    function pause(instance) {
+        var i=0,
+            len;
+        if (typeof instance !== "undefined") {
+            for (i=0,len=instances.length; i<len; i++) {
+                if (instance == instances[i]) {
+                    instances[i].pause();
+                }
+            }
+        } else {
+            for (i=0,len=instances.length; i<len; i++) {
+                instances[i].pause();
+            }
+        }
+    }
+
+    function fullscreenHandler() {
+        if ($('body').hasClass('in-fullscreen')) {
+            $('body').removeClass('in-fullscreen');
+        } else {
+            $('body').addClass('in-fullscreen');
+        }
+    }
+
+    return {
+        init: init,
+        create: create,
+        dispose: dispose,
+        pause: pause
+    };
+
+}());
+
 var Work = (function() {
 
    
@@ -10,16 +83,15 @@ var Work = (function() {
     var $thumbs = false;
     var $noWork = false;
     var $currentWork = false;
-    var $videoContainer = false;
+    //var $videoContainer = false;
     var currentWorkData = false;
     var firstNoWork = true;
+    var videoPlayer = false;
 
     function init() {
         $workWrapper = $("#workWrapper");
         $noWork = $("#noWork");
         $thumbs = $("#thumbsWrapper");
-        $videoContainer = $("#videoPlayerContainer");
-        //$videoContainer.addClass('displayNone');
         $currentWork = $noWork.parent();
 
         $thumbs.on('mouseenter', '.work-thumb', thumbHover);
@@ -116,24 +188,18 @@ var Work = (function() {
             $("#work_" + currentWorkData.id).removeClass('selected');
             switch (currentWorkData.type) {
                 case 'video':
-                    Video.clearVideo();
-                    var $swap = $("#cls .video-swap").clone();
-                    $swap.css({
-                        height: $videoContainer.height(),
-                        width: $videoContainer.width()
-                    });
-
-                    $("#cls").append($videoContainer);
-                    $currentWork.prepend($swap);
+                    Video.pause(videoPlayer);
                     break;
             }
         }
 
         var $oldWork = $currentWork;
-        $oldWork.addClass('drop');
+        var oldVideoPlayer = videoPlayer;
         TransitionController.transitionEnd($oldWork, function() {
+            Video.dispose(oldVideoPlayer);
             $oldWork.remove();
         });
+        $oldWork.addClass('drop');
     }
 
     function showWork(data) {
@@ -158,9 +224,14 @@ var Work = (function() {
         var readyHandler = false;
         switch (data.type) {
             case 'video':
+                var $videoContainer = $("#cls .video-container").clone();
+                var videoId = 'video_' + data.id;
+                $('video', $videoContainer)[0].id = videoId;
+
                 $currentWork.prepend($videoContainer);
+
                 readyHandler = function() {
-                    Video.playVideo(data);
+                    videoPlayer = Video.create(videoId, data); 
                 };
                 break;
 
@@ -256,19 +327,25 @@ var Main = (function() {
 
         MailList.init();
         Work.init();
-        Video.init({
+        /*Video.init({
             videoPath: 'http://video.steveshaddick.com',
             nativeControls: params.isMobile
-        });
+        });*/
         WindowResize.addHandler(resizeHandler);
 
         $('.nav-link.work').on('click', function() {
             if (page === 'who') {
-                window.location = (typeof lastPage !== "undefined") ? "/#/" + lastPage : "/#";
+                if (typeof lastPage !== "undefined") {
+                    window.location = "/#/" + lastPage;
+                } else {
+                    window.location = "/#";
+                    setTimeout(function() {
+                        $("#mainPage").animate({
+                            scrollTop: $("#thumbsWrapper").offset().top
+                        }, 350);
+                    },350);
+                }
             }
-            $('html, body').animate({
-                scrollTop: $("#thumbsWrapper").offset().top
-            }, 350);
         });
 
         SWFAddress.onChange = hashChange;
@@ -291,9 +368,10 @@ var Main = (function() {
                     $whoPage.animate({
                         scrollTop: 0
                     }, 350);
-                    Video.pauseVideo();
+                    Video.pause();
                     $whoPage.removeClass('page-closed');
                     $('body').addClass('page-who');
+                    $('#whoBackLink').attr('href', '/#/' + lastPage);
                     break;
                     
                 default:
