@@ -275,7 +275,8 @@ fonts to show/hide properly.
 /* Box containing play and load progresses. Also acts as seek scrubber. */
 .vjs-default-skin .vjs-progress-holder {
   height: 100%;
-  background:#fff;
+  background:#c9c9c9;
+  pointer-events:none;
 }
 /* Progress Bars */
 .vjs-default-skin .vjs-progress-holder .vjs-play-progress,
@@ -302,8 +303,7 @@ fonts to show/hide properly.
   background: #0b6695;
 }
 .vjs-default-skin .vjs-load-progress {
-  background: #646464 /* IE8- Fallback */;
-  background: rgba(255, 255, 255, 0.4);
+  background: #fff /* IE8- Fallback */;
 }
 .vjs-default-skin .vjs-seek-handle {
   width: 1.5em;
