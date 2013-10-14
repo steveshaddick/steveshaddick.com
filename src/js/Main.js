@@ -346,7 +346,7 @@ var Main = (function() {
                 } else {
                     window.location = "/#";
                     setTimeout(function() {
-                        $("#mainPage").animate({
+                        $("body,html").animate({
                             scrollTop: $("#thumbsWrapper").offset().top
                         }, 350);
                     },350);
