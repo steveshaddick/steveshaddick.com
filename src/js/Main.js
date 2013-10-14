@@ -5,10 +5,15 @@ function csrfSafeMethod(method) {
 
 var Video = (function() {
 
-    var instances = [];
+    var instances = [],
+        path = 'http://video.steveshaddick.com/';
 
-    function init() {
-
+    function init(params) {
+        if (typeof params !== 'undefined') {
+            if (typeof params.path !== 'undefined') {
+                path = params.path;
+            }
+        }
     }
 
     function create(videoId, data) {
@@ -21,7 +26,7 @@ var Video = (function() {
             "height": "auto",
             "poster": "/static/img/video-poster.gif"
         }, function(){
-            this.src("http://video.steveshaddick.com/" + data.videoFile);
+            this.src(path + data.videoFile);
         });
 
         instance.on("fullscreenchange", fullscreenHandler);
@@ -327,10 +332,11 @@ var Main = (function() {
 
         MailList.init();
         Work.init();
-        /*Video.init({
-            videoPath: 'http://video.steveshaddick.com',
-            nativeControls: params.isMobile
-        });*/
+        if (params.isMobile) {
+            Video.init({
+                path: 'http://video.steveshaddick.com/iphone/'
+            });
+        }
         WindowResize.addHandler(resizeHandler);
 
         $('.nav-link.work').on('click', function() {

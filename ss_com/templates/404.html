@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Steve Shaddick</title>
+        <meta name="description" content="">
+        {% if flavour == "mobile" %}
+            <meta name="viewport" content="width=device-width, initial-scale=0.7">
+        {% endif %}
+        <meta name="robots" content="noindex,nofollow">
+        <meta http-equiv="refresh" content="2; url=http://www.steveshaddick.com"> 
+
+        <link rel="shortcut icon" type="image/x-icon" href="{{ STATIC_URL }}/favicon.ico">
+
+        <link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+
+    </head>
+    <body class="regular {%block page_class %}{% endblock %}">
+
+        <p style="text-align:cener">Redirecting to <a href="http://www.steveshaddick.com">steveshaddick.com</a></p>
+        
+        {%block scripts %}{% endblock %}
+        {% include "ss_com/common/ga.html" %}
+
+    </body>
+</html>
