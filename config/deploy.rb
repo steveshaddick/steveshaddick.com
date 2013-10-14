@@ -54,12 +54,15 @@ namespace :env do
 	task :reset do
 		upload
 		link
+		deploy.start
 	end
 
 	task :write do
+		#need to do this on initial deploy, make appropriate folders
 		text = File.read("#{settings_template}")
 		output = text.gsub(/_ENVIRONMENT_/, "#{stage}")
 		output = output.gsub(/_DEBUG_/, "#{is_debug}")
+		output = output.gsub(/_MEDIA_DOMAIN_/, "#{host}")
 		output = output.gsub(/_ALLOWED_HOST_/, "#{host}")
 		output = output.gsub(/_DB_ENGINE_/, "#{db_engine}")
 		output = output.gsub(/_DB_NAME_/, "#{db_name}")

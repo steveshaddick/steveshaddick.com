@@ -1,5 +1,5 @@
 from django.db import models
-import sorl
+import sorl.thumbnail
 
 import datetime, random
 
